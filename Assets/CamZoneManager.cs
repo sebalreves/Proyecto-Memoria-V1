@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CamZoneManager : MonoBehaviour {
     //TODO local player tag
+    //TODO Pasar Zonas a Tile Map
     public PolygonCollider2D selfColider;
     private CameraManager camManager;
     private void Start() {
