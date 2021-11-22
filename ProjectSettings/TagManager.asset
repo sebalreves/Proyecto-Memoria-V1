@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TilemapBottom
+    uniqueID: 1814881195
+    locked: 0
+  - name: Player
+    uniqueID: 3079483027
+    locked: 0
+  - name: CamZones
+    uniqueID: 3939939953
+    locked: 0
