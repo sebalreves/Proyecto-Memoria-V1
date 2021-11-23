@@ -46,6 +46,9 @@ TagManager:
   - name: TilemapBottom
     uniqueID: 1814881195
     locked: 0
+  - name: TileWalls
+    uniqueID: 2965213529
+    locked: 0
   - name: Player
     uniqueID: 3079483027
     locked: 0
