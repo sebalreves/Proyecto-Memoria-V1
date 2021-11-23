@@ -10,9 +10,10 @@ public class CamZoneManager : MonoBehaviour {
     private void Start() {
         camManager = GameObject.FindGameObjectWithTag("Player").transform.Find("Camera").gameObject.GetComponent<CameraManager>();
     }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Player")) {
 
+    private void OnTriggerEnter2D(Collider2D other) {
+
+        if (other.gameObject.CompareTag("Player")) {
             if (camManager.virtualCam1GM.activeSelf) {
                 camManager.virtualCam2GM.SetActive(true);
                 camManager.confiner2.m_BoundingShape2D = selfColider;
