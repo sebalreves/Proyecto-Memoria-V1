@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour {
         WASD_input.Disable();
     }
     void Start() {
+        //TODO BLEND TREES
+
         myRB = GetComponent<Rigidbody2D>();
         myAvatar = transform.GetChild(0);
     }
