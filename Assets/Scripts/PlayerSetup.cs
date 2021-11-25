@@ -16,9 +16,12 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             GetComponent<PlayerMovement>().enabled = true;
             PlayerCamera.SetActive(true);
+            gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
+
         } else {
             GetComponent<PlayerMovement>().enabled = false;
             PlayerCamera.SetActive(false);
+            gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
         }
         // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))
         // {

@@ -195,11 +195,11 @@ GameObject:
   - component: {fileID: 6441550077190442921}
   - component: {fileID: 6441550077190442924}
   - component: {fileID: 6441550077190442927}
+  - component: {fileID: 6441550077190442962}
   - component: {fileID: 6244973623108677434}
   - component: {fileID: 6441550077190442926}
-  - component: {fileID: 6441550077190442962}
-  - component: {fileID: 6441550077190442925}
-  m_Layer: 0
+  - component: {fileID: 8379916140298416783}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -260,6 +260,29 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.69
+--- !u!114 &6441550077190442962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441550077190442920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 8379916140298416783}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &6244973623108677434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,7 +358,7 @@ MonoBehaviour:
       m_Action: WASD_input
       m_Flags: 8
   movementSpeed: 12
---- !u!114 &6441550077190442962
+--- !u!114 &8379916140298416783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,36 +367,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6441550077190442920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 6441550077190442925}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &6441550077190442925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6441550077190442920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &6441550077363091288
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6441550078217053452}
   - component: {fileID: 6441550078217053453}
+  - component: {fileID: 1074379286}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -759,8 +760,22 @@ MonoBehaviour:
   mainCamera: {fileID: 6441550078611682602}
   virtualCam1GM: {fileID: 6441550077884074582}
   virtualCam2GM: {fileID: 6441550078077322225}
-  confiner1: {fileID: 0}
-  confiner2: {fileID: 0}
+--- !u!58 &1074379286
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441550078217053455}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.29
 --- !u!1 &6441550078223136410
 GameObject:
   m_ObjectHideFlags: 0

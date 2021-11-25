@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 658531869166212992}
   - component: {fileID: 658531869166212994}
   - component: {fileID: 658531869166212995}
-  - component: {fileID: 658531869166213005}
   m_Layer: 0
   m_Name: CamZone
   m_TagString: CamZone
@@ -113,16 +112,3 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.5}
       - {x: 0.5, y: -0.5}
       - {x: 0.5, y: 0.5}
---- !u!114 &658531869166213005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658531869166212993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be0f2065c099624993c0deb2152b513, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selfColider: {fileID: 658531869166212995}
