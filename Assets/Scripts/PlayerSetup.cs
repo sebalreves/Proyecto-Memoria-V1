@@ -9,6 +9,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
     public TextMeshProUGUI PlayerNameText;
     // Start is called before the first frame update
     void Start() {
+        if (!PhotonNetwork.IsConnectedAndReady) {
+            Debug.Log("OOFLINE");
+            return;
+        }
         if (photonView.IsMine) {
             GetComponent<PlayerMovement>().enabled = true;
             PlayerCamera.SetActive(true);
@@ -71,10 +75,5 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
                 PlayerNameText.gameObject.SetActive(false);
             }
         }
-
-
-
     }
-
-
 }
