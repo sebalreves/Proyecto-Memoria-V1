@@ -19,8 +19,6 @@ public class CameraManager : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Colision");
-
         if (other.gameObject.CompareTag("CamZone")) {
             //get zone collider
             PolygonCollider2D poly = other.gameObject.GetComponent<PolygonCollider2D>();

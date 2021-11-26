@@ -10,16 +10,18 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         if (!PhotonNetwork.IsConnectedAndReady) {
-            Debug.Log("OOFLINE");
+            Debug.Log("OFFLINE");
             return;
         }
         if (photonView.IsMine) {
             GetComponent<PlayerMovement>().enabled = true;
+            GetComponent<PlayerGrab>().enabled = true;
             PlayerCamera.SetActive(true);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
 
         } else {
             GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<PlayerGrab>().enabled = false;
             PlayerCamera.SetActive(false);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
         }
