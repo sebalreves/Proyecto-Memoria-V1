@@ -8,7 +8,8 @@ public class PlayerMovement : MonoBehaviour {
     Transform myAvatar;
 
     // [SerializeField] InputAction WASD_input;
-    Vector2 movementInput;
+    public Vector2 movementInput;
+
     [SerializeField] float movementSpeed;
 
     // private void OnEnable() {

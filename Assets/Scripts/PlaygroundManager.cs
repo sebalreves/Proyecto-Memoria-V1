@@ -31,6 +31,7 @@ public class PlaygroundManager : MonoBehaviour {
     void Start() {
 
         if (PhotonNetwork.IsConnectedAndReady) {
+            //TODO spawn player 1 y player 2 dependiendo quien es el owner
             // object playerSelectionNumber;
             // if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(MultiplayerRacingGame.PLAYER_SELECTION_NUMBER, out playerSelectionNumber)) {
             // }
@@ -39,14 +40,19 @@ public class PlaygroundManager : MonoBehaviour {
 
             int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
             Vector3 instantiatePosition = spawnPositions[actorNumber - 1].position;
+            PlayerFactory._instance.instantiatePlayer(instantiatePosition);
 
-            PhotonNetwork.Instantiate(playerPrefab.name, instantiatePosition, Quaternion.identity);
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                BallFactory._instance.instantiateBall(new Vector2(-4, -1));
+        } else {
+            PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
+            BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
     }
 
 
-    // Update is called once per frame
     void Update() {
-
     }
+    //TODO if player disconnects, end game
+
 }
