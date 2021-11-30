@@ -8,6 +8,7 @@ TagManager:
   - Camera
   - Ball
   - GrabCollider
+  - Cube
   layers:
   - Default
   - TransparentFX

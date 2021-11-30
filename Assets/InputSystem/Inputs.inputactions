@@ -14,12 +14,12 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Interact",
+                    "name": "Interaction",
                     "type": "Button",
                     "id": "fff6ad88-0a04-4b78-ab45-61ae3db692b5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -81,11 +81,11 @@
                 {
                     "name": "",
                     "id": "e5fe50c0-5aa9-4149-b136-ebbc57a5446c",
-                    "path": "",
-                    "interactions": "",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

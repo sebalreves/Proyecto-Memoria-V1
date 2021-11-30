@@ -374,6 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabCdTimer: 0.8
   grabPosition: 0
+  playerCollider: {fileID: 6441550077190442927}
 --- !u!114 &376256696
 MonoBehaviour:
   m_ObjectHideFlags: 0
