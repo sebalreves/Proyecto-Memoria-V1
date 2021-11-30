@@ -5,41 +5,45 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 
-public class BallGrabScript : MonoBehaviourPun, IOnEventCallback {
+public class BallGrabScript : MonoBehaviourPun {
     public CircleCollider2D CollisionCollider;
     public bool grabable = false;
     public bool beingCarried = false;
     public Rigidbody2D ballRb;
     public float throwForce;
 
-    public void OnEvent(EventData photonEvent) {
-        byte eventCode = photonEvent.Code;
+    // public void OnEvent(EventData photonEvent) {
+    //     byte eventCode = photonEvent.Code;
 
-        if (eventCode == CONST.GrabBallEventCode) {
-            object[] data = (object[])photonEvent.CustomData;
+    //     if (eventCode == CONST.GrabBallEventCode) {
+    //         object[] data = (object[])photonEvent.CustomData;
 
-            int playerID = (int)data[0];
-            int ballID = (int)data[1];
+    //         int playerID = (int)data[0];
+    //         int ballID = (int)data[1];
 
-            if (ballID == photonView.ViewID) {
-                BallTryGrab(playerID);
-            }
-        }
-    }
+    //         if (ballID == photonView.ViewID) {
+    //             BallTryGrab(playerID);
+    //         }
+    //     }
+    // }
 
-    private void OnEnable() {
-        PhotonNetwork.AddCallbackTarget(this);
-    }
+    // private void OnEnable() {
+    //     PhotonNetwork.AddCallbackTarget(this);
+    // }
 
-    private void OnDisable() {
-        PhotonNetwork.RemoveCallbackTarget(this);
-    }
+    // private void OnDisable() {
+    //     PhotonNetwork.RemoveCallbackTarget(this);
+    // }
 
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int grabbingPlayerId) {
-        // GameObject playerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
-        GameObject playerWhoGrab = PhotonView.Find(grabbingPlayerId).gameObject;
+        GameObject playerWhoGrab;
+        if (PhotonNetwork.IsConnectedAndReady)
+            playerWhoGrab = PhotonView.Find(grabbingPlayerId).gameObject;
+        else
+            playerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
+
         GameObject grabPosition = playerWhoGrab.transform.Find("GrabPosition").gameObject;
         Debug.Log(playerWhoGrab);
         Debug.Log("Try Grab Ball");

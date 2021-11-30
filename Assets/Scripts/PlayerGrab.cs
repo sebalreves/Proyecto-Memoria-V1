@@ -16,22 +16,23 @@ public class PlayerGrab : MonoBehaviourPun {
     GameObject ObjectGrabbed;
     int objectGrabbedPhotonId;
 
-    private void TryGrabEvent(GameObject other) {
-        //TODO check si hay mas de una pelota seleccionable, recoger solo una
-        //player id, ball id
-        grabingBall = true;
-        object[] content = new object[] { photonView.ViewID, other.GetComponent<PhotonView>().ViewID };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
-        PhotonNetwork.RaiseEvent(CONST.GrabBallEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+    // private void TryGrabEvent(GameObject other) {
+    //     //TODO check si hay mas de una pelota seleccionable, recoger solo una
+    //     //player id, ball id
+    //     grabingBall = true;
+    //     object[] content = new object[] { photonView.ViewID, other.GetComponent<PhotonView>().ViewID };
+    //     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
+    //     PhotonNetwork.RaiseEvent(CONST.GrabBallEventCode, content, raiseEventOptions, SendOptions.SendReliable);
 
-    }
+    // }
     void TryGrab(Collider2D other) {
         Debug.Log("TryGrabPlayer");
         grabingBall = true;
         ObjectGrabbed = other.gameObject.transform.parent.gameObject;
 
         if (PhotonNetwork.IsConnectedAndReady) {
-            TryGrabEvent(ObjectGrabbed);
+            ObjectGrabbed.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
+            // TryGrabEvent(ObjectGrabbed);
         } else {
             ObjectGrabbed.GetComponent<BallGrabScript>().BallTryGrab(gameObject.GetInstanceID());
         }
