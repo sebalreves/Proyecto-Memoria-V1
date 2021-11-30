@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3811551786100962938}
   - component: {fileID: 2949849599750161714}
+  - component: {fileID: 1546592352511284783}
   m_Layer: 0
   m_Name: FocusedSprite
   m_TagString: Untagged
@@ -82,6 +83,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1546592352511284783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2613253693805120966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd509ef028a91949a8e7e24e8400af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentObject: {fileID: 6452789319832915900}
 --- !u!1 &6452789319832915896
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +216,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 0.5
   m_LinearDrag: 2.85
-  m_AngularDrag: 0.05
+  m_AngularDrag: 5.64
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0

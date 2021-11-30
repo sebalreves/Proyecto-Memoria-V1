@@ -36,20 +36,12 @@ public class PlayerGrab : MonoBehaviourPun {
         grabableObjects = new List<GameObject>();
     }
 
-    void Update() {
-        if (grabCdTimer >= 0f) {
-            grabCdTimer -= Time.deltaTime;
-        }
-        if (kb.spaceKey.wasReleasedThisFrame && grabCdTimer <= 0) {
-            if (grabingBall) {
-                TryRelease();
-            }
-        }
-    }
 
     #region GRAB RELEASE
     void TryGrab() {
         Debug.Log("TryGrabPlayer");
+        grabCdTimer = CONST.playerGrabCD;
+
         grabingBall = true;
         ObjectGrabbed = GetFirstTargetAndClearTargetList();
 
@@ -118,13 +110,23 @@ public class PlayerGrab : MonoBehaviourPun {
     #endregion
 
     private void FixedUpdate() {
+
+        if (grabCdTimer >= 0f) {
+            grabCdTimer -= Time.fixedDeltaTime;
+        }
+
         if (!grabingBall) {
             UpdateTargetedObject();
             if (grabCdTimer <= 0f && kb.spaceKey.isPressed) {
                 if (gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady) {
-                    grabCdTimer = 1f;
                     TryGrab();
                 }
+            }
+        }
+
+        if (kb.spaceKey.wasReleasedThisFrame && grabCdTimer <= 0) {
+            if (grabingBall) {
+                TryRelease();
             }
         }
     }
