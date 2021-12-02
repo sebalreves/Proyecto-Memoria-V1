@@ -18,6 +18,7 @@ public class PlayerGrab : MonoBehaviourPun {
     int objectGrabbedPhotonId;
 
     GameObject focusedObject;
+    [SerializeField]
     List<GameObject> grabableObjects;
     public CircleCollider2D playerCollider;
 
@@ -82,12 +83,18 @@ public class PlayerGrab : MonoBehaviourPun {
     }
 
     void UpdateTargetedObject() {
-        if (!grabingBall && grabableObjects.Count > 0) {
-            List<GameObject> temp = grabableObjects.OrderBy(grabable => Vector2.SqrMagnitude(grabable.transform.position - gameObject.transform.position)).ToList();
-            foreach (GameObject collider in temp) {
-                collider.transform.Find("FocusedSprite").gameObject.SetActive(false);
+        if (grabableObjects.Count > 0) {
+            if (!grabingBall) {
+                List<GameObject> temp = grabableObjects.OrderBy(grabable => Vector2.SqrMagnitude(grabable.transform.position - gameObject.transform.position)).ToList();
+                foreach (GameObject collider in temp) {
+                    collider.transform.Find("FocusedSprite").gameObject.SetActive(false);
+                }
+                temp[0].transform.Find("FocusedSprite").gameObject.SetActive(true);
+            } else {
+                foreach (GameObject collider in grabableObjects) {
+                    collider.transform.Find("FocusedSprite").gameObject.SetActive(false);
+                }
             }
-            temp[0].transform.Find("FocusedSprite").gameObject.SetActive(true);
         }
     }
 
@@ -96,7 +103,11 @@ public class PlayerGrab : MonoBehaviourPun {
         if (!grabingBall && other.gameObject.CompareTag("GrabCollider") && (photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) {
             // pushObjectFromTargetList(other.gameObject);
             // Debug.Log(other.gameObject);
-            grabableObjects.Add(other.gameObject.transform.parent.gameObject);
+            var parent = other.gameObject.transform.parent.gameObject;
+            if (!grabableObjects.Contains(parent)) {
+                grabableObjects.Add(parent);
+
+            }
 
         }
     }
@@ -105,7 +116,11 @@ public class PlayerGrab : MonoBehaviourPun {
         //pop object
         if (!grabingBall && other.gameObject.CompareTag("GrabCollider") && (photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) {
             // Debug.Log(other.gameObject);
-            grabableObjects.Remove(other.gameObject);
+            var parent = other.gameObject.transform.parent.gameObject;
+            if (grabableObjects.Contains(parent)) {
+                grabableObjects.Remove(parent);
+                parent.transform.Find("FocusedSprite").gameObject.SetActive(false);
+            }
         }
     }
 
@@ -117,8 +132,8 @@ public class PlayerGrab : MonoBehaviourPun {
             grabCdTimer -= Time.fixedDeltaTime;
         }
 
+        UpdateTargetedObject();
         if (!grabingBall) {
-            UpdateTargetedObject();
             if (grabCdTimer <= 0f && kb.spaceKey.isPressed) {
                 if (gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady) {
                     TryGrab();
