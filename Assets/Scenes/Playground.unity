@@ -5671,11 +5671,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 658531869166212992, guid: 4925b225fc0796c4faa04cb97d23f69a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.367
+      value: 31.81
       objectReference: {fileID: 0}
     - target: {fileID: 658531869166212992, guid: 4925b225fc0796c4faa04cb97d23f69a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.9399
+      value: 9.91
       objectReference: {fileID: 0}
     - target: {fileID: 658531869166212992, guid: 4925b225fc0796c4faa04cb97d23f69a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28445,7 +28445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6441550077190442920, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6441550077190442921, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: m_RootOrder
@@ -28494,10 +28494,6 @@ PrefabInstance:
     - target: {fileID: 6441550077190442962, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: sceneViewId
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6441550078611682602, guid: e816a27409331574297398f7ac1e9000, type: 3}
-      propertyPath: orthographic size
-      value: 5.81
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e816a27409331574297398f7ac1e9000, type: 3}

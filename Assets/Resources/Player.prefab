@@ -342,6 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836339a666bdf224581df0aaef90776a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRB: {fileID: 0}
+  controllEnabled: 0
   movementInput: {x: 0, y: 0}
   movementSpeed: 13.51
 --- !u!114 &8379916140298416783
@@ -659,7 +661,7 @@ MonoBehaviour:
   m_Follow: {fileID: 6441550077190442921}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5.54
+    OrthographicSize: 8.76
     NearClipPlane: 0.1
     FarClipPlane: 1000
     Dutch: 0
@@ -744,7 +746,7 @@ MonoBehaviour:
   m_Follow: {fileID: 6441550077190442921}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5.81
+    OrthographicSize: 8.76
     NearClipPlane: 0.1
     FarClipPlane: 1000
     Dutch: 0
@@ -931,7 +933,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.81
+  orthographic size: 8.76
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

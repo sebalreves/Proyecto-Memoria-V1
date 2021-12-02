@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
     Transform myAvatar;
     public bool controllEnabled;
     public Vector2 movementInput;
-    public static PlayerMovement _instance;
     private bool firstMoveTo = false;
 
     [SerializeField] float movementSpeed;
@@ -20,7 +19,6 @@ public class PlayerMovement : MonoBehaviour {
         playerRB = GetComponent<Rigidbody2D>();
         myAvatar = transform.GetChild(0);
         controllEnabled = true;
-        _instance = this;
     }
 
     public void OnMovement(InputAction.CallbackContext _context) {
