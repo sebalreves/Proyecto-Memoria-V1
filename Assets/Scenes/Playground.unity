@@ -28495,6 +28495,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6441550078611682602, guid: e816a27409331574297398f7ac1e9000, type: 3}
+      propertyPath: orthographic size
+      value: 5.54
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e816a27409331574297398f7ac1e9000, type: 3}
 --- !u!1 &1483576604

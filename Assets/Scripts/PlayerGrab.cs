@@ -93,8 +93,9 @@ public class PlayerGrab : MonoBehaviourPun {
 
     private void OnTriggerEnter2D(Collider2D other) {
         //add collider
-        if (!grabingBall && other.gameObject.CompareTag("GrabCollider")) {
+        if (!grabingBall && other.gameObject.CompareTag("GrabCollider") && (photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) {
             // pushObjectFromTargetList(other.gameObject);
+            // Debug.Log(other.gameObject);
             grabableObjects.Add(other.gameObject.transform.parent.gameObject);
 
         }
@@ -102,7 +103,8 @@ public class PlayerGrab : MonoBehaviourPun {
 
     private void OnTriggerExit2D(Collider2D other) {
         //pop object
-        if (!grabingBall && other.gameObject.CompareTag("GrabCollider")) {
+        if (!grabingBall && other.gameObject.CompareTag("GrabCollider") && (photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) {
+            // Debug.Log(other.gameObject);
             grabableObjects.Remove(other.gameObject);
         }
     }
