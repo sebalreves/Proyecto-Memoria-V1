@@ -9,6 +9,8 @@ public class CameraManager : MonoBehaviour {
     private CinemachineVirtualCamera virtualCam1, virtualCam2;
     private CinemachineConfiner confiner1, confiner2;
 
+
+
     void Awake() {
         virtualCam1 = virtualCam1GM.GetComponent<CinemachineVirtualCamera>();
         virtualCam2 = virtualCam2GM.GetComponent<CinemachineVirtualCamera>();
@@ -19,8 +21,10 @@ public class CameraManager : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        //TODO bug cuando se devuelve
         if (other.gameObject.CompareTag("CamZone")) {
             //get zone collider
+            PlayerMovement._instance.playerMoveTo(PlayerMovement._instance.playerRB.velocity, .2f);
             PolygonCollider2D poly = other.gameObject.GetComponent<PolygonCollider2D>();
             if (virtualCam1GM.activeSelf) {
                 virtualCam2GM.SetActive(true);

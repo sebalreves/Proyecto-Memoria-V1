@@ -4,30 +4,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
-    Rigidbody2D myRB;
+    public Rigidbody2D playerRB;
     Transform myAvatar;
-
-    // [SerializeField] InputAction WASD_input;
+    public bool controllEnabled;
     public Vector2 movementInput;
+    public static PlayerMovement _instance;
+    private bool firstMoveTo = false;
 
     [SerializeField] float movementSpeed;
 
-    // private void OnEnable() {
-    //     WASD_input.Enable();
-    // }
-
-    // private void OnDisable() {
-    //     WASD_input.Disable();
-    // }
 
 
     void Awake() {
         //TODO BLEND TREES
-        myRB = GetComponent<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
         myAvatar = transform.GetChild(0);
+        controllEnabled = true;
+        _instance = this;
     }
 
     public void OnMovement(InputAction.CallbackContext _context) {
+        if (!controllEnabled) return;
         movementInput = _context.ReadValue<Vector2>();
         if (movementInput.x != 0)
             myAvatar.localScale = new Vector2(Mathf.Sign(movementInput.x), 1);
@@ -35,6 +32,24 @@ public class PlayerMovement : MonoBehaviour {
 
 
     private void FixedUpdate() {
-        myRB.velocity = movementInput * movementSpeed;
+        playerRB.velocity = movementInput * movementSpeed;
+    }
+
+    public void playerMoveTo(Vector2 direction, float time) {
+        if (!firstMoveTo) {
+            //para evitar que el jugador se quede estancado la primera vez que se le asigna la camara
+            firstMoveTo = true;
+            return;
+        }
+        StartCoroutine(playerMoveToRoutine(direction, time));
+    }
+
+    private IEnumerator playerMoveToRoutine(Vector2 direction, float time) {
+        controllEnabled = false;
+        movementInput = direction.normalized;
+        Debug.Log(movementInput);
+        yield return new WaitForSeconds(time);
+        controllEnabled = true;
+        movementInput = Vector2.zero;
     }
 }

@@ -45,7 +45,7 @@ public class PlaygroundManager : MonoBehaviour {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         } else {
-            PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
+            // PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
     }
