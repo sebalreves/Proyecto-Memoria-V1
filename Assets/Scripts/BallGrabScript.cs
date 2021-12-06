@@ -35,6 +35,8 @@ public class BallGrabScript : MonoBehaviourPun {
     //     PhotonNetwork.RemoveCallbackTarget(this);
     // }
 
+
+
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int grabbingPlayerId) {

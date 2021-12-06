@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
     Transform myAvatar;
     public bool controllEnabled;
     public Vector2 movementInput;
-    private bool firstMoveTo = false;
 
     [SerializeField] float movementSpeed;
 
@@ -34,11 +33,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void playerMoveTo(Vector2 direction, float time) {
-        if (!firstMoveTo) {
-            //para evitar que el jugador se quede estancado la primera vez que se le asigna la camara
-            firstMoveTo = true;
-            return;
-        }
         StartCoroutine(playerMoveToRoutine(direction, time));
     }
 

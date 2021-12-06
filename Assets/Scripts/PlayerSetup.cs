@@ -16,12 +16,16 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             GetComponent<PlayerMovement>().enabled = true;
             GetComponent<PlayerGrab>().enabled = true;
+            GetComponent<TargetingScript>().enabled = true;
+            GetComponent<PlayerInteract>().enabled = true;
             PlayerCamera.SetActive(true);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
 
         } else {
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerGrab>().enabled = false;
+            GetComponent<TargetingScript>().enabled = false;
+            GetComponent<PlayerInteract>().enabled = false;
             PlayerCamera.SetActive(false);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
         }
@@ -76,6 +80,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
     private void SetPlayerUI() {
         if (PlayerNameText != null) {
             PlayerNameText.text = photonView.Owner.NickName;
+
             if (photonView.IsMine) {
                 PlayerNameText.gameObject.SetActive(false);
             }

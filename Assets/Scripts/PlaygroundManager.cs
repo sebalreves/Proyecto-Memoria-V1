@@ -20,16 +20,16 @@ public class PlaygroundManager : MonoBehaviour {
         else if (instance != this) {
             //Then, destroy this. This enforces our singletton pattern, meaning rhat there can only ever be one instance of a GameManager
             Destroy(gameObject);
-
         }
-
         //To not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
     }
 
     void Start() {
-
+        var editorPlayer = GameObject.Find("Player");
+        if (editorPlayer != null)
+            Destroy(editorPlayer);
         if (PhotonNetwork.IsConnectedAndReady) {
             //TODO spawn player 1 y player 2 dependiendo quien es el owner
             // object playerSelectionNumber;
@@ -45,7 +45,7 @@ public class PlaygroundManager : MonoBehaviour {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         } else {
-            // PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
+            PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
     }

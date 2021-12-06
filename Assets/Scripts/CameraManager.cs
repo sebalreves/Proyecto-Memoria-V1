@@ -11,6 +11,8 @@ public class CameraManager : MonoBehaviour {
 
     private PlayerMovement playerMovementScript;
 
+    private bool firstEnteringCameraZone = true;
+
     void Awake() {
         virtualCam1 = virtualCam1GM.GetComponent<CinemachineVirtualCamera>();
         virtualCam2 = virtualCam2GM.GetComponent<CinemachineVirtualCamera>();
@@ -18,15 +20,20 @@ public class CameraManager : MonoBehaviour {
         confiner2 = virtualCam2GM.GetComponent<CinemachineConfiner>();
         virtualCam1GM.SetActive(true);
         virtualCam2GM.SetActive(false);
-
         playerMovementScript = gameObject.transform.parent.GetComponent<PlayerMovement>();
+
+        // Screen.SetResolution(1920, 1080, Screen.fullScreen);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         //TODO bug cuando se devuelve
         if (other.gameObject.CompareTag("CamZone")) {
+            //quitar controles al jugador un momento al entrar a una zona
+            if (firstEnteringCameraZone) {
+                playerMovementScript.playerMoveTo(playerMovementScript.playerRB.velocity, .2f);
+                firstEnteringCameraZone = false;
+            }
             //get zone collider
-            playerMovementScript.playerMoveTo(playerMovementScript.playerRB.velocity, .2f);
             PolygonCollider2D poly = other.gameObject.GetComponent<PolygonCollider2D>();
             if (virtualCam1GM.activeSelf) {
                 virtualCam2GM.SetActive(true);

@@ -9,6 +9,9 @@ TagManager:
   - Ball
   - GrabCollider
   - Cube
+  - ButtonCollider
+  - TargetZone
+  - Button
   layers:
   - Default
   - TransparentFX
@@ -51,6 +54,9 @@ TagManager:
     locked: 0
   - name: TileWalls
     uniqueID: 2965213529
+    locked: 0
+  - name: Buttons
+    uniqueID: 429893221
     locked: 0
   - name: Player
     uniqueID: 3079483027
