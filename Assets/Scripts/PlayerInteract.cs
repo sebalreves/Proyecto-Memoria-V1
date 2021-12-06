@@ -20,6 +20,8 @@ public class PlayerInteract : MonoBehaviour {
 
 
     private void FixedUpdate() {
+        //TODO actualizar interfaz dependiendo de la accion disponible
+        //TODO se puede activar un boton teniendo un objeto cargado?
         if (!(gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
 
         targetingScriptReference.UpdateTargetedObject();

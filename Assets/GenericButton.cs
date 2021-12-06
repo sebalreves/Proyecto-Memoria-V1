@@ -17,7 +17,7 @@ public class GenericButton : MonoBehaviour {
         ejecutando = false;
     }
 
-
+    //sync online
     public void Presionar() {
         if (activable && !ejecutando)
             StartCoroutine(rutinaPresionar());

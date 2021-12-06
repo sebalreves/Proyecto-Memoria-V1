@@ -12,6 +12,7 @@ TagManager:
   - ButtonCollider
   - TargetZone
   - Button
+  - WindZone
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Cubes
+  - Balls
   - Player
   - 
   - 
@@ -60,6 +61,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3079483027
+    locked: 0
+  - name: WindZones
+    uniqueID: 1587615465
     locked: 0
   - name: CamZones
     uniqueID: 3939939953

@@ -47,8 +47,6 @@ public class BallGrabScript : MonoBehaviourPun {
             playerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
 
         GameObject grabPosition = playerWhoGrab.transform.Find("GrabPosition").gameObject;
-        Debug.Log(playerWhoGrab);
-        Debug.Log("Try Grab Ball");
         ballRb.velocity = Vector2.zero;
         beingCarried = true;
         CollisionCollider.enabled = false;
@@ -61,7 +59,6 @@ public class BallGrabScript : MonoBehaviourPun {
     [PunRPC]
     public void BallTryRelease(float _x, float _y) {
         Vector2 _velocity = new Vector2(_x, _y);
-        Debug.Log(_velocity);
         //Habilitar collider despues de 0.1s
         CollisionCollider.enabled = true;
         beingCarried = false;

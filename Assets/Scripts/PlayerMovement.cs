@@ -39,7 +39,6 @@ public class PlayerMovement : MonoBehaviour {
     private IEnumerator playerMoveToRoutine(Vector2 direction, float time) {
         controllEnabled = false;
         movementInput = direction.normalized;
-        Debug.Log(movementInput);
         yield return new WaitForSeconds(time);
         controllEnabled = true;
         movementInput = Vector2.zero;
