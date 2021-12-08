@@ -20,7 +20,7 @@ public class BallWindInteraction : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("WindZone")) {
             // if (!grabbed)
-            myRb.velocity *= 0.15f;
+            myRb.velocity *= CONST.FRENADO_VIENTO;
         }
     }
 }

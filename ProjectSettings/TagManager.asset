@@ -13,6 +13,7 @@ TagManager:
   - TargetZone
   - Button
   - WindZone
+  - PlatformInnerCollider
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Balls
   - Player
   - 
-  - 
+  - RepulsionBall
   - 
   - 
   - 
@@ -59,8 +60,14 @@ TagManager:
   - name: Buttons
     uniqueID: 429893221
     locked: 0
+  - name: Plataformas
+    uniqueID: 1447650391
+    locked: 0
   - name: Player
     uniqueID: 3079483027
+    locked: 0
+  - name: Carteles
+    uniqueID: 1933476113
     locked: 0
   - name: WindZones
     uniqueID: 1587615465
