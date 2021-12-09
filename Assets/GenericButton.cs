@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GenericButton : MonoBehaviour {
+public class GenericButton : MonoBehaviourPun {
     public SpriteRenderer actualSprite;
     public Sprite activableSprite, noActivableSprite;
     public bool activable;
@@ -17,11 +18,21 @@ public class GenericButton : MonoBehaviour {
         ejecutando = false;
     }
 
-    //sync online
+
     public void Presionar() {
-        if (activable && !ejecutando)
-            StartCoroutine(rutinaPresionar());
+        if (activable && !ejecutando) {
+            if (PhotonNetwork.IsConnectedAndReady) {
+                photonView.RPC("PresionarRPC", RpcTarget.AllBuffered);
+            } else
+                PresionarRPC();
+        }
     }
+
+    [PunRPC]
+    private void PresionarRPC() {
+        StartCoroutine(rutinaPresionar());
+    }
+
 
     private IEnumerator rutinaPresionar() {
         actualSprite.sprite = activableSprite;

@@ -19,11 +19,13 @@ public class GenericPlatform : MonoBehaviour {
         else DeactivatePlatform();
     }
 
+
     public void ActivatePlatform() {
         presionado = true;
         spriteReference.color = ActivatedColor;
         attractPointEffector.enabled = false;
     }
+
 
     public void DeactivatePlatform() {
         presionado = false;
@@ -37,10 +39,5 @@ public class GenericPlatform : MonoBehaviour {
         } else if (presionado && !innerCollider.IsTouchingLayers(((1 << 6) | (1 << 7)))) {
             DeactivatePlatform();
         }
-        // if (innerCollider.IsTouchingLayers(6) || innerCollider.IsTouchingLayers(7)) {
-        //     Debug.Log("Colisionando");
-        // }
     }
-
-
 }

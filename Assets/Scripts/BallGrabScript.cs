@@ -51,6 +51,7 @@ public class BallGrabScript : MonoBehaviourPun {
         beingCarried = true;
         CollisionCollider.enabled = false;
         ballRb.isKinematic = true;
+        ballRb.simulated = false;
         ballRb.position = Vector2.zero;
         gameObject.transform.SetParent(grabPosition.transform, true);
         gameObject.transform.localPosition = new Vector3(0, 0, 0);
@@ -62,7 +63,8 @@ public class BallGrabScript : MonoBehaviourPun {
         //Habilitar collider despues de 0.1s
         CollisionCollider.enabled = true;
         beingCarried = false;
-        ballRb.isKinematic = false; ;
+        ballRb.isKinematic = false;
+        ballRb.simulated = true;
         gameObject.transform.SetParent(null, true);
         ballRb.velocity = _velocity * throwForce;
     }

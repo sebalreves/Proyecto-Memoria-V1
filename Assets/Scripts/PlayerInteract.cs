@@ -25,14 +25,7 @@ public class PlayerInteract : MonoBehaviour {
         if (!(gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
 
         targetingScriptReference.UpdateTargetedObject();
-        #region botones
-        if (kb.spaceKey.isPressed) {
-            var focusedElement = targetingScriptReference.GetFirstTarget();
-            if (focusedElement != null && focusedElement.CompareTag("Button")) {
-                focusedElement.GetComponent<GenericButton>().Presionar();
-            }
-        }
-        #endregion
+
 
         #region grabing logic
         if (playerGrabScrip.grabCdTimer >= 0f) {
@@ -47,9 +40,6 @@ public class PlayerInteract : MonoBehaviour {
                         playerGrabScrip.TryGrab();
                     }
             }
-
-
-
     }
 
     private void Update() {
@@ -58,6 +48,15 @@ public class PlayerInteract : MonoBehaviour {
                 playerGrabScrip.TryRelease();
             }
         }
+
+        #region botones
+        if (kb.spaceKey.wasPressedThisFrame) {
+            var focusedElement = targetingScriptReference.GetFirstTarget();
+            if (focusedElement != null && focusedElement.CompareTag("Button")) {
+                focusedElement.GetComponent<GenericButton>().Presionar();
+            }
+        }
+        #endregion
     }
     #endregion
 }
