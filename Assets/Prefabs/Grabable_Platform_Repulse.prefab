@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 3102591345986105532}
   - component: {fileID: 3587568638090914801}
   m_Layer: 10
-  m_Name: Grabable_PlatformInteraction
+  m_Name: Grabable_Platform_Repulse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -49,12 +49,15 @@ public class PlayerInteract : MonoBehaviour {
             }
 
 
+
+    }
+
+    private void Update() {
         if (kb.spaceKey.wasReleasedThisFrame && playerGrabScrip.grabCdTimer <= 0) {
             if (playerGrabScrip.grabingBall) {
                 playerGrabScrip.TryRelease();
             }
         }
-
-        #endregion
     }
+    #endregion
 }

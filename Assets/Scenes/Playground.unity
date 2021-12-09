@@ -28756,6 +28756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1462983569}
   - component: {fileID: 1462983570}
+  - component: {fileID: 1462983571}
   m_Layer: 0
   m_Name: InnerCollider
   m_TagString: PlatformInnerCollider
@@ -28793,6 +28794,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.05
+--- !u!114 &1462983571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462983568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8a50b2ae82ec94982e832f957c0caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attractPointEffector: {fileID: 1510214690}
+  presionado: 0
+  ActivatedColor: {r: 0.08334541, g: 1, b: 0, a: 1}
+  DeactivatedColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
+  spriteReference: {fileID: 1510214691}
+  innerCollider: {fileID: 1462983570}
 --- !u!1 &1483576604
 GameObject:
   m_ObjectHideFlags: 0
@@ -28879,7 +28898,6 @@ GameObject:
   - component: {fileID: 1510214691}
   - component: {fileID: 1510214690}
   - component: {fileID: 1510214689}
-  - component: {fileID: 1510214692}
   m_Layer: 0
   m_Name: Plataforma
   m_TagString: Untagged
@@ -28930,7 +28948,7 @@ PointEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 192
   m_ForceMagnitude: -25
   m_ForceVariation: 3
   m_DistanceScale: 1
@@ -28990,21 +29008,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1510214692
-MonoBehaviour:
+--- !u!1 &1511569338 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6666853816064031921, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
+  m_PrefabInstance: {fileID: 461732909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &1511569342
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1510214687}
+  m_GameObject: {fileID: 1511569338}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8a50b2ae82ec94982e832f957c0caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  presionado: 0
-  ActivatedColor: {r: 0.08334541, g: 1, b: 0, a: 1}
-  DeactivatedColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1001 &1654184027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29012,6 +29036,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4271690774231800744, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6452789319832915874, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
       propertyPath: sceneViewId
       value: 2
@@ -29063,6 +29091,10 @@ PrefabInstance:
     - target: {fileID: 6452789319832915900, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6452789319832915902, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}

@@ -320,6 +320,10 @@ PrefabInstance:
       propertyPath: myRb
       value: 
       objectReference: {fileID: 4000642581442905741}
+    - target: {fileID: 3587568638090914801, guid: bd86e28d0d4059748bd6fe57317c8ef1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6103661595488500482, guid: bd86e28d0d4059748bd6fe57317c8ef1, type: 3}
       propertyPath: m_Name
       value: Grabable_PlatformInteraction

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876346444821797529}
   - component: {fileID: 1876346444821797531}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TargetZone
   m_TagString: TargetZone
   m_Icon: {fileID: 0}
