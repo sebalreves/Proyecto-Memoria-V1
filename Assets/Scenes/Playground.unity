@@ -5941,7 +5941,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc6bf5559de19246a8e3f1e51e36b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  open: 0
+  opened: 0
+  openedColor: {r: 1, g: 0.5897572, b: 0, a: 1}
+  closedColor: {r: 1, g: 0, b: 0, a: 1}
+  spriteRenderer: {fileID: 564871535}
+  boxCollider: {fileID: 564871534}
+  interacting: 0
 --- !u!4 &572003892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2466912379246512557, guid: 8bbec0f293b8aab41af8ccc7ced28cd8, type: 3}

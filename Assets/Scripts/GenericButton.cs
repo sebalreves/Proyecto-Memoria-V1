@@ -30,6 +30,12 @@ public class GenericButton : MonoBehaviourPun {
         }
     }
 
+    private void OnDisable() {
+        if (onPressEvent != null)
+            foreach (var d in onPressEvent.GetInvocationList())
+                onPressEvent -= (d as Action);
+    }
+
     [PunRPC]
     private void PresionarRPC() {
         StartCoroutine(rutinaPresionar());

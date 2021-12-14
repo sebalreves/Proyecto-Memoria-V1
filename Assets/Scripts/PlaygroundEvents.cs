@@ -18,18 +18,17 @@ public class PlaygroundEvents : MonoBehaviour {
         DoorsList = PlaygroundManager.instance.DoorsList;
         PlatformsList = PlaygroundManager.instance.PlatformsList;
         ButtonsList = PlaygroundManager.instance.ButtonsList;
+
         #region SUSCRIBIR METODOS
         // Debug.Log(ButtonsList.Count);
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonA;
         #endregion
     }
 
-    private void OnEnable() {
-    }
-
-
-
+    #region BUTTON CALLBACKS
     public void pressButtonA() {
         Debug.Log("Boton A presionado");
+        DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
     }
+    #endregion
 }

@@ -1,17 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericDoor : MonoBehaviour {
-    public bool open;
+    public bool opened;
+    public Color openedColor, closedColor;
+    public SpriteRenderer spriteRenderer;
+    public BoxCollider2D boxCollider;
+    public bool interacting;
 
-    // Start is called before the first frame update
-    void Start() {
+    public Action onInteractEvent;
 
+
+
+    public void openOrClose() {
+        if (opened) {
+            spriteRenderer.color = closedColor;
+            boxCollider.enabled = true;
+        } else {
+            spriteRenderer.color = openedColor;
+            boxCollider.enabled = false;
+        }
+        opened = !opened;
     }
 
-    // Update is called once per frame
-    void Update() {
 
-    }
 }
