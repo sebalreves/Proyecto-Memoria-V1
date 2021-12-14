@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class GenericButton : MonoBehaviourPun {
     public Sprite activableSprite, noActivableSprite;
     public bool activable;
     public bool ejecutando;
+    public Action onPressEvent;
     void Start() {
         checkActivable();
         actualSprite.sprite = noActivableSprite;
@@ -38,6 +40,10 @@ public class GenericButton : MonoBehaviourPun {
         actualSprite.sprite = activableSprite;
         ejecutando = true;
         activable = false;
+
+        if (onPressEvent != null) {
+            onPressEvent();
+        }
         yield return new WaitForSeconds(2);
         ejecutando = false;
         activable = true;

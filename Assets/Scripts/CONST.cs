@@ -7,8 +7,12 @@ public class CONST {
     public const float PLATFORM_ATTRACTION = 10f;
     public const float PLATFORM_INNER_ATRACTION = 8f;
 
-
-
     //raise events
     public const byte GrabBallEventCode = 1;
+
+    //figure index
+    public const int A = 0;
+    public const int B = 1;
+    public const int C = 2;
+    public const int D = 3;
 }

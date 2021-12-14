@@ -6,9 +6,29 @@ using Photon.Pun;
 
 public class PlaygroundManager : MonoBehaviour {
 
+    //instancia los objetos de la escena (jugadores y objetos)
+    //Asigna funcionalidades a cada boton e interruptor
+    [HideInInspector]
+    public bool isReady = false;
     public GameObject playerPrefab;
     public static PlaygroundManager instance;
     public Transform[] spawnPositions;
+
+    #region STAGE OBJECTS
+    public GameObject Buttons;
+    public GameObject WindAreas;
+    public GameObject Doors;
+    public GameObject Platforms;
+
+    // [HideInInspector]
+    public List<GameObject> ButtonsList;
+    // [HideInInspector]
+    public List<GameObject> WindAreasList;
+    // [HideInInspector]
+    public List<GameObject> DoorsList;
+    // [HideInInspector]
+    public List<GameObject> PlatformsList;
+    #endregion
 
     private void Awake() {
         //check if instance already exists
@@ -22,11 +42,18 @@ public class PlaygroundManager : MonoBehaviour {
             Destroy(gameObject);
         }
         //To not be destroyed when reloading scene
+        #region LISTAR BUTTONS, DOORS, ETC
+        ButtonsList = getChildren(Buttons);
+        DoorsList = getChildren(Doors);
+        WindAreasList = getChildren(WindAreas);
+        PlatformsList = getChildren(Platforms);
+        #endregion
         DontDestroyOnLoad(gameObject);
 
     }
 
     void Start() {
+        #region INSTANCIAR OBJETOS  
         var editorPlayer = GameObject.Find("Player");
         if (editorPlayer != null)
             Destroy(editorPlayer);
@@ -48,6 +75,19 @@ public class PlaygroundManager : MonoBehaviour {
             PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
+        #endregion
+
+
+        isReady = true;
+    }
+
+    private List<GameObject> getChildren(GameObject go) {
+        List<GameObject> children = new List<GameObject>();
+        for (int i = 0; i < go.transform.childCount; i++) {
+            children.Add(go.transform.GetChild(i).gameObject);
+        }
+        // Debug.Log(children.Count);
+        return children;
     }
 
 
