@@ -27,27 +27,30 @@ public class PlayerInteract : MonoBehaviour {
         targetingScriptReference.UpdateTargetedObject();
 
 
-        #region grabing logic
+
+    }
+
+    private void Update() {
+
+        #region GRAB INTERACTION ONRELEASE 
         if (playerGrabScrip.grabCdTimer >= 0f) {
-            playerGrabScrip.grabCdTimer -= Time.fixedDeltaTime;
+            playerGrabScrip.grabCdTimer -= Time.deltaTime;
         }
 
         if (!playerGrabScrip.grabingBall)
-            if (playerGrabScrip.grabCdTimer <= 0f && kb.spaceKey.isPressed) {
+            if (playerGrabScrip.grabCdTimer <= 0f && kb.spaceKey.wasReleasedThisFrame) {
                 var focusedElement = targetingScriptReference.GetFirstTarget();
                 if (focusedElement != null && (focusedElement.CompareTag("Ball") || focusedElement.CompareTag("Cube")))
                     if (gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady) {
                         playerGrabScrip.TryGrab();
                     }
             }
-    }
-
-    private void Update() {
         if (kb.spaceKey.wasReleasedThisFrame && playerGrabScrip.grabCdTimer <= 0) {
             if (playerGrabScrip.grabingBall) {
                 playerGrabScrip.TryRelease();
             }
         }
+        #endregion
 
         #region botones
         if (kb.spaceKey.wasPressedThisFrame) {
@@ -58,5 +61,5 @@ public class PlayerInteract : MonoBehaviour {
         }
         #endregion
     }
-    #endregion
+
 }

@@ -42,6 +42,11 @@ public class PlayerFactory : MonoBehaviour {
 
     public GameObject findPlayer(int _id) {
         GameObject temp;
+
+        if (PhotonNetwork.IsConnectedAndReady) {
+            return PhotonView.Find(_id).gameObject;
+        }
+
         if (instancedPlayers.TryGetValue(_id, out temp)) {
             return temp;
         } else {

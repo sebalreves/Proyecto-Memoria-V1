@@ -54,7 +54,6 @@ public class PlayerGrab : MonoBehaviourPun {
         Vector2 movementInput = gameObject.GetComponent<PlayerMovement>().movementInput;
         if (PhotonNetwork.IsConnectedAndReady) {
             ObjectFocused.GetComponent<PhotonView>().RPC("BallTryRelease", RpcTarget.AllBuffered, movementInput.x, movementInput.y);
-
         } else {
             ObjectFocused.GetComponent<BallGrabScript>().BallTryRelease(movementInput.x, movementInput.y);
         }

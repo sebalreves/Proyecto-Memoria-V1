@@ -28,8 +28,8 @@ TagManager:
   - RepulsionBall
   - ObjectActivateDetector
   - TargetZone
-  - 
-  - 
+  - Wall
+  - ObjectGrabed
   - 
   - 
   - 

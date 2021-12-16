@@ -12,6 +12,9 @@ public class BallGrabScript : MonoBehaviourPun {
     public Rigidbody2D ballRb;
     public float throwForce;
 
+    private float originalMass;
+    private int originalMask;
+
     // public void OnEvent(EventData photonEvent) {
     //     byte eventCode = photonEvent.Code;
 
@@ -40,32 +43,60 @@ public class BallGrabScript : MonoBehaviourPun {
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int grabbingPlayerId) {
-        GameObject playerWhoGrab;
-        if (PhotonNetwork.IsConnectedAndReady)
-            playerWhoGrab = PhotonView.Find(grabbingPlayerId).gameObject;
-        else
-            playerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
+        //Check if ball is carried by other player
+        if (beingCarried) {
+            GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+            GameObject actualPlayer = actualPlayerGrabPosition.transform.parent.gameObject;
 
-        GameObject grabPosition = playerWhoGrab.transform.Find("GrabPosition").gameObject;
-        ballRb.velocity = Vector2.zero;
+            actualPlayerGrabPosition.GetComponent<SpringJoint2D>().connectedBody = null;
+            actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
+
+            actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
+        }
+
+        //Find new player
+        GameObject newPlayerWhoGrab;
+        if (PhotonNetwork.IsConnectedAndReady)
+            newPlayerWhoGrab = PhotonView.Find(grabbingPlayerId).gameObject;
+        else
+            newPlayerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
+
+
+        GameObject newGrabPosition = newPlayerWhoGrab.transform.Find("GrabPosition").gameObject;
+        // ballRb.velocity = Vector2.zero;
         beingCarried = true;
-        CollisionCollider.enabled = false;
-        ballRb.isKinematic = true;
-        ballRb.simulated = false;
-        ballRb.position = Vector2.zero;
-        gameObject.transform.SetParent(grabPosition.transform, true);
-        gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        // CollisionCollider.enabled = false;
+        // ballRb.isKinematic = true;
+        newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent();
+        newGrabPosition.GetComponent<SpringJoint2D>().enabled = true;
+        newGrabPosition.GetComponent<SpringJoint2D>().connectedBody = ballRb;
+        // ballRb.simulated = false;
+        // ballRb.position = Vector2.zero;
+        gameObject.transform.SetParent(newGrabPosition.transform, true);
+        // gameObject.transform.localPosition = new Vector3(0, 0, 0);
+
+        originalMask = gameObject.layer;
+        originalMass = ballRb.mass;
+        gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
+        ballRb.mass = 0.5f;
     }
 
     [PunRPC]
     public void BallTryRelease(float _x, float _y) {
         Vector2 _velocity = new Vector2(_x, _y);
         //Habilitar collider despues de 0.1s
-        CollisionCollider.enabled = true;
+        // CollisionCollider.enabled = true;
         beingCarried = false;
-        ballRb.isKinematic = false;
-        ballRb.simulated = true;
+        // ballRb.isKinematic = false;
+        // ballRb.simulated = true;
+        GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+        // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().connectedBody = null;
+        // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
+        // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().enabled = false;
+        Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
         gameObject.transform.SetParent(null, true);
-        ballRb.velocity = _velocity * throwForce;
+        ballRb.velocity += _velocity * throwForce;
+        ballRb.mass = originalMass;
+        gameObject.layer = originalMask;
     }
 }

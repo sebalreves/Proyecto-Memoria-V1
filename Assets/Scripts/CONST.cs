@@ -10,6 +10,11 @@ public class CONST {
     //raise events
     public const byte GrabBallEventCode = 1;
 
+    //ball spring joint
+    public const float frequency = 1.4f;
+    public const float breakForce = 100f;
+
+
     //figure index
     public const int A = 0;
     public const int B = 1;
