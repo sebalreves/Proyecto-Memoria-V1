@@ -18,6 +18,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             GetComponent<PlayerGrab>().enabled = true;
             GetComponent<TargetingScript>().enabled = true;
             GetComponent<PlayerInteract>().enabled = true;
+            gameObject.transform.Find("GrabPosition").GetComponent<SpringJointBreakScript>().enabled = true;
             PlayerCamera.SetActive(true);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
 
@@ -26,6 +27,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             GetComponent<PlayerGrab>().enabled = false;
             GetComponent<TargetingScript>().enabled = false;
             GetComponent<PlayerInteract>().enabled = false;
+            gameObject.transform.Find("GrabPosition").GetComponent<SpringJointBreakScript>().enabled = false;
             PlayerCamera.SetActive(false);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
         }

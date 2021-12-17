@@ -34,7 +34,7 @@ public class PlayerGrab : MonoBehaviourPun {
 
     #region GRAB RELEASE
     public void TryGrab() {
-        Debug.Log("TryGrabPlayer");
+        // Debug.Log("TryGrabPlayer");
         grabCdTimer = CONST.playerGrabCD;
 
         grabingBall = true;
@@ -49,13 +49,14 @@ public class PlayerGrab : MonoBehaviourPun {
     }
 
     public void TryRelease() {
-        Debug.Log("TryReleasePlayer");
+        // Debug.Log("TryReleasePlayer");
         grabingBall = false;
         Vector2 movementInput = gameObject.GetComponent<PlayerMovement>().movementInput;
+        GameObject grabedBall = gameObject.transform.Find("GrabPosition").transform.GetChild(0).gameObject;
         if (PhotonNetwork.IsConnectedAndReady) {
-            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryRelease", RpcTarget.AllBuffered, movementInput.x, movementInput.y);
+            grabedBall.GetComponent<PhotonView>().RPC("BallTryRelease", RpcTarget.AllBuffered, movementInput.x, movementInput.y);
         } else {
-            ObjectFocused.GetComponent<BallGrabScript>().BallTryRelease(movementInput.x, movementInput.y);
+            grabedBall.GetComponent<BallGrabScript>().BallTryRelease(movementInput.x, movementInput.y);
         }
         playerCollider.enabled = false;
         playerCollider.enabled = true;

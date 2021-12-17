@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SpringJointBreakScript : MonoBehaviour {
     public SpringJoint2D mySpringJoin;
@@ -24,7 +25,11 @@ public class SpringJointBreakScript : MonoBehaviour {
         //Crear nueva joint vacia
         // createSpringComponent(); 
         //Notificar al player y a la pelota
-        gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryRelease();
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (gameObject.transform.parent.gameObject.GetComponent<PhotonView>().IsMine)
+                gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryRelease();
+        } else
+            gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryRelease();
     }
 
     private void FixedUpdate() {
