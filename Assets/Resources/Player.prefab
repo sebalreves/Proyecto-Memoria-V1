@@ -428,7 +428,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabCdTimer: 0.8
   grabingBall: 0
-  ObjectFocused: {fileID: 0}
   playerCollider: {fileID: 6441550077190442927}
   targetingScriptReference: {fileID: 3056834046587443565}
 --- !u!114 &1526579402464154629

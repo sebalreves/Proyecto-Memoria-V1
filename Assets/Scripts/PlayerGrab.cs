@@ -11,7 +11,7 @@ public class PlayerGrab : MonoBehaviourPun {
     // Start is called before the first frame update
     public float grabCdTimer;
     public bool grabingBall = false;
-    public GameObject ObjectFocused;
+    // public GameObject ObjectFocused;
 
     GameObject focusedObject;
     public CircleCollider2D playerCollider;
@@ -38,7 +38,7 @@ public class PlayerGrab : MonoBehaviourPun {
         grabCdTimer = CONST.playerGrabCD;
 
         grabingBall = true;
-        ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
+        GameObject ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
 
         if (PhotonNetwork.IsConnectedAndReady) {
             ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
@@ -60,7 +60,7 @@ public class PlayerGrab : MonoBehaviourPun {
         }
         playerCollider.enabled = false;
         playerCollider.enabled = true;
-        ObjectFocused = null;
+        // ObjectFocused = null;
     }
     #endregion
 

@@ -11,14 +11,15 @@ public class SpringJointBreakScript : MonoBehaviour {
         mySpringJoin = gameObject.GetComponent<SpringJoint2D>();
     }
 
-    public void createSpringComponent() {
+    public void createSpringComponent(Rigidbody2D attachedRigidBody = null) {
         Destroy(mySpringJoin);
         SpringJoint2D newJoint = gameObject.AddComponent<SpringJoint2D>() as SpringJoint2D;
         newJoint.autoConfigureDistance = false;
         newJoint.distance = 0f;
         newJoint.frequency = CONST.frequency;
         newJoint.breakForce = 1000f;
-        newJoint.enabled = false;
+        newJoint.enabled = true;
+        newJoint.connectedBody = attachedRigidBody;
         mySpringJoin = newJoint;
     }
     public void OnJointBreak2D(Joint2D brokenJoint) {

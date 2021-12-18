@@ -48,10 +48,15 @@ public class BallGrabScript : MonoBehaviourPun {
             GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
             GameObject actualPlayer = actualPlayerGrabPosition.transform.parent.gameObject;
 
-            actualPlayerGrabPosition.GetComponent<SpringJoint2D>().connectedBody = null;
-            actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
-
+            Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
+            // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
             actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
+        } else {
+            originalMask = gameObject.layer;
+            originalMass = ballRb.mass;
+            gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
+            ballRb.mass = 0.5f;
+            beingCarried = true;
         }
 
         //Find new player
@@ -64,21 +69,17 @@ public class BallGrabScript : MonoBehaviourPun {
 
         GameObject newGrabPosition = newPlayerWhoGrab.transform.Find("GrabPosition").gameObject;
         // ballRb.velocity = Vector2.zero;
-        beingCarried = true;
         // CollisionCollider.enabled = false;
         // ballRb.isKinematic = true;
-        newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent();
-        newGrabPosition.GetComponent<SpringJoint2D>().enabled = true;
-        newGrabPosition.GetComponent<SpringJoint2D>().connectedBody = ballRb;
+        newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
+        // newGrabPosition.GetComponent<SpringJoint2D>().enabled = true;
+        // newGrabPosition.GetComponent<SpringJoint2D>().connectedBody = ballRb;
         // ballRb.simulated = false;
         // ballRb.position = Vector2.zero;
         gameObject.transform.SetParent(newGrabPosition.transform, true);
         // gameObject.transform.localPosition = new Vector3(0, 0, 0);
 
-        originalMask = gameObject.layer;
-        originalMass = ballRb.mass;
-        gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
-        ballRb.mass = 0.5f;
+
     }
 
     [PunRPC]
