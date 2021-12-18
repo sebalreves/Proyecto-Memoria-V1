@@ -47,6 +47,8 @@ MonoBehaviour:
   - DeactivatePlatform
   - Presionar
   - PresionarRPC
+  - OnWindEnter
+  - OnWindExit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

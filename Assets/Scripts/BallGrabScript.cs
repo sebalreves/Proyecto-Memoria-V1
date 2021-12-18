@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class BallGrabScript : MonoBehaviourPun {
     public CircleCollider2D CollisionCollider;
-    public bool grabable = false;
+    public bool grabable = true;
     public bool beingCarried = false;
     public Rigidbody2D ballRb;
     public float throwForce;
@@ -43,14 +43,17 @@ public class BallGrabScript : MonoBehaviourPun {
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int grabbingPlayerId) {
+        //check if it's inside the windZone
+        if (!grabable) return;
         //Check if ball is carried by other player
         if (beingCarried) {
-            GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
-            GameObject actualPlayer = actualPlayerGrabPosition.transform.parent.gameObject;
+            gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
+            // GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+            // GameObject actualPlayer = actualPlayerGrabPosition.transform.parent.gameObject;
 
-            Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
-            // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
-            actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
+            // Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
+            // // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
+            // actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
         } else {
             originalMask = gameObject.layer;
             originalMass = ballRb.mass;
@@ -83,21 +86,47 @@ public class BallGrabScript : MonoBehaviourPun {
     }
 
     [PunRPC]
-    public void BallTryRelease(float _x, float _y) {
+    public void BallTryRelease(float _x = 0f, float _y = 0f) {
         Vector2 _velocity = new Vector2(_x, _y);
         //Habilitar collider despues de 0.1s
         // CollisionCollider.enabled = true;
         beingCarried = false;
         // ballRb.isKinematic = false;
         // ballRb.simulated = true;
-        GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+        try {
+
+            GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+            Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
+        } catch (System.Exception) {
+
+            Debug.LogWarning("Player carry not found");
+        }
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().connectedBody = null;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().enabled = false;
-        Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
         gameObject.transform.SetParent(null, true);
         ballRb.velocity += _velocity * throwForce;
         ballRb.mass = originalMass;
         gameObject.layer = originalMask;
+    }
+
+    [PunRPC]
+    public void OnWindEnter() {
+        // if (PhotonNetwork.IsConnectedAndReady) {
+        //     photonView.RPC("BallTryRelease", RpcTarget.AllBuffered, 0f, 0f);
+        // } else {
+        grabable = false;
+        if (beingCarried) {
+            gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
+            BallTryRelease();
+        }
+
+        // BallTryRelease(0f, 0f);
+
+    }
+
+    [PunRPC]
+    public void OnWindExit() {
+        grabable = true;
     }
 }

@@ -47,7 +47,7 @@ public class PlayerInteract : MonoBehaviour {
             }
         if (kb.spaceKey.wasReleasedThisFrame && playerGrabScrip.grabCdTimer <= 0) {
             if (playerGrabScrip.grabingBall) {
-                playerGrabScrip.TryRelease();
+                playerGrabScrip.TryReleaseAndThrow();
             }
         }
         #endregion

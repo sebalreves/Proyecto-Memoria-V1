@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionCollider: {fileID: 4000642581442905740}
-  grabable: 0
+  grabable: 1
   beingCarried: 0
   ballRb: {fileID: 4000642581442905741}
   throwForce: 29

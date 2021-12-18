@@ -28,9 +28,9 @@ public class SpringJointBreakScript : MonoBehaviour {
         //Notificar al player y a la pelota
         if (PhotonNetwork.IsConnectedAndReady) {
             if (gameObject.transform.parent.gameObject.GetComponent<PhotonView>().IsMine)
-                gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryRelease();
+                gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryReleaseAndThrow();
         } else
-            gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryRelease();
+            gameObject.transform.parent.gameObject.GetComponent<PlayerGrab>().TryReleaseAndThrow();
     }
 
     private void FixedUpdate() {
