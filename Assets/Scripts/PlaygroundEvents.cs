@@ -22,6 +22,9 @@ public class PlaygroundEvents : MonoBehaviour {
         #region SUSCRIBIR METODOS
         // Debug.Log(ButtonsList.Count);
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonA;
+
+        PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStatePressed += pressButtonA;
+        PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStateReleased += pressButtonA;
         #endregion
     }
 

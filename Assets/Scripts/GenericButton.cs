@@ -11,11 +11,11 @@ public class GenericButton : MonoBehaviourPun {
     public bool ejecutando;
     public Action onPressEvent;
     void Start() {
-        checkActivable();
+        switchActivableState();
         actualSprite.sprite = noActivableSprite;
     }
 
-    public void checkActivable() {
+    public void switchActivableState() {
         activable = true;
         ejecutando = false;
     }

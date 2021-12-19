@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1828895770105146425}
   - component: {fileID: 1828895770105146426}
-  - component: {fileID: 1828895770105146427}
   m_Layer: 0
   m_Name: InnerCollider
   m_TagString: PlatformInnerCollider
@@ -130,24 +129,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.05
---- !u!114 &1828895770105146427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828895770105146424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8a50b2ae82ec94982e832f957c0caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attractPointEffector: {fileID: 1828895770190003082}
-  presionado: 0
-  ActivatedColor: {r: 0.08334541, g: 1, b: 0, a: 1}
-  DeactivatedColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
-  spriteReference: {fileID: 1828895770190003083}
-  innerCollider: {fileID: 1828895770105146426}
 --- !u!1 &1828895770190003127
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +141,7 @@ GameObject:
   - component: {fileID: 1828895770190003083}
   - component: {fileID: 1828895770190003082}
   - component: {fileID: 1828895770190003081}
+  - component: {fileID: 8727614988386327684}
   m_Layer: 0
   m_Name: Plataforma
   m_TagString: Untagged
@@ -270,3 +252,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.31
+--- !u!114 &8727614988386327684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828895770190003127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8a50b2ae82ec94982e832f957c0caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attractPointEffector: {fileID: 1828895770190003082}
+  presionado: 0
+  ActivatedColor: {r: 0.08334541, g: 1, b: 0, a: 1}
+  DeactivatedColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
+  spriteReference: {fileID: 1828895770190003083}
+  innerCollider: {fileID: 1828895770105146426}
+  cubeInteract: 0
+  ballInteract: 0
+  playerInteract: 0

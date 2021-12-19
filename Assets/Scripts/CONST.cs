@@ -14,6 +14,11 @@ public class CONST {
     public const float frequency = 1.4f;
     public const float breakForce = 100f;
 
+    //layer indexing
+    public const int playerLayer = (1 << 8);
+    public const int ballLayer = (1 << 7);
+    public const int cubeLayer = (1 << 6);
+
 
     //figure index
     public const int A = 0;
