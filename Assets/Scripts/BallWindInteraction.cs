@@ -22,6 +22,7 @@ public class BallWindInteraction : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("WindZone")) {
+            myRb.velocity *= CONST.FRENADO_VIENTO;
             if (PhotonNetwork.IsConnectedAndReady) {
                 if (myPhotonView.IsMine) {
                     myPhotonView.RPC("OnWindEnter", RpcTarget.AllBuffered);
@@ -29,7 +30,6 @@ public class BallWindInteraction : MonoBehaviour {
             } else {
                 myGrabScript.OnWindEnter();
             }
-            myRb.velocity *= CONST.FRENADO_VIENTO;
         }
     }
 

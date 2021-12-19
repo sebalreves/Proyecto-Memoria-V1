@@ -32852,6 +32852,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plataforma
       objectReference: {fileID: 0}
+    - target: {fileID: 8727614988386327684, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: ballInteract
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727614988386327684, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: cubeInteract
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
 --- !u!1001 &2218703625275507671
