@@ -10,6 +10,14 @@ public class CONST {
     //raise events
     public const byte GrabBallEventCode = 1;
 
+    //Ball properties
+    public const float cubeMass = 11f;
+    public const float ballMass = 0.5f;
+    public const string cubeTag = "Cube";
+    public const string ballTag = "Ball";
+    public const float ballLinearDrag = 3f;
+    public const float cubeLinearDrag = 5f;
+
     //ball spring joint
     public const float frequency = 1.4f;
     public const float breakForce = 100f;
@@ -25,4 +33,11 @@ public class CONST {
     public const int B = 1;
     public const int C = 2;
     public const int D = 3;
+
+    //Portal variables
+    public const string Any = "Any";
+    public const string Cube = "Cube";
+    public const string Ball = "Ball";
+    public const string Red = "Red";
+    public const string Blue = "Blue";
 }

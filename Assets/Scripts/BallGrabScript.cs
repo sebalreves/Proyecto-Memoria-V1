@@ -11,6 +11,7 @@ public class BallGrabScript : MonoBehaviourPun {
     public bool beingCarried = false;
     public Rigidbody2D ballRb;
     public float throwForce;
+    public GenericBall genericBallScript;
 
     private float originalMass;
     private int originalMask;
@@ -55,10 +56,10 @@ public class BallGrabScript : MonoBehaviourPun {
             // // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
             // actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
         } else {
-            originalMask = gameObject.layer;
-            originalMass = ballRb.mass;
+            // originalMask = gameObject.layer;
+            // originalMass = ballRb.mass;
             gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
-            ballRb.mass = 0.5f;
+            ballRb.mass = CONST.ballMass;
             beingCarried = true;
         }
 
@@ -93,21 +94,26 @@ public class BallGrabScript : MonoBehaviourPun {
         beingCarried = false;
         // ballRb.isKinematic = false;
         // ballRb.simulated = true;
+        GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+        gameObject.transform.SetParent(null, true);
         try {
-
-            GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
             Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
         } catch (System.Exception) {
-
             Debug.LogWarning("Player carry not found");
         }
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().connectedBody = null;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().enabled = false;
-        gameObject.transform.SetParent(null, true);
         ballRb.velocity += _velocity * throwForce;
-        ballRb.mass = originalMass;
-        gameObject.layer = originalMask;
+        if (genericBallScript.shape == CONST.Cube) {
+            ballRb.mass = CONST.cubeMass;
+            gameObject.layer = LayerMask.NameToLayer("Cubes");
+        } else if (genericBallScript.shape == CONST.Ball) {
+            ballRb.mass = CONST.ballMass;
+            gameObject.layer = LayerMask.NameToLayer("Balls");
+        }
+        // ballRb.mass = originalMass;
+        // gameObject.layer = originalMask;
     }
 
     [PunRPC]

@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3076011169809168742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7169723042029178657}
+  - component: {fileID: 1869020718095831777}
+  - component: {fileID: 6330149610781103189}
+  m_Layer: 0
+  m_Name: WindInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7169723042029178657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3076011169809168742}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.5000002, y: 0.11142849, z: 0}
+  m_LocalScale: {x: 1.4285713, y: 1.4285713, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4000642581442905742}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1869020718095831777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3076011169809168742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd9d040c1e83ca4b910e0d529b8a0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myRb: {fileID: 4000642581442905741}
+  myGrabScript: {fileID: 4000642581442905745}
+  myPhotonView: {fileID: 4000642581442905744}
+--- !u!58 &6330149610781103189
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3076011169809168742}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.34
 --- !u!1 &4000642581042903276
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000642581442905742}
+  - component: {fileID: 6439678648228380511}
   - component: {fileID: 4000642581442905743}
   - component: {fileID: 4000642581442905740}
   - component: {fileID: 4000642581442905741}
@@ -119,9 +183,35 @@ Transform:
   - {fileID: 4000642581042903279}
   - {fileID: 4000642581545341480}
   - {fileID: 1412531746999942387}
+  - {fileID: 7169723042029178657}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6439678648228380511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000642581442905738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f06e3609654ff4f8883a1ad6208be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RedColor: {r: 1, g: 0, b: 0, a: 1}
+  BlueColor: {r: 0, g: 0.29986405, b: 1, a: 1}
+  BallSprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  CubeSrite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  WindInteractionGameObject: {fileID: 3076011169809168742}
+  innerSpriteRenderer: {fileID: 4000642581042903278}
+  outlineSpriteRenderer: {fileID: 4000642581442905743}
+  ballMaterial: {fileID: 6200000, guid: 6c64a699dedbaf94283d8be39cc9692e, type: 2}
+  myCircleCollider: {fileID: 4000642581442905740}
+  mass: 11
+  myRb: {fileID: 4000642581442905741}
+  color: 
+  shape: Cube
 --- !u!212 &4000642581442905743
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -182,7 +272,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 4000642581442905738}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6c64a699dedbaf94283d8be39cc9692e, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -267,6 +357,7 @@ MonoBehaviour:
   beingCarried: 0
   ballRb: {fileID: 4000642581442905741}
   throwForce: 29
+  genericBallScript: {fileID: 6439678648228380511}
 --- !u!114 &7942750110157555991
 MonoBehaviour:
   m_ObjectHideFlags: 0
