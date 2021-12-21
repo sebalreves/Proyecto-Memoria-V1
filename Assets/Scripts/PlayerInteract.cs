@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 
 
-public class PlayerInteract : MonoBehaviour {
+public class PlayerInteract : MonoBehaviourPun {
     // Start is called before the first frame update
     PlayerGrab playerGrabScrip;
     TargetingScript targetingScriptReference;
@@ -22,7 +22,7 @@ public class PlayerInteract : MonoBehaviour {
     private void FixedUpdate() {
         //TODO actualizar interfaz dependiendo de la accion disponible
         //TODO se puede activar un boton teniendo un objeto cargado?
-        if (!(gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
+        if (!(photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
 
         targetingScriptReference.UpdateTargetedObject();
 
@@ -31,7 +31,7 @@ public class PlayerInteract : MonoBehaviour {
     }
 
     private void Update() {
-
+        if (!(photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
         #region GRAB INTERACTION ONRELEASE 
         if (playerGrabScrip.grabCdTimer >= 0f) {
             playerGrabScrip.grabCdTimer -= Time.deltaTime;
