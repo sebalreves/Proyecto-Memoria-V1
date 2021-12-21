@@ -61,13 +61,12 @@ MonoBehaviour:
   WindInteractionGameObject: {fileID: 7502183949632801404}
   innerSpriteRenderer: {fileID: 6452789320510779868}
   outlineSpriteRenderer: {fileID: 6452789319832915901}
-  ballMaterial: {fileID: 6200000, guid: 6c64a699dedbaf94283d8be39cc9692e, type: 2}
   myCircleCollider: {fileID: 6452789319832915902}
   ballGrabScript: {fileID: 6452789319832915875}
   mass: 0
   myRb: {fileID: 6452789319832915903}
-  color: 
-  shape: 
+  color: Red
+  shape: Circle
 --- !u!212 &6452789319832915901
 SpriteRenderer:
   m_ObjectHideFlags: 0

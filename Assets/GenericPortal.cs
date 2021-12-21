@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Photon.Pun;
 
 public class GenericPortal : MonoBehaviour {
     // string[] colorList = new string[] { CONST.Red, CONST.Blue };
@@ -27,7 +28,12 @@ public class GenericPortal : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("Cube") || other.gameObject.CompareTag("Ball")) {
             // Debug.Log("Cube");
-            other.gameObject.GetComponent<GenericBall>().onPortalTransform(colorOutRed ? CONST.Red : CONST.Blue, shapeOutCube ? CONST.Cube : CONST.Ball);
+            if (PhotonNetwork.IsConnectedAndReady) {
+                PhotonView otherPhotonView = other.GetComponent<PhotonView>();
+                if (otherPhotonView.IsMine)
+                    otherPhotonView.RPC("onPortalTransform", RpcTarget.AllBuffered, colorOutRed ? CONST.Red : CONST.Blue, shapeOutCube ? CONST.Cube : CONST.Ball);
+            } else
+                other.gameObject.GetComponent<GenericBall>().onPortalTransform(colorOutRed ? CONST.Red : CONST.Blue, shapeOutCube ? CONST.Cube : CONST.Ball);
         }
         // if (other.gameObject.CompareTag("Ball")) {
         //     Debug.Log("Ball");

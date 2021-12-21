@@ -6033,6 +6033,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6439678648228380511, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
+      propertyPath: color
+      value: Red
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
 --- !u!4 &756293385 stripped
