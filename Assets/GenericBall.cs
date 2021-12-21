@@ -8,8 +8,8 @@ public class GenericBall : MonoBehaviour {
     public GameObject WindInteractionGameObject;
     public SpriteRenderer innerSpriteRenderer;
     public SpriteRenderer outlineSpriteRenderer;
-    public PhysicsMaterial2D ballMaterial;
     public CircleCollider2D myCircleCollider;
+    public BallGrabScript ballGrabScript;
     public float mass;
 
     public Rigidbody2D myRb;
@@ -24,10 +24,6 @@ public class GenericBall : MonoBehaviour {
     public string shape;
 
     public void onPortalTransform(string _newColor, string _newShape) {
-        // Debug.Log(_newShape);
-        // Debug.Log();
-        // Debug.Log(_newColor);
-        // Debug.Log(color);
         if (_newColor != color) {
             if (_newColor == CONST.Red)
                 innerSpriteRenderer.color = RedColor;
@@ -43,36 +39,28 @@ public class GenericBall : MonoBehaviour {
         //CHANGE MATERIAL
         if (_newShape == CONST.Cube) {
             WindInteractionGameObject.SetActive(false);
-            // mass = CONST.cubeMass;
             gameObject.tag = CONST.cubeTag;
-            gameObject.layer = LayerMask.NameToLayer("Cubes");
             outlineSpriteRenderer.sprite = CubeSrite;
-            myRb.mass = CONST.cubeMass;
-            myRb.sharedMaterial = null;
             myRb.drag = CONST.cubeLinearDrag;
-            myCircleCollider.sharedMaterial = null;
+
+
+            if (!ballGrabScript.beingCarried) {
+                gameObject.layer = LayerMask.NameToLayer("Cubes");
+                myRb.mass = CONST.cubeMass;
+            }
 
 
         } else if (_newShape == CONST.Ball) {
             WindInteractionGameObject.SetActive(true);
             mass = CONST.ballMass;
             gameObject.tag = CONST.ballTag;
-            gameObject.layer = LayerMask.NameToLayer("Balls");
             outlineSpriteRenderer.sprite = BallSprite;
-            myRb.mass = CONST.ballMass;
-            myRb.sharedMaterial = ballMaterial;
             myRb.drag = CONST.ballLinearDrag;
-            myCircleCollider.sharedMaterial = ballMaterial;
 
+            if (!ballGrabScript.beingCarried) {
+                gameObject.layer = LayerMask.NameToLayer("Balls");
+                myRb.mass = CONST.ballMass;
+            }
         }
-    }
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 }

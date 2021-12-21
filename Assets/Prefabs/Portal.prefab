@@ -46,8 +46,8 @@ AreaEffector2D:
     serializedVersion: 2
     m_Bits: 192
   m_UseGlobalAngle: 0
-  m_ForceAngle: 0
-  m_ForceMagnitude: 30
+  m_ForceAngle: 90
+  m_ForceMagnitude: 20
   m_ForceVariation: 0
   m_ForceTarget: 0
   m_Drag: 0
@@ -171,8 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d787aa397727f949ba36d3d752ea25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorOut: 
-  shapeOut: Cube
+  colorOutRed: 0
+  colorOutBlue: 0
+  shapeOutCube: 0
+  shapeOutBall: 0
 --- !u!68 &6184940743616227789
 EdgeCollider2D:
   m_ObjectHideFlags: 0

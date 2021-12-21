@@ -208,6 +208,7 @@ MonoBehaviour:
   outlineSpriteRenderer: {fileID: 4000642581442905743}
   ballMaterial: {fileID: 6200000, guid: 6c64a699dedbaf94283d8be39cc9692e, type: 2}
   myCircleCollider: {fileID: 4000642581442905740}
+  ballGrabScript: {fileID: 4000642581442905745}
   mass: 11
   myRb: {fileID: 4000642581442905741}
   color: 
