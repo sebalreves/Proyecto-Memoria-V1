@@ -6,6 +6,7 @@ public class CONST {
     public const float PLATFORM_REPULSION = 10f;
     public const float PLATFORM_ATTRACTION = 10f;
     public const float PLATFORM_INNER_ATRACTION = 8f;
+    public const float waitTimeEnterCamZone = 0.4f;
 
     //raise events
     public const byte GrabBallEventCode = 1;

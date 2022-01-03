@@ -75,3 +75,6 @@ TagManager:
   - name: CamZones
     uniqueID: 3939939953
     locked: 0
+  - name: InGameUI
+    uniqueID: 97002069
+    locked: 0
