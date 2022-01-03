@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
 
 public class CameraManager : MonoBehaviour {
     public Camera mainCamera;
@@ -16,6 +17,7 @@ public class CameraManager : MonoBehaviour {
     private bool firstEnteringCameraZone = false;
     public GameObject actualCamZone = null;
     Vector3 originalCamZoneScale;
+    public PhotonView myPhotonView;
 
     void Awake() {
         virtualCam1 = virtualCam1GM.GetComponent<CinemachineVirtualCamera>();
@@ -68,6 +70,7 @@ public class CameraManager : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         //TODO bug cuando se devuelve
         if (other.gameObject.CompareTag("CamZone")) {
+            if (PhotonNetwork.IsConnectedAndReady && !myPhotonView.IsMine) return;
             GameObject newCamZone = other.gameObject;
             Vector3 newPolyOriginalScale = newCamZone.transform.localScale;
             resizeEnteringCamZone(newCamZone);

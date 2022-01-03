@@ -54,9 +54,9 @@ public class PlaygroundManager : MonoBehaviour {
 
     void Start() {
         #region INSTANCIAR OBJETOS  
-        // var editorPlayer = GameObject.Find("Player");
-        // if (editorPlayer != null)
-        //     Destroy(editorPlayer);
+        var editorPlayer = GameObject.Find("Player");
+        if (editorPlayer != null)
+            Destroy(editorPlayer);
         if (PhotonNetwork.IsConnectedAndReady) {
             //TODO spawn player 1 y player 2 dependiendo quien es el owner
             // object playerSelectionNumber;
@@ -72,7 +72,7 @@ public class PlaygroundManager : MonoBehaviour {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         } else {
-            // PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
+            PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
         #endregion
