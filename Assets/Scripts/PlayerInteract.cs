@@ -22,16 +22,14 @@ public class PlayerInteract : MonoBehaviourPun {
     private void FixedUpdate() {
         //TODO actualizar interfaz dependiendo de la accion disponible
         //TODO se puede activar un boton teniendo un objeto cargado?
-        if (!(photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
+        if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
+
 
         targetingScriptReference.UpdateTargetedObject();
-
-
-
     }
 
     private void Update() {
-        if (!(photonView.IsMine || !PhotonNetwork.IsConnectedAndReady)) return;
+        if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
         #region GRAB INTERACTION ONRELEASE 
         if (playerGrabScrip.grabCdTimer >= 0f) {
             playerGrabScrip.grabCdTimer -= Time.deltaTime;
@@ -41,9 +39,8 @@ public class PlayerInteract : MonoBehaviourPun {
             if (playerGrabScrip.grabCdTimer <= 0f && kb.spaceKey.wasReleasedThisFrame) {
                 var focusedElement = targetingScriptReference.GetFirstTarget();
                 if (focusedElement != null && (focusedElement.CompareTag("Ball") || focusedElement.CompareTag("Cube")))
-                    if (gameObject.GetComponent<PhotonView>().IsMine || !PhotonNetwork.IsConnectedAndReady) {
-                        playerGrabScrip.TryGrab();
-                    }
+                    playerGrabScrip.TryGrab();
+
             }
         if (kb.spaceKey.wasReleasedThisFrame && playerGrabScrip.grabCdTimer <= 0) {
             if (playerGrabScrip.grabingBall) {

@@ -43,8 +43,9 @@ public class PlayerGrab : MonoBehaviourPun {
             if (!ObjectFocused.GetComponent<BallGrabScript>().grabable) return;
 
         grabingBall = true;
-        if (PhotonNetwork.IsConnectedAndReady) {
-            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
+        if (PhotonNetwork.IsConnectedAndReady && photonView.IsMine) {
+            ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(photonView.ViewID);
+            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.Others, photonView.ViewID);
             // TryGrabEvent(ObjectGrabbed);
         } else {
             ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(gameObject.GetInstanceID());

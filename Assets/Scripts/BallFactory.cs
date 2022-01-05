@@ -6,7 +6,9 @@ using Photon.Pun;
 public class BallFactory : MonoBehaviour {
     public static BallFactory _instance;
     public Dictionary<int, GameObject> instancedBalls;
-    public GameObject ballPrefab;
+    public Dictionary<int, GameObject> instancedCubes;
+    public GameObject ballPrefab, cubePrefab;
+
 
     //TODO check network sync of dictionary
     void Awake() {
@@ -23,20 +25,29 @@ public class BallFactory : MonoBehaviour {
 
     private void Start() {
         instancedBalls = new Dictionary<int, GameObject>();
+        instancedCubes = new Dictionary<int, GameObject>();
     }
 
 
     public GameObject instantiateBall(Vector2 _instantiatePosition) {
-        GameObject spawnedBall;
-        if (PhotonNetwork.IsConnectedAndReady) {
-            spawnedBall = PhotonNetwork.Instantiate(ballPrefab.name, _instantiatePosition, Quaternion.identity);
-            instancedBalls.Add(spawnedBall.GetComponent<PhotonView>().ViewID, spawnedBall);
-        } else {
-            spawnedBall = Instantiate(ballPrefab, _instantiatePosition, Quaternion.identity);
-            instancedBalls.Add(spawnedBall.GetInstanceID(), spawnedBall);
+        return instantiateObject(_instantiatePosition, ballPrefab);
 
+    }
+
+    public GameObject instantiateCube(Vector2 _instantiatePosition) {
+        return instantiateObject(_instantiatePosition, cubePrefab);
+    }
+
+    private GameObject instantiateObject(Vector2 _instantiatePosition, GameObject _prefab) {
+        GameObject spawnedObject;
+        if (PhotonNetwork.IsConnectedAndReady) {
+            spawnedObject = PhotonNetwork.Instantiate(_prefab.name, _instantiatePosition, Quaternion.identity);
+            instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject);
+        } else {
+            spawnedObject = Instantiate(_prefab, _instantiatePosition, Quaternion.identity);
+            instancedBalls.Add(spawnedObject.GetInstanceID(), spawnedObject);
         }
-        return spawnedBall;
+        return spawnedObject;
     }
 
     public GameObject findBall(int _id) {

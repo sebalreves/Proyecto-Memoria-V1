@@ -44,20 +44,13 @@ public class BallGrabScript : MonoBehaviourPun {
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int grabbingPlayerId) {
+
         //check if it's inside the windZone
         if (!grabable) return;
         //Check if ball is carried by other player
         if (beingCarried) {
             gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
-            // GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
-            // GameObject actualPlayer = actualPlayerGrabPosition.transform.parent.gameObject;
-
-            // Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
-            // // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
-            // actualPlayer.GetComponent<PlayerGrab>().grabingBall = false;
         } else {
-            // originalMask = gameObject.layer;
-            // originalMass = ballRb.mass;
             gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
             ballRb.mass = CONST.ballMass;
             beingCarried = true;
@@ -72,18 +65,8 @@ public class BallGrabScript : MonoBehaviourPun {
 
 
         GameObject newGrabPosition = newPlayerWhoGrab.transform.Find("GrabPosition").gameObject;
-        // ballRb.velocity = Vector2.zero;
-        // CollisionCollider.enabled = false;
-        // ballRb.isKinematic = true;
         newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
-        // newGrabPosition.GetComponent<SpringJoint2D>().enabled = true;
-        // newGrabPosition.GetComponent<SpringJoint2D>().connectedBody = ballRb;
-        // ballRb.simulated = false;
-        // ballRb.position = Vector2.zero;
         gameObject.transform.SetParent(newGrabPosition.transform, true);
-        // gameObject.transform.localPosition = new Vector3(0, 0, 0);
-
-
     }
 
     [PunRPC]

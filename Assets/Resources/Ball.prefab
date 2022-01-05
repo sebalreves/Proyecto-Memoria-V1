@@ -66,7 +66,7 @@ MonoBehaviour:
   mass: 0
   myRb: {fileID: 6452789319832915903}
   color: Red
-  shape: Circle
+  shape: Ball
 --- !u!212 &6452789319832915901
 SpriteRenderer:
   m_ObjectHideFlags: 0
