@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 4597955264628681033}
   - component: {fileID: 7193568543993759900}
   - component: {fileID: 5793945813898858871}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WindInteraction
   m_TagString: Untagged
   m_Icon: {fileID: 0}

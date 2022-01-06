@@ -15,6 +15,7 @@ public class BallGrabScript : MonoBehaviourPun {
 
     private float originalMass;
     private int originalMask;
+    private int ActualPlayerWhoGrabId;
 
     // public void OnEvent(EventData photonEvent) {
     //     byte eventCode = photonEvent.Code;
@@ -43,14 +44,16 @@ public class BallGrabScript : MonoBehaviourPun {
 
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
-    public void BallTryGrab(int grabbingPlayerId) {
+    public void BallTryGrab(int newGrabPlayerId) {
 
         //check if it's inside the windZone
         if (!grabable) return;
         //Check if ball is carried by other player
         if (beingCarried) {
-            gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
+            PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).GetComponent<PlayerGrab>().TryRelease();
+            // gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
         } else {
+            ActualPlayerWhoGrabId = newGrabPlayerId;
             gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
             ballRb.mass = CONST.ballMass;
             beingCarried = true;
@@ -58,15 +61,12 @@ public class BallGrabScript : MonoBehaviourPun {
 
         //Find new player
         GameObject newPlayerWhoGrab;
-        if (PhotonNetwork.IsConnectedAndReady)
-            newPlayerWhoGrab = PhotonView.Find(grabbingPlayerId).gameObject;
-        else
-            newPlayerWhoGrab = PlayerFactory._instance.findPlayer(grabbingPlayerId);
-
+        newPlayerWhoGrab = PlayerFactory._instance.findPlayer(newGrabPlayerId);
 
         GameObject newGrabPosition = newPlayerWhoGrab.transform.Find("GrabPosition").gameObject;
         newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
-        gameObject.transform.SetParent(newGrabPosition.transform, true);
+        // newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
+        // gameObject.transform.SetParent(newGrabPosition.transform, true);
     }
 
     [PunRPC]
@@ -77,10 +77,13 @@ public class BallGrabScript : MonoBehaviourPun {
         beingCarried = false;
         // ballRb.isKinematic = false;
         // ballRb.simulated = true;
-        GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
-        gameObject.transform.SetParent(null, true);
+        // GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
+        GameObject actualPlayerGrabPosition = PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).transform.Find("GrabPosition").gameObject;
+        // gameObject.transform.SetParent(null, true);
         try {
+            // Debug.Log("destry spring");
             Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
+            // Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
         } catch (System.Exception) {
             Debug.LogWarning("Player carry not found");
         }
@@ -101,12 +104,12 @@ public class BallGrabScript : MonoBehaviourPun {
 
     [PunRPC]
     public void OnWindEnter() {
-        // if (PhotonNetwork.IsConnectedAndReady) {
-        //     photonView.RPC("BallTryRelease", RpcTarget.AllBuffered, 0f, 0f);
-        // } else {
+        Debug.Log("Holaa");
+
         grabable = false;
         if (beingCarried) {
-            gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
+            PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).GetComponent<PlayerGrab>().TryRelease();
+            // gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
             BallTryRelease();
         }
 

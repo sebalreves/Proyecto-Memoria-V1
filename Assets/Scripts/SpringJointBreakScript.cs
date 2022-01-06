@@ -11,7 +11,9 @@ public class SpringJointBreakScript : MonoBehaviour {
         mySpringJoin = gameObject.GetComponent<SpringJoint2D>();
     }
 
+
     public void createSpringComponent(Rigidbody2D attachedRigidBody = null) {
+        // Debug.Log("creando spring");
         Destroy(mySpringJoin);
         SpringJoint2D newJoint = gameObject.AddComponent<SpringJoint2D>() as SpringJoint2D;
         newJoint.autoConfigureDistance = false;
@@ -23,6 +25,7 @@ public class SpringJointBreakScript : MonoBehaviour {
         mySpringJoin = newJoint;
     }
     public void OnJointBreak2D(Joint2D brokenJoint) {
+        // Debug.Log("Broke joint");
         //Crear nueva joint vacia
         // createSpringComponent(); 
         //Notificar al player y a la pelota

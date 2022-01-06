@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviourPun {
     public Rigidbody2D playerRB;
     Transform myAvatar;
     public bool controllEnabled;
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void OnMovement(InputAction.CallbackContext _context) {
+        if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
         if (!controllEnabled) return;
         movementInput = _context.ReadValue<Vector2>();
         if (movementInput.x != 0)
@@ -29,7 +31,9 @@ public class PlayerMovement : MonoBehaviour {
 
 
     private void FixedUpdate() {
-        playerRB.velocity = movementInput * movementSpeed;
+        playerRB.AddForce(movementInput * CONST.playerAcc);
+        if (playerRB.velocity.sqrMagnitude > CONST.playerMaxSpeed * CONST.playerMaxSpeed)
+            playerRB.velocity = playerRB.velocity.normalized * CONST.playerMaxSpeed;
     }
 
     public void playerMoveTo(Vector2 direction, float time) {

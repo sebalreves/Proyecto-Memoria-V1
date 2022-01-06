@@ -8,6 +8,10 @@ public class CONST {
     public const float PLATFORM_INNER_ATRACTION = 8f;
     public const float waitTimeEnterCamZone = 0.4f;
 
+    //PLAYER PROPERTIES
+    public const float playerMaxSpeed = 10f;
+    public const float playerAcc = 105f;
+
     //raise events
     public const byte GrabBallEventCode = 1;
 
@@ -20,8 +24,8 @@ public class CONST {
     public const float cubeLinearDrag = 5f;
 
     //ball spring joint
-    public const float frequency = 1.4f;
-    public const float breakForce = 100f;
+    public const float frequency = 1.8f;
+    public const float breakForce = 240f;
 
     //layer indexing
     public const int playerLayer = (1 << 8);

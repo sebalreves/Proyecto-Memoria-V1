@@ -16,6 +16,9 @@ public class PlayerGrab : MonoBehaviourPun {
     GameObject focusedObject;
     public CircleCollider2D playerCollider;
     public TargetingScript targetingScriptReference;
+    public GameObject grabObjectReference;
+
+    public int grabedBallId;
 
     //TODO habilitar events para evitar bugs en el online
     // private void TryGrabEvent(GameObject other) {
@@ -34,7 +37,7 @@ public class PlayerGrab : MonoBehaviourPun {
 
     #region GRAB RELEASE
     public void TryGrab() {
-        // Debug.Log("TryGrabPlayer");
+        Debug.Log("TryGrabPlayer");
         grabCdTimer = CONST.playerGrabCD;
 
         GameObject ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
@@ -43,9 +46,10 @@ public class PlayerGrab : MonoBehaviourPun {
             if (!ObjectFocused.GetComponent<BallGrabScript>().grabable) return;
 
         grabingBall = true;
+        grabedBallId = BallFactory._instance.getBallId(ObjectFocused);
         if (PhotonNetwork.IsConnectedAndReady && photonView.IsMine) {
-            ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(photonView.ViewID);
-            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.Others, photonView.ViewID);
+            // ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(photonView.ViewID);
+            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
             // TryGrabEvent(ObjectGrabbed);
         } else {
             ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(gameObject.GetInstanceID());
@@ -53,10 +57,12 @@ public class PlayerGrab : MonoBehaviourPun {
     }
 
     public void TryReleaseAndThrow() {
-        // Debug.Log("TryReleasePlayer");
+        Debug.Log("TryReleasePlayer");
+        grabCdTimer = CONST.playerGrabCD;
         grabingBall = false;
         Vector2 movementInput = gameObject.GetComponent<PlayerMovement>().movementInput;
-        GameObject grabedBall = gameObject.transform.Find("GrabPosition").transform.GetChild(0).gameObject;
+        // GameObject grabedBall = gameObject.transform.Find("GrabPosition").transform.GetChild(0).gameObject;
+        GameObject grabedBall = BallFactory._instance.findBallById(grabedBallId);
         if (PhotonNetwork.IsConnectedAndReady) {
             grabedBall.GetComponent<PhotonView>().RPC("BallTryRelease", RpcTarget.AllBuffered, movementInput.x, movementInput.y);
         } else {

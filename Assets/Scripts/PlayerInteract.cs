@@ -36,12 +36,15 @@ public class PlayerInteract : MonoBehaviourPun {
         }
 
         if (!playerGrabScrip.grabingBall)
-            if (playerGrabScrip.grabCdTimer <= 0f && kb.spaceKey.wasReleasedThisFrame) {
+            if (playerGrabScrip.grabCdTimer <= 0f && kb.spaceKey.wasPressedThisFrame) {
                 var focusedElement = targetingScriptReference.GetFirstTarget();
-                if (focusedElement != null && (focusedElement.CompareTag("Ball") || focusedElement.CompareTag("Cube")))
+                if (focusedElement != null && (focusedElement.CompareTag("Ball") || focusedElement.CompareTag("Cube"))) {
+                    playerGrabScrip.grabCdTimer = CONST.playerGrabCD;
                     playerGrabScrip.TryGrab();
+                }
 
             }
+
         if (kb.spaceKey.wasReleasedThisFrame && playerGrabScrip.grabCdTimer <= 0) {
             if (playerGrabScrip.grabingBall) {
                 playerGrabScrip.TryReleaseAndThrow();

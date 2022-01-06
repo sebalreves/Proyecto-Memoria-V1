@@ -6069,6 +6069,14 @@ PrefabInstance:
       propertyPath: color
       value: Red
       objectReference: {fileID: 0}
+    - target: {fileID: 7942750110157555991, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
+      propertyPath: m_RotationModel.SynchronizeEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942750110157555991, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
+      propertyPath: m_PositionModel.InterpolateLerpSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a76e1fd7cf07624b866bf5daedb9829, type: 3}
 --- !u!4 &756293385 stripped
@@ -28993,17 +29001,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1789215554, guid: e816a27409331574297398f7ac1e9000, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6441550077190442920, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6441550077190442920, guid: e816a27409331574297398f7ac1e9000, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6441550077190442921, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: m_RootOrder
