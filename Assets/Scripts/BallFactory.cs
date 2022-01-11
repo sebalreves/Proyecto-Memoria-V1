@@ -28,34 +28,49 @@ public class BallFactory : MonoBehaviour {
         // instancedCubes = new Dictionary<int, GameObject>();
 
         //register all object with "ball" tag
+        //TODO Encontrar instancias de scene, destruirlas y crearlas con photon.instantiate
         foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Ball")) {
-            if (PhotonNetwork.IsConnectedAndReady)
-                instancedBalls.Add(ball.GetComponent<PhotonView>().ViewID, ball);
-            else
+            if (PhotonNetwork.IsConnectedAndReady) {
+                object[] customData = new object[] { ball.GetComponent<GenericBall>().color };
+                Vector3 position = ball.transform.position;
+                Destroy(ball);
+                if (PhotonNetwork.IsMasterClient)
+                    PhotonNetwork.Instantiate(ballPrefab.name, position, Quaternion.identity, 0, customData);
+                // instancedBalls.Add(syncBall.GetComponent<PhotonView>().ViewID, syncBall);
+            } else
                 instancedBalls.Add(ball.GetInstanceID(), ball);
         }
-        foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Cube")) {
-            if (PhotonNetwork.IsConnectedAndReady)
-                instancedBalls.Add(ball.GetComponent<PhotonView>().ViewID, ball);
-            else
-                instancedBalls.Add(ball.GetInstanceID(), ball);
+        foreach (GameObject cube in GameObject.FindGameObjectsWithTag("Cube")) {
+            if (PhotonNetwork.IsConnectedAndReady) {
+                object[] customData = new object[] { cube.GetComponent<GenericBall>().color };
+                Vector3 position = cube.transform.position;
+                Destroy(cube);
+                if (PhotonNetwork.IsMasterClient)
+                    PhotonNetwork.Instantiate(cubePrefab.name, position, Quaternion.identity, 0, customData);
+                // instancedBalls.Add(syncCube.GetComponent<PhotonView>().ViewID, syncCube);
+            } else
+                instancedBalls.Add(cube.GetInstanceID(), cube);
         }
     }
 
 
-    public GameObject instantiateBall(Vector2 _instantiatePosition) {
-        return instantiateObject(_instantiatePosition, ballPrefab);
+    public GameObject instantiateBall(Vector2 _instantiatePosition, string _color = null) {
+        return instantiateObject(_instantiatePosition, ballPrefab, _color);
 
     }
 
-    public GameObject instantiateCube(Vector2 _instantiatePosition) {
-        return instantiateObject(_instantiatePosition, cubePrefab);
+    public GameObject instantiateCube(Vector2 _instantiatePosition, string _color = null) {
+        return instantiateObject(_instantiatePosition, cubePrefab, _color);
     }
 
-    private GameObject instantiateObject(Vector2 _instantiatePosition, GameObject _prefab) {
+    private GameObject instantiateObject(Vector2 _instantiatePosition, GameObject _prefab, string _color = null) {
+        if (_color == null) {
+            _color = CONST.Red;
+        }
         GameObject spawnedObject;
         if (PhotonNetwork.IsConnectedAndReady) {
-            spawnedObject = PhotonNetwork.Instantiate(_prefab.name, _instantiatePosition, Quaternion.identity);
+            object[] customData = new object[] { _color };
+            spawnedObject = PhotonNetwork.Instantiate(_prefab.name, _instantiatePosition, Quaternion.identity, 0, customData);
             instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject);
         } else {
             spawnedObject = Instantiate(_prefab, _instantiatePosition, Quaternion.identity);
@@ -88,12 +103,15 @@ public class BallFactory : MonoBehaviour {
 
 
     //TODO destroy
-    public void DestroyBall(int _id) {
-        GameObject temp;
-        if (instancedBalls.TryGetValue(_id, out temp)) {
-            PhotonNetwork.Destroy(temp.GetComponent<PhotonView>());
+    public void DestroyBall(GameObject _ball) {
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (PhotonNetwork.IsMasterClient) {
+                _ball.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+                PhotonNetwork.Destroy(_ball.GetComponent<PhotonView>());
+            }
         } else {
-            Debug.LogWarning("Bola no encontrada");
+            _ball.GetComponent<GenericBall>().ReleaseBallBlackHole(_ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+            Destroy(_ball);
         }
     }
 

@@ -57,7 +57,7 @@ public class PlayerGrab : MonoBehaviourPun {
     }
 
     public void TryReleaseAndThrow() {
-        Debug.Log("TryReleasePlayer");
+        // Debug.Log("TryReleasePlayer");
         grabCdTimer = CONST.playerGrabCD;
         grabingBall = false;
         Vector2 movementInput = gameObject.GetComponent<PlayerMovement>().movementInput;
@@ -76,8 +76,10 @@ public class PlayerGrab : MonoBehaviourPun {
     public void TryRelease() {
         grabingBall = false;
         GameObject actualPlayerGrabPosition = gameObject.transform.Find("GrabPosition").gameObject;
-        GameObject actualPlayer = gameObject;
+        // GameObject actualPlayer = gameObject;
         Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
+        playerCollider.enabled = false;
+        playerCollider.enabled = true;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
     }
     #endregion

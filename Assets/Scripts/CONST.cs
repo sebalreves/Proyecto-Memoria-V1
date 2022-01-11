@@ -10,14 +10,14 @@ public class CONST {
 
     //PLAYER PROPERTIES
     public const float playerMaxSpeed = 10f;
-    public const float playerAcc = 105f;
+    public const float playerAcc = 155f;
 
     //raise events
     public const byte GrabBallEventCode = 1;
 
     //Ball properties
-    public const float cubeMass = 11f;
-    public const float ballMass = 0.5f;
+    public const float cubeMass = 6f;
+    public const float ballMass = 0.8f;
     public const string cubeTag = "Cube";
     public const string ballTag = "Ball";
     public const float ballLinearDrag = 3f;

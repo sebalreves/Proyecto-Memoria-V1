@@ -69,8 +69,6 @@ public class PlaygroundManager : MonoBehaviour {
             Vector3 instantiatePosition = spawnPositions[actorNumber - 1].position;
             PlayerFactory._instance.instantiatePlayer(instantiatePosition);
 
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         } else {
             PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));

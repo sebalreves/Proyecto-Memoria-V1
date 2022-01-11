@@ -14,6 +14,8 @@ TagManager:
   - Button
   - WindZone
   - PlatformInnerCollider
+  - Bullet
+  - BlackHoleCenter
   layers:
   - Default
   - TransparentFX

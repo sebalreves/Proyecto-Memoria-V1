@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GenericBall : MonoBehaviour {
+public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     public Color RedColor, BlueColor;
     public Sprite BallSprite, CubeSrite;
     public GameObject WindInteractionGameObject;
@@ -24,7 +24,39 @@ public class GenericBall : MonoBehaviour {
     // [Dropdown("shapeList")]
     public string shape;
 
-    private void Start() {
+    // private void OnDestroy() {
+    //     if (PhotonNetwork.IsConnectedAndReady) {
+
+    //         if (photonView.IsMine) {
+    //             photonView.RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, ballGrabScript.beingCarried, ballGrabScript.ActualPlayerWhoGrabId);
+    //         }
+    //     } else {
+    //         ReleaseBallBlackHole(ballGrabScript.beingCarried, ballGrabScript.ActualPlayerWhoGrabId);
+    //     }
+    // }
+
+    // [PunRPC]
+    // private void ReleaseBallBlackHole(bool beingCarried, int playerId = 0) {
+    //     if (beingCarried) {
+    //         PlayerFactory._instance.findPlayer(playerId).GetComponent<PlayerGrab>().TryRelease();
+    //     }
+    // }
+
+    [PunRPC]
+    public void ReleaseBallBlackHole(bool beingCarried, int playerId = 0) {
+        if (beingCarried) {
+            PlayerFactory._instance.findPlayer(playerId).GetComponent<PlayerGrab>().TryRelease();
+        }
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info) {
+        object[] data = info.photonView.InstantiationData;
+        string syncColor = (string)data[0];
+        color = syncColor;
+        initializeBall();
+    }
+
+    private void initializeBall() {
         if (color == CONST.Red)
             innerSpriteRenderer.color = RedColor;
         else
@@ -36,6 +68,12 @@ public class GenericBall : MonoBehaviour {
         } else if (shape == CONST.Ball) {
             convertToBall();
         }
+    }
+
+
+    private void Start() {
+        if (!PhotonNetwork.IsConnectedAndReady)
+            initializeBall();
     }
 
     private void convertToBall() {
@@ -87,4 +125,8 @@ public class GenericBall : MonoBehaviour {
             convertToBall();
         }
     }
+
+
+
+
 }

@@ -15,7 +15,7 @@ public class BallGrabScript : MonoBehaviourPun {
 
     private float originalMass;
     private int originalMask;
-    private int ActualPlayerWhoGrabId;
+    public int ActualPlayerWhoGrabId;
 
     // public void OnEvent(EventData photonEvent) {
     //     byte eventCode = photonEvent.Code;
@@ -45,19 +45,19 @@ public class BallGrabScript : MonoBehaviourPun {
     //TODO ajustar colidders para que sean recogibles a traves de paredes simples y no dobles
     [PunRPC]
     public void BallTryGrab(int newGrabPlayerId) {
-
+        // if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
         //check if it's inside the windZone
         if (!grabable) return;
         //Check if ball is carried by other player
-        if (beingCarried) {
+        if (beingCarried && photonView.IsMine) {
             PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).GetComponent<PlayerGrab>().TryRelease();
             // gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
         } else {
-            ActualPlayerWhoGrabId = newGrabPlayerId;
             gameObject.layer = LayerMask.NameToLayer("ObjectGrabed");
             ballRb.mass = CONST.ballMass;
             beingCarried = true;
         }
+        ActualPlayerWhoGrabId = newGrabPlayerId;
 
         //Find new player
         GameObject newPlayerWhoGrab;
@@ -104,7 +104,7 @@ public class BallGrabScript : MonoBehaviourPun {
 
     [PunRPC]
     public void OnWindEnter() {
-        Debug.Log("Holaa");
+        // Debug.Log("Holaa");
 
         grabable = false;
         if (beingCarried) {
@@ -112,9 +112,7 @@ public class BallGrabScript : MonoBehaviourPun {
             // gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
             BallTryRelease();
         }
-
         // BallTryRelease(0f, 0f);
-
     }
 
     [PunRPC]
