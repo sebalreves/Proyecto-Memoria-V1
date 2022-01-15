@@ -45,4 +45,8 @@ public class CONST {
     public const string Ball = "Ball";
     public const string Red = "Red";
     public const string Blue = "Blue";
+
+    public const float PointerBorderSize = 100f;
+
+
 }
