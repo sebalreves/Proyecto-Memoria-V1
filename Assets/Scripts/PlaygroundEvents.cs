@@ -37,7 +37,8 @@ public class PlaygroundEvents : MonoBehaviour {
 
     public void pressButtonB() {
         Debug.Log("Boton B presionado");
-        BallFactory._instance.deleteGroup(CONST.Cube, CONST.Blue);
+        // BallFactory._instance.deleteGroup(CONST.Cube, CONST.Blue);
+        BallFactory._instance.transformGroup(CONST.Cube, null, null, CONST.Blue);
     }
     #endregion
 }

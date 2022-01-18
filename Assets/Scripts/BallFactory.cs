@@ -116,6 +116,47 @@ public class BallFactory : MonoBehaviour {
         }
     }
 
+    public void transformGroup(string _fromShape = null, string _fromColor = null, string _toShape = null, string _toColor = null) {
+        // if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) return;
+        List<GameObject> toTransformList = new List<GameObject>();
+        //BALLS
+        if (_fromShape == CONST.Ball) {
+            toTransformList = toTransformList.Concat(GameObject.FindGameObjectsWithTag(CONST.Ball).ToList()).ToList();
+        }
+        //CUBES
+        else if (_fromShape == CONST.Cube) {
+            toTransformList = toTransformList.Concat(GameObject.FindGameObjectsWithTag(CONST.Cube).ToList()).ToList();
+        } else {
+            toTransformList = toTransformList.Concat(GameObject.FindGameObjectsWithTag(CONST.Cube).ToList()).ToList();
+            toTransformList = toTransformList.Concat(GameObject.FindGameObjectsWithTag(CONST.Ball).ToList()).ToList();
+        }
+
+        //FILTER BY COLOR
+        if (_fromColor != null)
+            for (int i = toTransformList.Count - 1; i >= 0; i--) {
+                if (toTransformList[i].GetComponent<GenericBall>().color != _fromColor) {
+                    toTransformList.RemoveAt(i);
+                }
+            }
+
+        StartCoroutine(iterativeTransformRoutine(toTransformList, _toShape, _toColor));
+    }
+
+    private IEnumerator iterativeTransformRoutine(List<GameObject> toTransformList, string _toShape, string _toColor) {
+        while (toTransformList.Count > 0) {
+            var toTransformItem = toTransformList[0];
+            toTransformList.RemoveAt(0);
+            GenericBall ballScripReference = toTransformItem.GetComponent<GenericBall>();
+            if (_toShape == null) _toShape = ballScripReference.shape;
+            if (_toColor == null) _toColor = ballScripReference.color;
+
+            ballScripReference.onPortalTransform(_toColor, _toShape);
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+
+
     public GameObject findBallById(int _id) {
         GameObject temp;
         if (PhotonNetwork.IsConnectedAndReady) {
