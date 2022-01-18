@@ -10,7 +10,7 @@ public class PlayerInteract : MonoBehaviourPun {
     PlayerGrab playerGrabScrip;
     TargetingScript targetingScriptReference;
     Keyboard kb;
-    GameObject signalPointer;
+    GameObject signalPointerPrefab;
 
 
     private void Awake() {
@@ -21,7 +21,7 @@ public class PlayerInteract : MonoBehaviourPun {
 
     private void Start() {
 
-        signalPointer = Resources.Load("SignalPointer") as GameObject;
+        signalPointerPrefab = Resources.Load("SignalPointer") as GameObject;
     }
 
 
@@ -40,8 +40,17 @@ public class PlayerInteract : MonoBehaviourPun {
         if (playerGrabScrip.grabCdTimer >= 0f) {
             playerGrabScrip.grabCdTimer -= Time.deltaTime;
         }
+
+        //INSTANCIAR SIGNALS
         if (kb.spaceKey.wasPressedThisFrame && SignalPointer.signalCount < 5) {
-            Instantiate(signalPointer, gameObject.transform.position, Quaternion.identity);
+            if (PhotonNetwork.IsConnectedAndReady) {
+                // object[] customData = new object[] { _color };
+                GameObject spawnedObject = PhotonNetwork.Instantiate(signalPointerPrefab.name, transform.position, Quaternion.identity);
+            } else {
+                GameObject spawnedObject = Instantiate(signalPointerPrefab, transform.position, Quaternion.identity);
+            }
+            // SignalPointer.signalCount++;
+            // Instantiate(signalPointer, gameObject.transform.position, Quaternion.identity);
         }
 
         if (!playerGrabScrip.grabingBall)

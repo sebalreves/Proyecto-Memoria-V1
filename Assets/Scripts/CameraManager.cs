@@ -11,6 +11,7 @@ public class CameraManager : MonoBehaviour {
     private CinemachineConfiner confiner1, confiner2;
     public RectTransform inGameSquareRect;
     private float leftMargin, rightMargin, topMargin, bottomMargin;
+    public CutOutMaskUI cutOutMaskUI;
 
     private PlayerMovement playerMovementScript;
 
@@ -18,8 +19,13 @@ public class CameraManager : MonoBehaviour {
     public GameObject actualCamZone = null;
     Vector3 originalCamZoneScale;
     public PhotonView myPhotonView;
-
+    // private IEnumerator maskBugRoutine() {
+    //     yield return new WaitForSeconds(0.01f);
+    //     cutOutMaskUI.enabled = false;
+    //     cutOutMaskUI.enabled = true;
+    // }
     void Awake() {
+        // StartCoroutine(maskBugRoutine());
         virtualCam1 = virtualCam1GM.GetComponent<CinemachineVirtualCamera>();
         virtualCam2 = virtualCam2GM.GetComponent<CinemachineVirtualCamera>();
         confiner1 = virtualCam1GM.GetComponent<CinemachineConfiner>();

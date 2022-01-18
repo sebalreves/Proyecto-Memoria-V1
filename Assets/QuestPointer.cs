@@ -16,6 +16,7 @@ public class QuestPointer : MonoBehaviour {
     private float borderSize = 100f;
     private GameObject playerGameObjectReference = null;
     Vector3 playerPosition;
+    public float pointerVelocity = 0f;
 
     private float startTime;
     // public string type;
@@ -32,6 +33,8 @@ public class QuestPointer : MonoBehaviour {
         }
         playerGameObjectReference = PlayerFactory._instance.localPlayer;
         maskRect = playerGameObjectReference.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("Mask").GetComponent<RectTransform>();
+
+        pointerTransform.position = playerGameObjectReference.transform.position;
     }
 
     private void OnEnable() {
@@ -76,12 +79,12 @@ public class QuestPointer : MonoBehaviour {
             Vector3 cappedTargetPosition = targetPosition;
             Vector3 _center = maskRect.position;
             cappedTargetPosition = _center + dir * maskRect.rect.width * 0.4f;
-            pointerTransform.position = Vector3.Lerp(pointerTransform.position, cappedTargetPosition, Time.deltaTime * 6f);
+            pointerTransform.position = Vector3.Lerp(pointerTransform.position, cappedTargetPosition, Mathf.Max(Time.deltaTime * 6f, pointerVelocity));
             pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         } else {
             pointerRenderer.sprite = squareSprite;
             pointerTransform.localEulerAngles = Vector3.zero;
-            pointerTransform.position = Vector3.Lerp(pointerTransform.position, targetPosition, Time.deltaTime * 6f);
+            pointerTransform.position = Vector3.Lerp(pointerTransform.position, targetPosition, Mathf.Max(Time.deltaTime * 6f, pointerVelocity));
             pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         }
     }
