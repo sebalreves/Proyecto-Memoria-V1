@@ -8,6 +8,7 @@ public class PlayerFactory : MonoBehaviour {
     public static PlayerFactory _instance;
     public Dictionary<int, GameObject> instancedPlayers;
     public GameObject playerPrefab;
+    public GameObject localPlayer, noLocalPlayer;
 
 
     void Awake() {
@@ -39,6 +40,9 @@ public class PlayerFactory : MonoBehaviour {
         }
         return spawnedPlayer;
     }
+
+    //FIND LOCAL PLAYER
+    //FIND  NOT LOCAL
 
     public GameObject findPlayer(int _id) {
         GameObject temp;

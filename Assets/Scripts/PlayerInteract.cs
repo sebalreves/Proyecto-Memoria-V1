@@ -10,12 +10,18 @@ public class PlayerInteract : MonoBehaviourPun {
     PlayerGrab playerGrabScrip;
     TargetingScript targetingScriptReference;
     Keyboard kb;
+    GameObject signalPointer;
 
 
     private void Awake() {
         playerGrabScrip = GetComponent<PlayerGrab>();
         targetingScriptReference = GetComponent<TargetingScript>();
         kb = InputSystem.GetDevice<Keyboard>();
+    }
+
+    private void Start() {
+
+        signalPointer = Resources.Load("SignalPointer") as GameObject;
     }
 
 
@@ -33,6 +39,9 @@ public class PlayerInteract : MonoBehaviourPun {
         #region GRAB INTERACTION ONRELEASE 
         if (playerGrabScrip.grabCdTimer >= 0f) {
             playerGrabScrip.grabCdTimer -= Time.deltaTime;
+        }
+        if (kb.spaceKey.wasPressedThisFrame && SignalPointer.signalCount < 5) {
+            Instantiate(signalPointer, gameObject.transform.position, Quaternion.identity);
         }
 
         if (!playerGrabScrip.grabingBall)

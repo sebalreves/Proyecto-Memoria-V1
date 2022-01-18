@@ -13,6 +13,7 @@ public class PlaygroundManager : MonoBehaviour {
     public GameObject playerPrefab;
     public static PlaygroundManager instance;
     public Transform[] spawnPositions;
+    public GameObject LevelPointers;
 
     #region STAGE OBJECTS
     public GameObject Buttons;
@@ -73,6 +74,10 @@ public class PlaygroundManager : MonoBehaviour {
             PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
+        #endregion
+
+        #region LEVEL POINTERS
+
         #endregion
 
 

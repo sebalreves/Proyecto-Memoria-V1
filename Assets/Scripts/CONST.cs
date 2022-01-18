@@ -48,5 +48,6 @@ public class CONST {
 
     public const float PointerBorderSize = 100f;
 
-
+    public const string LocalName = "LocalPlayer";
+    public const string NoLocalName = "NoLocalName";
 }

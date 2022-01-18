@@ -1,67 +1,93 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestPointer : MonoBehaviour {
-    [SerializeField] private Camera uiCamera;
-    [SerializeField] private RectTransform maskRect;
+    // [SerializeField] private Camera uiCamera;
+    private RectTransform maskRect;
     [SerializeField] private Sprite arrowSprite;
     [SerializeField] private Sprite squareSprite;
-    private Vector3 targetPosition;
+    public Vector3 targetPosition;
     private Transform pointerTransform;
-    private SpriteRenderer pointerRenderer;
-
-
+    public SpriteRenderer pointerRenderer;
+    public Action onReachEvent;
+    public float objectiveRadius = 10f;
     private float borderSize = 100f;
+    private GameObject playerGameObjectReference = null;
+    Vector3 playerPosition;
+
+    private float startTime;
+    // public string type;
+
     // Start is called before the first frame update
     private void Awake() {
-        targetPosition = new Vector3(5f, 4f, 0f);
+        // targetPosition = new Vector3(5f, 4f, 0f);
         pointerTransform = transform.Find("Pointer").GetComponent<Transform>();
         pointerRenderer = transform.Find("Pointer").GetComponent<SpriteRenderer>();
     }
-    void Start() {
+    IEnumerator Start() {
+        while (PlayerFactory._instance.localPlayer == null) {
+            yield return null;
+        }
+        playerGameObjectReference = PlayerFactory._instance.localPlayer;
+        maskRect = playerGameObjectReference.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("Mask").GetComponent<RectTransform>();
+    }
 
+    private void OnEnable() {
+        startTime = Time.time;
     }
-    void OnGUI() {
-        GUI.Label(new Rect(0, 0, 100, 100), ((int)(1.0f / Time.smoothDeltaTime)).ToString());
-    }
+
 
     Vector3 rotarSprite() {
-        Vector3 toPosition = targetPosition;
-        Vector3 fromPosition = gameObject.transform.position;
-        fromPosition.z = 0f;
-        Vector3 dir = (toPosition - fromPosition).normalized;
+        Vector3 dir = (targetPosition - playerPosition).normalized;
         float angle = GetAngleFromVector(dir); //flecha apuntando a la derecha
-        pointerTransform.localEulerAngles = new Vector3(0, 0, angle + 90);
+        pointerTransform.localEulerAngles = Vector3.Lerp(pointerTransform.localEulerAngles, new Vector3(0, 0, angle + 90), 07f);
         return dir;
     }
 
     // Update is called once per frame
+    private void OnDisable() {
+        if (onReachEvent != null)
+            foreach (var d in onReachEvent.GetInvocationList())
+                onReachEvent -= (d as Action);
+    }
+
+    private void checkReach() {
+        if (Vector2.SqrMagnitude(playerPosition - targetPosition) < objectiveRadius * objectiveRadius) {
+            onReachEvent();
+        }
+    }
+
     void Update() {
+        if (!playerGameObjectReference) return;
+        playerPosition = playerGameObjectReference.transform.position;
+        playerPosition.z = 0f;
+        //Checkear si llegó el 
+        // checkReach();
         //rotar puntero
 
         //objetivo dentro de la camara
         bool offScreen = isOffGameScreen(targetPosition);
 
         if (offScreen) {
-            Vector3 dir = rotarSprite();
             pointerRenderer.sprite = arrowSprite;
+            Vector3 dir = rotarSprite();
             Vector3 cappedTargetPosition = targetPosition;
-            Vector3 _center = gameObject.transform.position;
+            Vector3 _center = maskRect.position;
             cappedTargetPosition = _center + dir * maskRect.rect.width * 0.4f;
-            pointerTransform.position = Vector3.Lerp(pointerTransform.position, cappedTargetPosition, Time.deltaTime * 7f);
+            pointerTransform.position = Vector3.Lerp(pointerTransform.position, cappedTargetPosition, Time.deltaTime * 6f);
             pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         } else {
             pointerRenderer.sprite = squareSprite;
-            pointerTransform.position = Vector3.Lerp(pointerTransform.position, targetPosition, Time.deltaTime * 7f);
-            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
             pointerTransform.localEulerAngles = Vector3.zero;
-
+            pointerTransform.position = Vector3.Lerp(pointerTransform.position, targetPosition, Time.deltaTime * 6f);
+            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         }
     }
 
     private bool isOffGameScreen(Vector3 target) {
-        Vector3 _center = gameObject.transform.position;
+        Vector3 _center = playerPosition;
         if (_center.x - maskRect.rect.width / 2 > target.x) {
             return true;
         }

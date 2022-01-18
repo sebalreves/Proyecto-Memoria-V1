@@ -8,8 +8,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
     public GameObject PlayerCamera;
     public TextMeshProUGUI PlayerNameText;
     // Start is called before the first frame update
+
     void Start() {
         if (!PhotonNetwork.IsConnectedAndReady) {
+            PlayerFactory._instance.localPlayer = gameObject;
             Debug.Log("OFFLINE");
             return;
         }
@@ -21,6 +23,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             gameObject.transform.Find("GrabPosition").GetComponent<SpringJointBreakScript>().enabled = true;
             PlayerCamera.SetActive(true);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
+            PlayerFactory._instance.localPlayer = gameObject;
 
         } else {
             GetComponent<PlayerMovement>().enabled = false;
@@ -30,6 +33,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             gameObject.transform.Find("GrabPosition").GetComponent<SpringJointBreakScript>().enabled = false;
             PlayerCamera.SetActive(false);
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
+            PlayerFactory._instance.noLocalPlayer = gameObject;
         }
         // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))
         // {

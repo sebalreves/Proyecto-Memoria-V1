@@ -37,7 +37,7 @@ public class PlayerGrab : MonoBehaviourPun {
 
     #region GRAB RELEASE
     public void TryGrab() {
-        Debug.Log("TryGrabPlayer");
+        // Debug.Log("TryGrabPlayer");
         grabCdTimer = CONST.playerGrabCD;
 
         GameObject ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
