@@ -82,6 +82,7 @@ public class BallFactory : MonoBehaviour {
     }
 
     public void deleteGroup(string _shape = null, string _color = null) {
+        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) return;
         List<GameObject> toDeleteList = new List<GameObject>();
         //BALLS
         if (_shape == CONST.Ball) {
