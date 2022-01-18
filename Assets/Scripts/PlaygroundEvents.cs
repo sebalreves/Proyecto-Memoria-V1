@@ -22,6 +22,7 @@ public class PlaygroundEvents : MonoBehaviour {
         #region SUSCRIBIR METODOS
         // Debug.Log(ButtonsList.Count);
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonA;
+        ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonB;
 
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStatePressed += pressButtonA;
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStateReleased += pressButtonA;
@@ -32,6 +33,11 @@ public class PlaygroundEvents : MonoBehaviour {
     public void pressButtonA() {
         Debug.Log("Boton A presionado");
         DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+    }
+
+    public void pressButtonB() {
+        Debug.Log("Boton B presionado");
+        BallFactory._instance.deleteGroup(CONST.Cube, CONST.Blue);
     }
     #endregion
 }

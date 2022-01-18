@@ -75,12 +75,6 @@ public class PlaygroundManager : MonoBehaviour {
             BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
         #endregion
-
-        #region LEVEL POINTERS
-
-        #endregion
-
-
         isReady = true;
     }
 

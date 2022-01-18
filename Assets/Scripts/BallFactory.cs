@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
+
 
 public class BallFactory : MonoBehaviour {
     public static BallFactory _instance;
@@ -77,6 +79,40 @@ public class BallFactory : MonoBehaviour {
             instancedBalls.Add(spawnedObject.GetInstanceID(), spawnedObject);
         }
         return spawnedObject;
+    }
+
+    public void deleteGroup(string _shape = null, string _color = null) {
+        List<GameObject> toDeleteList = new List<GameObject>();
+        //BALLS
+        if (_shape == CONST.Ball) {
+            toDeleteList = toDeleteList.Concat(GameObject.FindGameObjectsWithTag(CONST.Ball).ToList()).ToList();
+        }
+        //CUBES
+        else if (_shape == CONST.Cube) {
+            toDeleteList = toDeleteList.Concat(GameObject.FindGameObjectsWithTag(CONST.Cube).ToList()).ToList();
+        } else {
+            toDeleteList = toDeleteList.Concat(GameObject.FindGameObjectsWithTag(CONST.Cube).ToList()).ToList();
+            toDeleteList = toDeleteList.Concat(GameObject.FindGameObjectsWithTag(CONST.Ball).ToList()).ToList();
+        }
+
+        //FILTER BY COLOR
+        if (_color != null)
+            for (int i = toDeleteList.Count - 1; i >= 0; i--) {
+                if (toDeleteList[i].GetComponent<GenericBall>().color != _color) {
+                    toDeleteList.RemoveAt(i);
+                }
+            }
+
+        StartCoroutine(iterativeDeleteRoutine(toDeleteList));
+    }
+
+    private IEnumerator iterativeDeleteRoutine(List<GameObject> toDeleteList) {
+        while (toDeleteList.Count > 0) {
+            var toDeleteItem = toDeleteList[0];
+            toDeleteList.RemoveAt(0);
+            DestroyBall(toDeleteItem);
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     public GameObject findBallById(int _id) {
