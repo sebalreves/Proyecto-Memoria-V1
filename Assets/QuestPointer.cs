@@ -32,7 +32,7 @@ public class QuestPointer : MonoBehaviour {
             yield return null;
         }
         playerGameObjectReference = PlayerFactory._instance.localPlayer;
-        maskRect = playerGameObjectReference.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("Mask").GetComponent<RectTransform>();
+        maskRect = playerGameObjectReference.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("#Mask").GetComponent<RectTransform>();
 
         pointerTransform.position = playerGameObjectReference.transform.position;
     }

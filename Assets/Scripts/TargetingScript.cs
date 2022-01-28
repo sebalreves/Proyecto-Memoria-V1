@@ -9,6 +9,7 @@ public class TargetingScript : MonoBehaviourPun {
 
     List<GameObject> grabableObjects;
     public PlayerGrab playerGrabReference;
+    GameObject actualFocus = null;
 
     private void Awake() {
         grabableObjects = new List<GameObject>();
@@ -37,16 +38,36 @@ public class TargetingScript : MonoBehaviourPun {
         if (grabableObjects.Count > 0) {
             if (!playerGrabReference.grabingBall) {
                 List<GameObject> temp = grabableObjects.OrderBy(grabable => Vector2.SqrMagnitude(grabable.transform.position - gameObject.transform.position)).ToList();
-                foreach (GameObject collider in temp) {
-                    collider.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                if (actualFocus != temp[0]) {
+                    // Debug.Log("A");
+                    if (actualFocus != null)
+                        actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                    actualFocus = temp[0];
+                    temp[0].transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
+                    updateCodeDescription();
                 }
-                temp[0].transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
+                // foreach (GameObject collider in temp) {
+                //     collider.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                // }
             } else {
-                foreach (GameObject collider in grabableObjects) {
-                    collider.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                if (actualFocus != null) {
+                    actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                    actualFocus = null;
                 }
+
+                // foreach (GameObject collider in grabableObjects) {
+                //     collider.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                // }
             }
+        } else {
+            actualFocus = null;
         }
+    }
+
+    void updateCodeDescription() {
+        if (actualFocus == null) return;
+        CodeDescription descriptionManager = actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>();
+        descriptionManager.onUpdateFocusObject();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

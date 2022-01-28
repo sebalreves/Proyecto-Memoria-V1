@@ -12,6 +12,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     public CircleCollider2D myCircleCollider;
     public BallGrabScript ballGrabScript;
     public float mass;
+    public CodeDescription codeDescription;
 
     public Rigidbody2D myRb;
 
@@ -63,9 +64,11 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
             innerSpriteRenderer.color = BlueColor;
 
         if (shape == CONST.Cube) {
+            codeDescription.titulo = "Cubo";
             convertToCube();
 
         } else if (shape == CONST.Ball) {
+            codeDescription.titulo = "Pelota";
             convertToBall();
         }
     }
