@@ -579,6 +579,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3237543285208714506, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
+      propertyPath: titulo
+      value: Pelota
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
 --- !u!4 &4271690774231800746 stripped

@@ -9,6 +9,8 @@ public class PlaygroundEvents : MonoBehaviour {
     private List<GameObject> DoorsList;
     private List<GameObject> PlatformsList;
 
+    public Color grey, green;
+
     private void Awake() {
     }
 
@@ -33,6 +35,40 @@ public class PlaygroundEvents : MonoBehaviour {
     public void pressButtonA() {
         Debug.Log("Boton A presionado");
         DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+    }
+    public IEnumerator pressButtonARoutine(int _lineIndex, float time = 0.5f) {
+        bool ejecutando = true;
+        while (ejecutando) {
+            switch (_lineIndex) {
+                case 0:
+                    if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
+                        CodeLineManager._instance.trySetColorLine(0, green);
+                        _lineIndex = 1;
+                    } else {
+                        _lineIndex = 2;
+                        CodeLineManager._instance.trySetColorLine(0, 1, grey);
+                    }
+                    break;
+                case 1:
+                    DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+                    CodeLineManager._instance.trySetColorLine(1, green);
+                    ejecutando = false;
+                    break;
+                case 2:
+                    CodeLineManager._instance.trySetColorLine(2, green);
+                    _lineIndex = 3;
+                    break;
+                case 3:
+                    CodeLineManager._instance.trySetColorLine(3, green);
+                    DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+                    ejecutando = false;
+                    break;
+                default:
+                    break;
+            }
+            yield return new WaitForSeconds(time);
+        }
+
     }
 
     public void pressButtonB() {

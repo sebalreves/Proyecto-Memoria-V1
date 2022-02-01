@@ -65,6 +65,7 @@ MonoBehaviour:
   codeLines: []
   color1: {r: 1, g: 0.9019608, b: 0.3529412, a: 1}
   color2: {r: 1, g: 0.9263865, b: 0.514151, a: 1}
+  greenColor: {r: 0.34117648, g: 0.8862745, b: 0.5254902, a: 1}
 --- !u!1 &4338748872319150741
 GameObject:
   m_ObjectHideFlags: 0

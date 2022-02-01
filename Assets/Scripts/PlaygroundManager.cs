@@ -55,9 +55,9 @@ public class PlaygroundManager : MonoBehaviour {
 
     void Start() {
         #region INSTANCIAR OBJETOS  
-        var editorPlayer = GameObject.Find("Player");
-        if (editorPlayer != null)
-            Destroy(editorPlayer);
+        // var editorPlayer = GameObject.Find("Player");
+        // if (editorPlayer != null)
+        //     Destroy(editorPlayer);
         if (PhotonNetwork.IsConnectedAndReady) {
             //TODO spawn player 1 y player 2 dependiendo quien es el owner
             // object playerSelectionNumber;
