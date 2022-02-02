@@ -38,14 +38,14 @@ public class CodeLineManager : MonoBehaviour {
             Debug.LogWarning("_fromline parameter > toLine");
         }
         GameObject codeLine;
-        for (int i = _fromLineIndex; i < _toLineIndex; i++) {
+        for (int i = _fromLineIndex; i <= _toLineIndex; i++) {
             try {
                 codeLine = codeContainer.transform.GetChild(i).gameObject;
             } catch (System.Exception e) {
                 Debug.LogWarning("Line not found" + e);
                 return;
             }
-            codeLine.GetComponent<SpriteRenderer>().color = _color;
+            codeLine.GetComponent<Image>().color = _color;
         }
     }
 
@@ -57,7 +57,16 @@ public class CodeLineManager : MonoBehaviour {
             Debug.LogWarning("Line not found" + e);
             return;
         }
-        codeLine.GetComponent<SpriteRenderer>().color = _color;
+        codeLine.GetComponent<Image>().color = _color;
+    }
+
+    public void resetCodeColor() {
+        List<GameObject> Children = new List<GameObject>();
+        int i = 0;
+        foreach (Transform child in codeContainer.transform) {
+            child.GetComponent<Image>().color = i % 2 == 0 ? amarillo_1 : amarillo_2;
+            i++;
+        }
     }
 
     public void onTargetUpdateUI(string _titulo, List<string> codeLines) {
@@ -71,10 +80,10 @@ public class CodeLineManager : MonoBehaviour {
             newLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (i + 1).ToString();
             newLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = temp;
         }
-        GameObject finalLine = Instantiate(linePrefab, codeContainer.transform);
-        finalLine.GetComponent<Image>().color = verde;
-        finalLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (codeLines.Count + 1).ToString();
-        finalLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = "Presionar <sprite=1> para activar";
+        // GameObject finalLine = Instantiate(linePrefab, codeContainer.transform);
+        // finalLine.GetComponent<Image>().color = verde;
+        // finalLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (codeLines.Count + 1).ToString();
+        // finalLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = "Presionar <sprite=1> para activar";
         // Debug.Log("UpdateFocusedObject");
 
     }

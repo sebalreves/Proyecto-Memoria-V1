@@ -34,9 +34,11 @@ public class PlaygroundEvents : MonoBehaviour {
     #region BUTTON CALLBACKS
     public void pressButtonA() {
         Debug.Log("Boton A presionado");
-        DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+        // DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+        CodeLineManager._instance.resetCodeColor();
+        StartCoroutine(pressButtonARoutine(0));
     }
-    public IEnumerator pressButtonARoutine(int _lineIndex, float time = 0.5f) {
+    public IEnumerator pressButtonARoutine(int _lineIndex, float time = 1f) {
         bool ejecutando = true;
         while (ejecutando) {
             switch (_lineIndex) {
@@ -52,6 +54,7 @@ public class PlaygroundEvents : MonoBehaviour {
                 case 1:
                     DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
                     CodeLineManager._instance.trySetColorLine(1, green);
+                    CodeLineManager._instance.trySetColorLine(2, 3, grey);
                     ejecutando = false;
                     break;
                 case 2:
