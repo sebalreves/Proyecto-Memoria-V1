@@ -29412,6 +29412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grey: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   green: {r: 0.34117648, g: 0.8862745, b: 0.5254902, a: 1}
+  red: {r: 0.9882353, g: 0.39215687, b: 0.08627451, a: 1}
 --- !u!1 &1328671582
 GameObject:
   m_ObjectHideFlags: 0
@@ -34304,6 +34305,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plataforma
       objectReference: {fileID: 0}
+    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: titulo
+      value: Plataforma A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: codeLines.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: codeLines.Array.data[0]
+      value: Si presiona con cubo o circulo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: codeLines.Array.data[1]
+      value: '#Activar corriente de aire'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: codeLines.Array.data[2]
+      value: '##Activar corriente de aire'
+      objectReference: {fileID: 0}
     - target: {fileID: 8727614988386327684, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
       propertyPath: ballInteract
       value: 1
@@ -34440,11 +34461,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2466912379246512557, guid: 8bbec0f293b8aab41af8ccc7ced28cd8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.88
+      value: -5.66
       objectReference: {fileID: 0}
     - target: {fileID: 2466912379246512557, guid: 8bbec0f293b8aab41af8ccc7ced28cd8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.45
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 2466912379246512557, guid: 8bbec0f293b8aab41af8ccc7ced28cd8, type: 3}
       propertyPath: m_LocalPosition.z

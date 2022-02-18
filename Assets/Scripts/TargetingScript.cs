@@ -40,15 +40,15 @@ public class TargetingScript : MonoBehaviourPun {
                 List<GameObject> temp = grabableObjects.OrderBy(grabable => Vector2.SqrMagnitude(grabable.transform.position - gameObject.transform.position)).ToList();
                 if (actualFocus != temp[0]) {
                     // Debug.Log("A");
-                    if (actualFocus != null)
+                    if (actualFocus != null) {
                         actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                        actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().targeted = false;
+                    }
                     actualFocus = temp[0];
                     temp[0].transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
                     updateCodeDescription();
                 }
-                // foreach (GameObject collider in temp) {
-                //     collider.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
-                // }
+
             } else {
                 if (actualFocus != null) {
                     actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
@@ -66,8 +66,15 @@ public class TargetingScript : MonoBehaviourPun {
 
     void updateCodeDescription() {
         if (actualFocus == null) return;
+
+        //las bolas y cubos no actualizan las lineas de codigo
+        // Debug.Log(actualFocus.GetComponent<GenericBall>());
+        if (actualFocus.GetComponent<GenericBall>()) return;
         CodeDescription descriptionManager = actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>();
-        descriptionManager.onUpdateFocusObject();
+        descriptionManager.targeted = true;
+        CodeLineManager._instance.onTargetUpdateUI(descriptionManager.titulo, descriptionManager.codeLines, actualFocus.GetComponent<GenericPlatform>());
+
+        // descriptionManager.onUpdateFocusObject();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

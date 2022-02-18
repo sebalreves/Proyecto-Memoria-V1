@@ -11,7 +11,7 @@ public class FixRotation : MonoBehaviour {
     }
     void LateUpdate() {
         transform.rotation = rotation;
-        transform.position = parentObject.position + offset;
+        // transform.position = parentObject.position + offset;
     }
 
 }

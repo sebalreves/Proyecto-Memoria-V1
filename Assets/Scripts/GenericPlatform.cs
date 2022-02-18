@@ -6,18 +6,21 @@ using UnityEngine;
 public class GenericPlatform : MonoBehaviour {
     public PointEffector2D attractPointEffector;
     public bool presionado = false;
+    public bool activado = false;
     // public GameObject grabedObject;
     public Color ActivatedColor, DeactivatedColor;
     public SpriteRenderer spriteReference;
     public CircleCollider2D innerCollider;
     public Action setStatePressed;
     public Action setStateReleased;
+    public Action currentAnimation = null;
 
     public bool cubeInteract = false;
     public bool ballInteract = false;
     public bool playerInteract = false;
 
     private int interactMask;
+
 
     private void Awake() {
         // attractPointEffector = GetComponent<PointEffector2D>();
@@ -54,12 +57,22 @@ public class GenericPlatform : MonoBehaviour {
             setStateReleased();
     }
 
+    public void resumeAnimation() {
+        if (presionado) {
+            if (currentAnimation != null)
+                currentAnimation();
+        }
+    }
+
     private void FixedUpdate() {
         //Set mask
-        interactMask = ((cubeInteract ? 1 : 0) * CONST.cubeLayer) | ((ballInteract ? 1 : 0) * CONST.ballLayer) | ((playerInteract ? 1 : 0) * CONST.playerLayer);
-        if (!presionado && innerCollider.IsTouchingLayers(interactMask)) {
+        // Debug.Log(activado + " - " + presionado);
+        // interactMask = ((cubeInteract ? 1 : 0) * CONST.cubeLayer) | ((ballInteract ? 1 : 0) * CONST.ballLayer) | ((playerInteract ? 1 : 0) * CONST.playerLayer);
+        // presionado = innerCollider.IsTouchingLayers((CONST.cubeLayer) | (CONST.ballLayer) | (CONST.playerLayer));
+        activado = innerCollider.IsTouchingLayers(((cubeInteract ? 1 : 0) * CONST.cubeLayer) | ((ballInteract ? 1 : 0) * CONST.ballLayer) | ((playerInteract ? 1 : 0) * CONST.playerLayer));
+        if (!presionado && innerCollider.IsTouchingLayers((CONST.cubeLayer) | (CONST.ballLayer) | (CONST.playerLayer))) {
             ActivatePlatform();
-        } else if (presionado && !innerCollider.IsTouchingLayers(interactMask)) {
+        } else if (presionado && !innerCollider.IsTouchingLayers((CONST.cubeLayer) | (CONST.ballLayer) | (CONST.playerLayer))) {
             DeactivatePlatform();
         }
     }

@@ -14,6 +14,7 @@ public class CodeLineManager : MonoBehaviour {
     public Color amarillo_1, amarillo_2, verde;
     public AnimationCurve fillAnimationCurve;
     public AnimationCurve fillAlphaAnimationCurve;
+    public string currentTitle = null;
 
 
     private IEnumerator Start() {
@@ -131,7 +132,11 @@ public class CodeLineManager : MonoBehaviour {
         }
     }
 
-    public void onTargetUpdateUI(string _titulo, List<string> codeLines) {
+    public void onTargetUpdateUI(string _titulo, List<string> codeLines, GenericPlatform platformScript) {
+        //Para evitar que se interrumpa la visualizacion de codigo por targetear pelotas
+        if (currentTitle == _titulo) return;
+        currentTitle = _titulo;
+
         titulo.text = _titulo;
         //Borrar lineas anteriores
         clearCodeLines();
@@ -142,9 +147,16 @@ public class CodeLineManager : MonoBehaviour {
             newLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (i + 1).ToString();
             newLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = temp;
         }
+
+        //reanudar animacion de plataformas activas
+        if (platformScript) {
+            if (platformScript.currentAnimation != null)
+                platformScript.currentAnimation();
+        }
     }
 
     public void clearCodeLines() {
+        // Debug.Log("limpiando");
         List<GameObject> Children = new List<GameObject>();
         foreach (Transform child in codeContainer.transform) {
             Children.Add(child.gameObject);
@@ -153,5 +165,9 @@ public class CodeLineManager : MonoBehaviour {
             Destroy(child);
             // child.SetActive(false);
         }
+        StopAllCoroutines();
+        PlaygroundEvents.instance.stopAnimations();
+        // if (PlaygroundEvents.instance.currentRoutine != null)
+        //     StopCoroutine(PlaygroundEvents.instance.currentRoutine);
     }
 }

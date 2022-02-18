@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviourPun {
 
     public void OnMovement(InputAction.CallbackContext _context) {
         if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
-        if (!controllEnabled) return;
+        // if (!controllEnabled) return;
         movementInput = _context.ReadValue<Vector2>();
         if (movementInput.x != 0)
             myAvatar.localScale = new Vector2(Mathf.Sign(movementInput.x), 1);
@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviourPun {
 
 
     private void FixedUpdate() {
+        if (!controllEnabled) return;
         playerRB.AddForce(movementInput * CONST.playerAcc);
         if (playerRB.velocity.sqrMagnitude > CONST.playerMaxSpeed * CONST.playerMaxSpeed)
             playerRB.velocity = playerRB.velocity.normalized * CONST.playerMaxSpeed;
@@ -45,6 +46,6 @@ public class PlayerMovement : MonoBehaviourPun {
         movementInput = direction.normalized;
         yield return new WaitForSeconds(time);
         controllEnabled = true;
-        movementInput = Vector2.zero;
+        // movementInput = Vector2.zero;
     }
 }
