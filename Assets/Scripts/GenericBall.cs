@@ -54,6 +54,13 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         object[] data = info.photonView.InstantiationData;
         string syncColor = (string)data[0];
         color = syncColor;
+        // if (!photonView.IsMine) {
+        //     Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        //     PhotonRigidbody2DView photonRigidbody2DView = GetComponent<PhotonRigidbody2DView>();
+        //     photonView.ObservedComponents.RemoveAt(0);
+        //     Destroy(photonRigidbody2DView);
+        //     Destroy(rb);
+        // }
         initializeBall();
     }
 

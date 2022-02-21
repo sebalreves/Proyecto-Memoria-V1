@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 3587568638090914801}
   m_Layer: 10
   m_Name: Grabable_Platform_Repulse
-  m_TagString: Untagged
+  m_TagString: BallPlatformInteraction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

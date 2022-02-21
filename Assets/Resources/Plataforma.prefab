@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1828895770105146425}
   - component: {fileID: 1828895770105146426}
+  - component: {fileID: 129478437}
   m_Layer: 0
   m_Name: InnerCollider
   m_TagString: PlatformInnerCollider
@@ -128,7 +129,28 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.05
+  m_Radius: 0.03
+--- !u!114 &129478437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828895770105146424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3c621a7d0b5b346a1bc023b3998827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presionado: 0
+  activado: 0
+  pressedPrevFrame: 0
+  activePrevFrame: 0
+  platformScriptReference: {fileID: 8727614988386327684}
+  innerCollider: {fileID: 1828895770105146426}
+  cubeInteract: 0
+  ballInteract: 0
+  playerInteract: 0
 --- !u!1 &1828895770190003127
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,13 +289,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attractPointEffector: {fileID: 1828895770190003082}
   presionado: 0
+  activado: 0
   ActivatedColor: {r: 0.08334541, g: 1, b: 0, a: 1}
   DeactivatedColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
   spriteReference: {fileID: 1828895770190003083}
-  innerCollider: {fileID: 1828895770105146426}
-  cubeInteract: 0
-  ballInteract: 0
-  playerInteract: 0
+  platformTriggerReference: {fileID: 129478437}
 --- !u!1001 &2021959262651398076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,11 +355,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3237543285208714506, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
       propertyPath: titulo
-      value: 
+      value: Plataforma A
       objectReference: {fileID: 0}
     - target: {fileID: 3237543285208714506, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
       propertyPath: codeLines.Array.size
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237543285208714506, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
+      propertyPath: codeLines.Array.data[0]
+      value: Si presiona con cubo o circulo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237543285208714506, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
+      propertyPath: codeLines.Array.data[1]
+      value: '#Activar corriente de aire'
       objectReference: {fileID: 0}
     - target: {fileID: 4338748872319150741, guid: be1362bc4b4c4a944a68c78232820649, type: 3}
       propertyPath: m_IsActive

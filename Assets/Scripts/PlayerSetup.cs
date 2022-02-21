@@ -34,6 +34,14 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             GetComponent<PlayerGrab>().enabled = false;
             GetComponent<TargetingScript>().enabled = false;
             GetComponent<PlayerInteract>().enabled = false;
+
+            //necesario para evitar ag en no local players
+            // Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            // PhotonRigidbody2DView photonRigidbody2DView = GetComponent<PhotonRigidbody2DView>();
+            // photonView.ObservedComponents.RemoveAt(0);
+            // Destroy(photonRigidbody2DView);
+            // Destroy(rb);
+
             gameObject.transform.Find("GrabPosition").GetComponent<SpringJointBreakScript>().enabled = false;
             PlayerCamera.SetActive(false);
 

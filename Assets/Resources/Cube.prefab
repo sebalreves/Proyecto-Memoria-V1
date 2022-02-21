@@ -321,7 +321,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 4000642581442905746}
   - {fileID: 7942750110157555991}
   sceneViewId: 0
   InstantiationId: 0
@@ -368,7 +367,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000642581442905738}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
   m_Name: 
@@ -516,6 +515,10 @@ PrefabInstance:
     - target: {fileID: 6103661595488500482, guid: bd86e28d0d4059748bd6fe57317c8ef1, type: 3}
       propertyPath: m_Name
       value: Grabable_PlatformInteraction
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103661595488500482, guid: bd86e28d0d4059748bd6fe57317c8ef1, type: 3}
+      propertyPath: m_TagString
+      value: BallPlatformInteraction
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd86e28d0d4059748bd6fe57317c8ef1, type: 3}

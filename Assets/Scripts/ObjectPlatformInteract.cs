@@ -24,6 +24,7 @@ public class ObjectPlatformInteract : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D other) {
         if (other.gameObject.CompareTag("PlatformInnerCollider")) {
+
             Vector2 dir = other.transform.position - gameObject.transform.position;
             myRb.AddForce((other.transform.position - gameObject.transform.position) * CONST.PLATFORM_INNER_ATRACTION * myRb.mass);
         }

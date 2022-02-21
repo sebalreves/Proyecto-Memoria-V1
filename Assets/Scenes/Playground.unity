@@ -247,6 +247,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  currentTitle: 
 --- !u!1 &55881325
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +671,10 @@ PrefabInstance:
     - target: {fileID: 6452789320510779868, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
       propertyPath: m_Color.r
       value: 0.13333331
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502183949632801404, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
@@ -29851,6 +29856,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8379916140298416783, guid: e816a27409331574297398f7ac1e9000, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8640241030721920398, guid: e816a27409331574297398f7ac1e9000, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -34249,13 +34258,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 908612358}
     m_Modifications:
-    - target: {fileID: 1828895770105146427, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+    - target: {fileID: 129478437, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
       propertyPath: ballInteract
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1828895770105146427, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+    - target: {fileID: 129478437, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
       propertyPath: cubeInteract
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 129478437, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: playerInteract
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828895770105146424, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1828895770190003080, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
       propertyPath: m_RootOrder
@@ -34304,34 +34321,6 @@ PrefabInstance:
     - target: {fileID: 1828895770190003127, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
       propertyPath: m_Name
       value: Plataforma
-      objectReference: {fileID: 0}
-    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: titulo
-      value: Plataforma A
-      objectReference: {fileID: 0}
-    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: codeLines.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: codeLines.Array.data[0]
-      value: Si presiona con cubo o circulo
-      objectReference: {fileID: 0}
-    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: codeLines.Array.data[1]
-      value: '#Activar corriente de aire'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3522203355704507062, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: codeLines.Array.data[2]
-      value: '##Activar corriente de aire'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8727614988386327684, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: ballInteract
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8727614988386327684, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}
-      propertyPath: cubeInteract
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78102aa6928532f40a3b3999fa2f27b6, type: 3}

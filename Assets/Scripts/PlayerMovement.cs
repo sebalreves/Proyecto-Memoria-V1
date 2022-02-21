@@ -41,6 +41,19 @@ public class PlayerMovement : MonoBehaviourPun {
         StartCoroutine(playerMoveToRoutine(direction, time));
     }
 
+    public void playerTeleportTo(Vector2 position) {
+        StartCoroutine(teleportRoutine(position));
+    }
+
+    public IEnumerator teleportRoutine(Vector2 position) {
+        controllEnabled = false;
+        movementInput = Vector2.zero;
+        playerRB.velocity = Vector2.zero;
+        playerRB.position = position;
+        yield return new WaitForSeconds(1f);
+        controllEnabled = true;
+    }
+
     private IEnumerator playerMoveToRoutine(Vector2 direction, float time) {
         controllEnabled = false;
         movementInput = direction.normalized;

@@ -42,11 +42,14 @@ public class TargetingScript : MonoBehaviourPun {
                     // Debug.Log("A");
                     if (actualFocus != null) {
                         actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
-                        actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().targeted = false;
+                        if (!(temp[0].tag == "Cube" || temp[0].tag == "Ball")) {
+                            // Debug.Log("cambiando targeting");
+                            actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().targeted = false;
+                        }
                     }
                     actualFocus = temp[0];
                     temp[0].transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
-                    updateCodeDescription();
+                    // updateCodeDescription();
                 }
 
             } else {
@@ -62,13 +65,14 @@ public class TargetingScript : MonoBehaviourPun {
         } else {
             actualFocus = null;
         }
+        updateCodeDescription();
+
     }
 
     void updateCodeDescription() {
         if (actualFocus == null) return;
 
         //las bolas y cubos no actualizan las lineas de codigo
-        // Debug.Log(actualFocus.GetComponent<GenericBall>());
         if (actualFocus.GetComponent<GenericBall>()) return;
         CodeDescription descriptionManager = actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>();
         descriptionManager.targeted = true;

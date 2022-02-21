@@ -26,6 +26,7 @@ public class PlaygroundEvents : MonoBehaviour {
         }
     }
     public void stopAnimations() {
+        //detiene animaciones localmente
         StopAllCoroutines();
     }
 
@@ -53,20 +54,30 @@ public class PlaygroundEvents : MonoBehaviour {
     public void releasePlatformA() {
         WindAreasList[CONST.A].SetActive(false);
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().currentAnimation = null;
-        stopAnimations();
+        if (PlatformsList[CONST.A].transform.Find("TargetZone").GetComponent<CodeDescription>().targeted)
+            stopAnimations();
     }
 
     public void pressPlatformA() {
-        //callback para reanudar animación sin tener que volver a colocar la bola
+        Debug.Log("pressss");
+        //TODO reiniciar animacion cuando se vuelve a llamar sin dejar de rpesionar el boton
+
+        //callback para reanudar animación sin tener que volver a colocar la bola cuando se retargetea la platform
         if (PlatformsList[CONST.A].GetComponent<GenericPlatform>().currentAnimation == null)
             PlatformsList[CONST.A].GetComponent<GenericPlatform>().currentAnimation += pressPlatformA;
+        else {
+            stopAnimations();
+        }
         CodeLineManager._instance.resetCodeColor();
 
         //para evitar que se anime la ejecucion de la plataforma si se activa cuando n ose esta viendo
+        WindAreasList[CONST.A].SetActive(PlatformsList[CONST.A].GetComponent<GenericPlatform>().activado);
         if (PlatformsList[CONST.A].transform.Find("TargetZone").GetComponent<CodeDescription>().targeted)
             StartCoroutine(pressPlatformARoutine(0));
+
     }
     public IEnumerator pressPlatformARoutine(int _lineIndex, float time = 1f) {
+        // Debug.Log("AAAAAAAAAAA");
         bool ejecutando = true;
         GenericPlatform platformReference = PlatformsList[CONST.A].GetComponent<GenericPlatform>();
         while (ejecutando) {
@@ -82,7 +93,7 @@ public class PlaygroundEvents : MonoBehaviour {
                     }
                     break;
                 case 1:
-                    WindAreasList[CONST.A].SetActive(true);
+                    // WindAreasList[CONST.A].SetActive(true);
                     while (true) {
                         CodeLineManager._instance.trySetColorLine(1, green, time);
                         yield return new WaitForSeconds(time + 0.1f);
@@ -92,12 +103,16 @@ public class PlaygroundEvents : MonoBehaviour {
             }
             yield return new WaitForSeconds(time + 0.1f);
         }
+        PlatformsList[CONST.A].GetComponent<GenericPlatform>().currentAnimation = null;
+
         terminarEjecucion();
     }
 
     public void pressButtonA() {
         // Debug.Log("Boton A presionado");
         // DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
+        // PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().playerTeleportTo(new Vector2(32, 11));
+        WindAreasList[CONST.A].GetComponent<GenericWindArea>().startLoop(4f, 2f);
         CodeLineManager._instance.resetCodeColor();
         StartCoroutine(pressButtonARoutine(0));
     }
