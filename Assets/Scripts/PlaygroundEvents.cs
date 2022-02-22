@@ -112,7 +112,7 @@ public class PlaygroundEvents : MonoBehaviour {
         // Debug.Log("Boton A presionado");
         // DoorsList[CONST.A].GetComponent<GenericDoor>().openOrClose();
         // PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().playerTeleportTo(new Vector2(32, 11));
-        WindAreasList[CONST.A].GetComponent<GenericWindArea>().startLoop(4f, 2f);
+        // WindAreasList[CONST.A].GetComponent<GenericWindArea>().startLoop(4f, 2f);
         CodeLineManager._instance.resetCodeColor();
         StartCoroutine(pressButtonARoutine(0));
     }
