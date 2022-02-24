@@ -49,7 +49,8 @@ public class BallGrabScript : MonoBehaviourPun {
         //check if it's inside the windZone
         if (!grabable) return;
         //Check if ball is carried by other player
-        if (beingCarried && photonView.IsMine) {
+        if (beingCarried) {
+            // if (photonView.IsMine)
             PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).GetComponent<PlayerGrab>().TryRelease();
             // gameObject.transform.parent.transform.parent.GetComponent<PlayerGrab>().TryRelease();
         } else {

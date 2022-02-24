@@ -225,6 +225,7 @@ MonoBehaviour:
   observableSearch: 0
   ObservedComponents:
   - {fileID: 5140537725803868660}
+  - {fileID: 6452789319832915872}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -277,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PositionModel:
     SynchronizeEnabled: 1
-    TeleportEnabled: 1
+    TeleportEnabled: 0
     TeleportIfDistanceGreaterThan: 3
     InterpolateOption: 4
     InterpolateMoveTowardsSpeed: 1

@@ -612,6 +612,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6452789319832915874, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6452789319832915896, guid: 0b741e4fde16c094cb62bf1d16287c20, type: 3}
       propertyPath: m_Name
       value: Ball (1)
