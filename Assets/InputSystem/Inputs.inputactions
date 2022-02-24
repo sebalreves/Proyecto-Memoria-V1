@@ -16,10 +16,10 @@
                 {
                     "name": "Interaction",
                     "type": "Button",
-                    "id": "fff6ad88-0a04-4b78-ab45-61ae3db692b5",
+                    "id": "18e7905a-91ed-4666-a844-60c768ec2b70",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -79,10 +79,65 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "3aa7f919-a840-497b-b28c-8aaef42a0469",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "77f83ca2-3c9a-4595-8979-9255a8cabe9a",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "05213e66-bf3c-4e34-8bf4-474057eb96c7",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b49ae783-93a4-48e1-9d67-ccffc29674f8",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "253e9096-9023-4008-8c88-cc809764c268",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "e5fe50c0-5aa9-4149-b136-ebbc57a5446c",
+                    "id": "1dc9fa30-90e2-4882-9444-22ccb8e193f4",
                     "path": "<Keyboard>/space",
-                    "interactions": "Tap",
+                    "interactions": "Tap(duration=0.4),SlowTap(duration=0.8)",
                     "processors": "",
                     "groups": "",
                     "action": "Interaction",

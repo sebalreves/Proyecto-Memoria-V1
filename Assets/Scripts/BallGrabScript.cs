@@ -59,12 +59,16 @@ public class BallGrabScript : MonoBehaviourPun {
         }
         ActualPlayerWhoGrabId = newGrabPlayerId;
 
+
+
         //Find new player
         GameObject newPlayerWhoGrab;
         newPlayerWhoGrab = PlayerFactory._instance.findPlayer(newGrabPlayerId);
 
+        // if (newPlayerWhoGrab == PlayerFactory._instance.localPlayer) {
         GameObject newGrabPosition = newPlayerWhoGrab.transform.Find("GrabPosition").gameObject;
         newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
+
         // newGrabPosition.GetComponent<SpringJointBreakScript>().createSpringComponent(ballRb);
         // gameObject.transform.SetParent(newGrabPosition.transform, true);
     }

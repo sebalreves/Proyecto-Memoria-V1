@@ -2782,7 +2782,6 @@ MonoBehaviour:
   grabingBall: 0
   playerCollider: {fileID: 6441550077190442927}
   targetingScriptReference: {fileID: 3056834046587443565}
-  grabObjectReference: {fileID: 0}
   grabedBallId: 0
 --- !u!114 &1526579402464154629
 MonoBehaviour:
@@ -2839,9 +2838,9 @@ MonoBehaviour:
     m_ActionName: Gameplay/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 376256688}
-        m_TargetAssemblyTypeName: PlayerGrab, Assembly-CSharp
-        m_MethodName: OnGrabInteraction
+      - m_Target: {fileID: 1526579402464154629}
+        m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
+        m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2851,8 +2850,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: fff6ad88-0a04-4b78-ab45-61ae3db692b5
-    m_ActionName: Gameplay/Interact
+    m_ActionId: 18e7905a-91ed-4666-a844-60c768ec2b70
+    m_ActionName: Gameplay/Interaction[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

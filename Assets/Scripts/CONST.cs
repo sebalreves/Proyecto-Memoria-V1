@@ -1,6 +1,7 @@
 using UnityEngine;
 public class CONST {
     public const float playerGrabCD = 0.3f;
+    public const float playerGrabCollisionIgnoreCD = 0.2f;
     public const string PLAYER_READY = "player_ready";
     public const float FRENADO_VIENTO = 0.9f;
     public const float PLATFORM_REPULSION = 10f;
@@ -20,6 +21,7 @@ public class CONST {
     public const float ballMass = 0.8f;
     public const string cubeTag = "Cube";
     public const string ballTag = "Ball";
+    public const string platformTag = "Platform";
     public const float ballLinearDrag = 3f;
     public const float cubeLinearDrag = 5f;
 

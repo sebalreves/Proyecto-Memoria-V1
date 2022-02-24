@@ -13,10 +13,10 @@ public class PlayerGrab : MonoBehaviourPun {
     public bool grabingBall = false;
     // public GameObject ObjectFocused;
 
-    GameObject focusedObject;
+
     public CircleCollider2D playerCollider;
     public TargetingScript targetingScriptReference;
-    public GameObject grabObjectReference;
+
 
     public int grabedBallId;
 
@@ -33,27 +33,55 @@ public class PlayerGrab : MonoBehaviourPun {
 
     void Start() {
     }
+    private void Update() {
+        if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
+
+        if (grabCdTimer >= 0f) {
+            grabCdTimer -= Time.deltaTime;
+        }
+    }
 
 
     #region GRAB RELEASE
-    public void TryGrab() {
+    public void TryGrab(GameObject _ball) {
         // Debug.Log("TryGrabPlayer");
         grabCdTimer = CONST.playerGrabCD;
 
-        GameObject ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
+        // GameObject ObjectFocused = (GameObject)targetingScriptReference.GetFirstTargetAndClearTargetList();
         //check if is grabable
-        if (ObjectFocused.CompareTag("Ball"))
-            if (!ObjectFocused.GetComponent<BallGrabScript>().grabable) return;
+        // if (ObjectFocused.CompareTag("Ball"))
+        if (!_ball.GetComponent<BallGrabScript>().grabable) return;
 
         grabingBall = true;
-        grabedBallId = BallFactory._instance.getBallId(ObjectFocused);
-        if (PhotonNetwork.IsConnectedAndReady && photonView.IsMine) {
+        targetingScriptReference.deactivateBallFocus();
+
+        grabedBallId = BallFactory._instance.getBallId(_ball);
+        // StartCoroutine(disableCollisionRoutine(_ball.GetComponent<CircleCollider2D>()));
+        if (PhotonNetwork.IsConnectedAndReady) {
             // ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(photonView.ViewID);
-            ObjectFocused.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
+            if (photonView.IsMine)
+                _ball.GetComponent<PhotonView>().RPC("BallTryGrab", RpcTarget.AllBuffered, photonView.ViewID);
             // TryGrabEvent(ObjectGrabbed);
-        } else {
-            ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(gameObject.GetInstanceID());
-        }
+        } else
+            _ball.GetComponent<BallGrabScript>().BallTryGrab(gameObject.GetInstanceID());
+
+        blinkCollider();
+    }
+
+    IEnumerator disableCollisionRoutine(CircleCollider2D _ballCollider) {
+
+        //para evitar que la bola arrastre al player cuando es tomada
+        Physics2D.IgnoreCollision(_ballCollider, playerCollider, true);
+        yield return new WaitForSeconds(CONST.playerGrabCollisionIgnoreCD);
+        Physics2D.IgnoreCollision(_ballCollider, playerCollider, false);
+
+    }
+
+    void blinkCollider() {
+        return;
+        playerCollider.enabled = false;
+        playerCollider.enabled = true;
+
     }
 
     public void TryReleaseAndThrow() {
@@ -68,8 +96,7 @@ public class PlayerGrab : MonoBehaviourPun {
         } else {
             grabedBall.GetComponent<BallGrabScript>().BallTryRelease(movementInput.x, movementInput.y);
         }
-        playerCollider.enabled = false;
-        playerCollider.enabled = true;
+        blinkCollider();
         // ObjectFocused = null;
     }
 
@@ -78,8 +105,8 @@ public class PlayerGrab : MonoBehaviourPun {
         GameObject actualPlayerGrabPosition = gameObject.transform.Find("GrabPosition").gameObject;
         // GameObject actualPlayer = gameObject;
         Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
-        playerCollider.enabled = false;
-        playerCollider.enabled = true;
+        // playerCollider.enabled = false;
+        // playerCollider.enabled = true;
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
     }
     #endregion

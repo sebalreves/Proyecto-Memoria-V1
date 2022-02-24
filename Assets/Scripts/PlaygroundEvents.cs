@@ -59,7 +59,7 @@ public class PlaygroundEvents : MonoBehaviour {
     }
 
     public void pressPlatformA() {
-        Debug.Log("pressss");
+        // Debug.Log("pressss");
         //TODO reiniciar animacion cuando se vuelve a llamar sin dejar de rpesionar el boton
 
         //callback para reanudar animación sin tener que volver a colocar la bola cuando se retargetea la platform

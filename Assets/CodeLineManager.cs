@@ -132,7 +132,7 @@ public class CodeLineManager : MonoBehaviour {
         }
     }
 
-    public void onTargetUpdateUI(string _titulo, List<string> codeLines, GenericPlatform platformScript) {
+    public void onCodeLines(string _titulo, List<string> codeLines, GenericPlatform platformScript) {
         //Para evitar que se interrumpa la visualizacion de codigo por targetear pelotas
         if (currentTitle == _titulo) return;
         currentTitle = _titulo;
