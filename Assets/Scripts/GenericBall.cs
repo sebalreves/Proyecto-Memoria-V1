@@ -136,6 +136,12 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         }
     }
 
+    // private void OnCollisionEnter2D(Collision2D other) {
+    //     Debug.Log(
+    //     other.collider.gameObject.layer
+    //     );
+    // }
+
 
 
 

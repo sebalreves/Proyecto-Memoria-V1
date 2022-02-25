@@ -52,7 +52,7 @@ public class PlaygroundEvents : MonoBehaviour {
 
     #region BUTTON CALLBACKS
     public void releasePlatformA() {
-        WindAreasList[CONST.A].SetActive(false);
+        WindAreasList[CONST.A].GetComponent<GenericWindArea>().desactivar();
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().currentAnimation = null;
         if (PlatformsList[CONST.A].transform.Find("TargetZone").GetComponent<CodeDescription>().targeted)
             stopAnimations();
@@ -71,7 +71,11 @@ public class PlaygroundEvents : MonoBehaviour {
         CodeLineManager._instance.resetCodeColor();
 
         //para evitar que se anime la ejecucion de la plataforma si se activa cuando n ose esta viendo
-        WindAreasList[CONST.A].SetActive(PlatformsList[CONST.A].GetComponent<GenericPlatform>().activado);
+        // WindAreasList[CONST.A].SetActive(PlatformsList[CONST.A].GetComponent<GenericPlatform>().activado);
+        if (PlatformsList[CONST.A].GetComponent<GenericPlatform>().activado) WindAreasList[CONST.A].GetComponent<GenericWindArea>().activar();
+        else WindAreasList[CONST.A].GetComponent<GenericWindArea>().desactivar();
+
+        // WindAreasList[CONST.A].SetActive(true);
         if (PlatformsList[CONST.A].transform.Find("TargetZone").GetComponent<CodeDescription>().targeted)
             StartCoroutine(pressPlatformARoutine(0));
 
@@ -159,6 +163,7 @@ public class PlaygroundEvents : MonoBehaviour {
             if (prevLine == _lineIndex) ejecutando = false;
             else prevLine = _lineIndex;
         }
+        ButtonsList[CONST.A].GetComponent<GenericButton>().activateButton(false);
         terminarEjecucion();
     }
 

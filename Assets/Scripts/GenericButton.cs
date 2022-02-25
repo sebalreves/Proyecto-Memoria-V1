@@ -20,6 +20,19 @@ public class GenericButton : MonoBehaviourPun {
         ejecutando = false;
     }
 
+    public void activateButton(bool activate) {
+        if (activate) {
+            actualSprite.sprite = activableSprite;
+            ejecutando = true;
+            activable = false;
+        } else {
+            ejecutando = false;
+            activable = true;
+            actualSprite.sprite = noActivableSprite;
+        }
+
+    }
+
 
     public void Presionar() {
         if (activable && !ejecutando) {
@@ -38,24 +51,29 @@ public class GenericButton : MonoBehaviourPun {
 
     [PunRPC]
     private void PresionarRPC() {
-        StartCoroutine(rutinaPresionar());
-    }
+        if (!activable) return;
 
-
-    private IEnumerator rutinaPresionar() {
-        actualSprite.sprite = activableSprite;
-        ejecutando = true;
-        activable = false;
-
+        activateButton(true);
         if (onPressEvent != null) {
             onPressEvent();
         }
-        yield return new WaitForSeconds(2);
-        ejecutando = false;
-        activable = true;
-        actualSprite.sprite = noActivableSprite;
-
+        //reiniciar el estado del boton cuando termina su ejecucion (opcional)
+        // StartCoroutine(rutinaPresionar());
     }
+
+
+    // private IEnumerator rutinaPresionar() {
+    //     if (!activable) yield break;
+
+    //     activateButton(true);
+    //     if (onPressEvent != null) {
+    //         onPressEvent();
+    //     }
+    //     yield return new WaitForSeconds(2);
+    //     // activateButton(false);
+
+
+    // }
 
     void Update() {
 

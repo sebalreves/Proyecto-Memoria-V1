@@ -53,4 +53,10 @@ public class CONST {
 
     public const string LocalName = "LocalPlayer";
     public const string NoLocalName = "NoLocalName";
+
+    //windareas
+    public const float simulationSpeedPlay = 3.3f;
+    public const float simulationSpeedPause = 0.3f;
+    public const float spriteVelocity = 2f;
+
 }
