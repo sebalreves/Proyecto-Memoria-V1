@@ -124,7 +124,7 @@ public class PlaygroundEvents : MonoBehaviour {
     public IEnumerator pressButtonARoutine(int _lineIndex, float time = 1f) {
         bool ejecutando = true;
         int prevLine = _lineIndex;
-        PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().controllEnabled = false;
+        // PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().controllEnabled = false;
         while (ejecutando) {
             Debug.Log("Ejecutando" + prevLine + "   " + _lineIndex);
             switch (_lineIndex) {

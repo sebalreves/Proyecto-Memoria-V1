@@ -35,11 +35,11 @@ public class PlayerInteract : MonoBehaviourPun {
         if (!(_context.phase == InputActionPhase.Performed)) return;
         if (_context.interaction is UnityEngine.InputSystem.Interactions.SlowTapInteraction) {
             //Presionar botones
-            #region botones
+            #region BUTTONS
             // if (kb.spaceKey.wasPressedThisFrame) {
             var focusedElement = targetingScriptReference.getTargetedButton();
             if (focusedElement != null) {
-                focusedElement.GetComponent<GenericButton>().Presionar();
+                focusedElement.GetComponent<GenericButton>().Presionar(gameObject);
             }
 
             #endregion

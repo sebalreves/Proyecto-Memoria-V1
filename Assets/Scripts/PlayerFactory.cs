@@ -44,6 +44,14 @@ public class PlayerFactory : MonoBehaviour {
     //FIND LOCAL PLAYER
     //FIND  NOT LOCAL
 
+    public int GetPlayerId(GameObject playerGO) {
+        if (PhotonNetwork.IsConnectedAndReady) {
+            return playerGO.GetComponent<PhotonView>().ViewID;
+        } else {
+            return playerGO.GetInstanceID();
+        }
+    }
+
     public GameObject findPlayer(int _id) {
         GameObject temp;
 

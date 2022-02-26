@@ -18,6 +18,9 @@ public class PlayerGrab : MonoBehaviourPun {
     public TargetingScript targetingScriptReference;
 
 
+
+
+
     public int grabedBallId;
 
     //TODO habilitar events para evitar bugs en el online
@@ -53,6 +56,7 @@ public class PlayerGrab : MonoBehaviourPun {
         if (!_ball.GetComponent<BallGrabScript>().grabable) return;
 
         grabingBall = true;
+
         targetingScriptReference.deactivateBallFocus();
 
         grabedBallId = BallFactory._instance.getBallId(_ball);
@@ -110,6 +114,8 @@ public class PlayerGrab : MonoBehaviourPun {
         // actualPlayerGrabPosition.GetComponent<SpringJoint2D>().breakForce = 1000f;
     }
     #endregion
+
+
 
 
 

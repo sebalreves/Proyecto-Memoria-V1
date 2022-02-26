@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviourPun {
     Transform myAvatar;
     public bool controllEnabled;
     public Vector2 movementInput;
+    public Vector2 movementInputScript;
+    public bool movingViaScript = false;
 
     [SerializeField] float movementSpeed;
 
@@ -24,6 +26,7 @@ public class PlayerMovement : MonoBehaviourPun {
     public void OnMovement(InputAction.CallbackContext _context) {
         if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
         // if (!controllEnabled) return;
+        // Debug.Log("AAA");
         movementInput = _context.ReadValue<Vector2>();
         if (movementInput.x != 0)
             myAvatar.localScale = new Vector2(Mathf.Sign(movementInput.x), 1);
@@ -31,14 +34,16 @@ public class PlayerMovement : MonoBehaviourPun {
 
 
     private void FixedUpdate() {
-        if (!controllEnabled) return;
-        playerRB.AddForce(movementInput * CONST.playerAcc);
+        // if (!controllEnabled && !movingViaScript) return;
+        // Debug.Log(movementInput);
+        Vector2 currentMove = movementInput * (controllEnabled ? 1 : 0) + movementInputScript * (movingViaScript ? 1 : 0);
+        playerRB.AddForce(currentMove * CONST.playerAcc);
         if (playerRB.velocity.sqrMagnitude > CONST.playerMaxSpeed * CONST.playerMaxSpeed)
             playerRB.velocity = playerRB.velocity.normalized * CONST.playerMaxSpeed;
     }
 
-    public void playerMoveTo(Vector2 direction, float time) {
-        StartCoroutine(playerMoveToRoutine(direction, time));
+    public void playerMoveTo(Vector2 direction, float time, bool setControllsEnbaled = true) {
+        StartCoroutine(playerMoveToRoutine(direction, time, setControllsEnbaled));
     }
 
     public void playerTeleportTo(Vector2 position) {
@@ -54,11 +59,18 @@ public class PlayerMovement : MonoBehaviourPun {
         controllEnabled = true;
     }
 
-    private IEnumerator playerMoveToRoutine(Vector2 direction, float time) {
+    private IEnumerator playerMoveToRoutine(Vector2 direction, float time, bool setControllsEnbaled) {
+        movingViaScript = true;
         controllEnabled = false;
-        movementInput = direction.normalized;
+        movementInputScript = direction.normalized;
         yield return new WaitForSeconds(time);
-        controllEnabled = true;
+        movementInputScript = Vector2.zero;
+        movingViaScript = false;
+        yield return new WaitForSeconds(0.5f);
+
+        if (setControllsEnbaled)
+            controllEnabled = true;
+
         // movementInput = Vector2.zero;
     }
 }

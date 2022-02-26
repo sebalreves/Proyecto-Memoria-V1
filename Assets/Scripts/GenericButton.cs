@@ -34,12 +34,13 @@ public class GenericButton : MonoBehaviourPun {
     }
 
 
-    public void Presionar() {
+    public void Presionar(GameObject playerGameObject) {
+        int playerId = PlayerFactory._instance.GetPlayerId(playerGameObject);
         if (activable && !ejecutando) {
             if (PhotonNetwork.IsConnectedAndReady) {
-                photonView.RPC("PresionarRPC", RpcTarget.AllBuffered);
+                photonView.RPC("PresionarRPC", RpcTarget.AllBuffered, playerId);
             } else
-                PresionarRPC();
+                PresionarRPC(playerId);
         }
     }
 
@@ -50,8 +51,18 @@ public class GenericButton : MonoBehaviourPun {
     }
 
     [PunRPC]
-    private void PresionarRPC() {
+    private void PresionarRPC(int playerId) {
         if (!activable) return;
+
+        //mover jugador
+        GameObject player = PlayerFactory._instance.findPlayer(playerId);
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (player.GetComponent<PhotonView>().IsMine) {
+                player.GetComponent<PlayerMovement>().controllEnabled = false;
+            }
+        } else
+            player.GetComponent<PlayerMovement>().controllEnabled = false;
+
 
         activateButton(true);
         if (onPressEvent != null) {

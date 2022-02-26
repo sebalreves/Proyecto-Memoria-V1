@@ -16,6 +16,10 @@ public class BallGrabScript : MonoBehaviourPun {
     private float originalMass;
     private int originalMask;
     public int ActualPlayerWhoGrabId;
+    public Transform ActualPlayerWhoGrabPosition;
+
+    public LineRenderer lineRenderer;
+
 
     // public void OnEvent(EventData photonEvent) {
     //     byte eventCode = photonEvent.Code;
@@ -60,6 +64,9 @@ public class BallGrabScript : MonoBehaviourPun {
         }
         ActualPlayerWhoGrabId = newGrabPlayerId;
 
+        ActualPlayerWhoGrabPosition = PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).transform.Find("GrabPosition").transform;
+        createSpringLine();
+
 
 
         //Find new player
@@ -85,6 +92,7 @@ public class BallGrabScript : MonoBehaviourPun {
         // GameObject actualPlayerGrabPosition = gameObject.transform.parent.gameObject;
         GameObject actualPlayerGrabPosition = PlayerFactory._instance.findPlayer(ActualPlayerWhoGrabId).transform.Find("GrabPosition").gameObject;
         // gameObject.transform.SetParent(null, true);
+        destroySpringLine();
         try {
             // Debug.Log("destry spring");
             Destroy(actualPlayerGrabPosition.GetComponent<SpringJoint2D>());
@@ -124,4 +132,27 @@ public class BallGrabScript : MonoBehaviourPun {
     public void OnWindExit() {
         grabable = true;
     }
+
+    #region SPRING RENDERER
+    private void createSpringLine() {
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, gameObject.transform.position);
+        lineRenderer.SetPosition(1, ActualPlayerWhoGrabPosition.position);
+    }
+
+    private void Update() {
+        if (beingCarried) {
+            lineRenderer.SetPosition(0, gameObject.transform.position);
+            lineRenderer.SetPosition(1, ActualPlayerWhoGrabPosition.position);
+        }
+    }
+
+    private void destroySpringLine() {
+        lineRenderer.SetPosition(0, Vector3.zero);
+        lineRenderer.SetPosition(1, Vector3.zero);
+        lineRenderer.enabled = false;
+    }
+    #endregion
+
+
 }
