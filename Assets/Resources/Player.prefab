@@ -2752,6 +2752,8 @@ MonoBehaviour:
   playerRB: {fileID: 0}
   controllEnabled: 0
   movementInput: {x: 0, y: 0}
+  movementInputScript: {x: 0, y: 0}
+  movingViaScript: 0
   movementSpeed: 13.51
 --- !u!114 &3056834046587443565
 MonoBehaviour:

@@ -19,7 +19,7 @@ public class GenericWindArea : MonoBehaviour {
         particles = gameObject.transform.Find("Particles").GetComponent<ParticleSystem>();
         spriteReference = gameObject.transform.Find("Canvas").transform.Find("GameObject").GetComponent<RawImage>();
         alfa = spriteReference.color.a;
-        startLoop(5f, 3f);
+        // startLoop(5f, 3f);
     }
 
     public void activar() {

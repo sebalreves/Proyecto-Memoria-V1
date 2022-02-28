@@ -265,7 +265,7 @@ MonoBehaviour:
   throwForce: 29
   genericBallScript: {fileID: 4871263125175544585}
   ActualPlayerWhoGrabId: 0
-  ActualPlayerWhoGrab: {fileID: 0}
+  ActualPlayerWhoGrabPosition: {fileID: 0}
   lineRenderer: {fileID: 2453362645774150405}
 --- !u!114 &5140537725803868660
 MonoBehaviour:

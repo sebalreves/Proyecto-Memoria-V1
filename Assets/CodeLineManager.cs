@@ -14,7 +14,9 @@ public class CodeLineManager : MonoBehaviour {
     public Color amarillo_1, amarillo_2, verde;
     public AnimationCurve fillAnimationCurve;
     public AnimationCurve fillAlphaAnimationCurve;
-    public string currentTitle = null;
+    // public string currentTitle = null;
+
+    public GameObject currentTargetCodeDisplayed = null;
 
 
     private IEnumerator Start() {
@@ -36,10 +38,17 @@ public class CodeLineManager : MonoBehaviour {
     }
 
 
-    public void trySetColorLine(int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, Action _action = null) {
+
+
+    public void trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, Action _action = null) {
         if (_fromLineIndex > _toLineIndex) {
             Debug.LogWarning("_fromline parameter > toLine");
         }
+        //Ejecutar accion independiente si se anima la linea
+        StartCoroutine(executeLine(_time, _action));
+
+        //Para que solo se anime si la linea de codigo en cuestien esta targeteada
+        if (animationTarget != currentTargetCodeDisplayed) return;
         GameObject codeLine;
         for (int i = _fromLineIndex; i <= _toLineIndex; i++) {
             try {
@@ -51,7 +60,6 @@ public class CodeLineManager : MonoBehaviour {
             // codeLine.GetComponent<Image>().color = _color;
             try {
                 StartCoroutine(fillCodeLine(codeLine, _color, _time, _action));
-                StartCoroutine(executeLine(_time, _action));
             } catch (System.Exception) {
 
                 Debug.LogWarning("Error al animar linea");
@@ -61,7 +69,11 @@ public class CodeLineManager : MonoBehaviour {
 
 
 
-    public void trySetColorLine(int _lineIndex, Color _color, float _time = 1f, Action _action = null) {
+    public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = 1f, Action _action = null) {
+        StartCoroutine(executeLine(_time, _action));
+
+        //Para que solo se anime si la linea de codigo en cuestien esta targeteada
+        if (animationTarget != currentTargetCodeDisplayed) return;
         GameObject codeLine;
         try {
             codeLine = codeContainer.transform.GetChild(_lineIndex).gameObject;
@@ -72,7 +84,6 @@ public class CodeLineManager : MonoBehaviour {
         // codeLine.GetComponent<Image>().color = _color;
         try {
             StartCoroutine(fillCodeLine(codeLine, _color, _time, _action));
-            StartCoroutine(executeLine(_time, _action));
         } catch (System.Exception) {
 
             Debug.LogWarning("Error al animar linea");
@@ -132,10 +143,10 @@ public class CodeLineManager : MonoBehaviour {
         }
     }
 
-    public void onCodeLines(string _titulo, List<string> codeLines, GenericPlatform platformScript) {
+    public void newTargetResetCodeLines(string _titulo, List<string> codeLines, GameObject newTargetGameObject) {
         //Para evitar que se interrumpa la visualizacion de codigo por targetear pelotas
-        if (currentTitle == _titulo) return;
-        currentTitle = _titulo;
+        if (GameObject.ReferenceEquals(newTargetGameObject, currentTargetCodeDisplayed)) return;
+        currentTargetCodeDisplayed = newTargetGameObject;
 
         titulo.text = _titulo;
         //Borrar lineas anteriores
@@ -149,14 +160,16 @@ public class CodeLineManager : MonoBehaviour {
         }
 
         //reanudar animacion de plataformas activas
-        if (platformScript) {
-            if (platformScript.currentAnimation != null)
-                platformScript.currentAnimation();
-        }
+        // GenericPlatform targetPlatformScript = newTargetGameObject.GetComponent<GenericPlatform>();
+        // if (targetPlatformScript) {
+        //     if (targetPlatformScript.currentAnimation != null)
+        //         targetPlatformScript.currentAnimation();
+        // }
     }
 
     public void clearCodeLines() {
         // Debug.Log("limpiando");
+        StopAllCoroutines();
         List<GameObject> Children = new List<GameObject>();
         foreach (Transform child in codeContainer.transform) {
             Children.Add(child.gameObject);
@@ -165,8 +178,7 @@ public class CodeLineManager : MonoBehaviour {
             Destroy(child);
             // child.SetActive(false);
         }
-        StopAllCoroutines();
-        PlaygroundEvents.instance.stopAnimations();
+        // PlaygroundEvents.instance.stopAnimations();
         // if (PlaygroundEvents.instance.currentRoutine != null)
         //     StopCoroutine(PlaygroundEvents.instance.currentRoutine);
     }

@@ -15,9 +15,11 @@ public class GenericPlatform : MonoBehaviour {
     // public CircleCollider2D innerCollider;
     public Action setStatePressed;
     public Action setStateReleased;
-    public Action currentAnimation = null;
+    // public Action currentAnimation = null;
 
     public platformTrigger platformTriggerReference;
+    // public bool keepLoopingCode = false;
+    public Coroutine loopingCodeRoutine = null;
 
     // public bool cubeInteract = false;
     // public bool ballInteract = false;
@@ -54,6 +56,7 @@ public class GenericPlatform : MonoBehaviour {
             presionado = true;
             spriteReference.color = ActivatedColor;
             attractPointEffector.enabled = false;
+            activado = platformTriggerReference.activado;
             if (setStatePressed != null)
                 setStatePressed();
             return;
@@ -62,6 +65,7 @@ public class GenericPlatform : MonoBehaviour {
             presionado = false;
             spriteReference.color = DeactivatedColor;
             attractPointEffector.enabled = true;
+            activado = false;
             if (setStateReleased != null)
                 setStateReleased();
             return;

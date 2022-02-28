@@ -12,6 +12,7 @@ public class TargetingScript : MonoBehaviourPun {
     GameObject actualFocus = null;
     GameObject actualBallFocus = null;
 
+
     private void Awake() {
         nearObjects = new List<GameObject>();
     }
@@ -107,7 +108,6 @@ public class TargetingScript : MonoBehaviourPun {
         if (nearActives.Count > 0 && actualFocus != nearActives[0]) {
             if (actualFocus != null) {
                 actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
-                actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().targeted = false;
             }
             actualFocus = nearActives[0];
             actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
@@ -141,8 +141,8 @@ public class TargetingScript : MonoBehaviourPun {
         //las bolas y cubos no actualizan las lineas de codigo
         // if (actualFocus.CompareTag(CONST.ballTag) || actualFocus.CompareTag(CONST.cubeTag)) return;
         CodeDescription descriptionManager = actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>();
-        descriptionManager.targeted = true;
-        CodeLineManager._instance.onCodeLines(descriptionManager.titulo, descriptionManager.codeLines, actualFocus.GetComponent<GenericPlatform>());
+        // descriptionManager.targeted = true;
+        CodeLineManager._instance.newTargetResetCodeLines(descriptionManager.titulo, descriptionManager.codeLines, actualFocus);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

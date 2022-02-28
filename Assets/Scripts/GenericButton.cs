@@ -38,7 +38,7 @@ public class GenericButton : MonoBehaviourPun {
         int playerId = PlayerFactory._instance.GetPlayerId(playerGameObject);
         if (activable && !ejecutando) {
             if (PhotonNetwork.IsConnectedAndReady) {
-                photonView.RPC("PresionarRPC", RpcTarget.AllBuffered, playerId);
+                photonView.RPC("PresionarRPC", RpcTarget.AllViaServer, playerId);
             } else
                 PresionarRPC(playerId);
         }
