@@ -29,6 +29,9 @@ public class CONST {
     public const float frequency = 1.8f;
     public const float breakForce = 240f;
 
+    //rotate camera
+    public const float cameraInclination = 1.7f;
+
     //layer indexing
     public const int playerLayer = (1 << 8);
     public const int ballLayer = (1 << 7);

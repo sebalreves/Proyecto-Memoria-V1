@@ -18,6 +18,7 @@ TagManager:
   - BlackHoleCenter
   - BallPlatformInteraction
   - Platform
+  - Coin
   layers:
   - Default
   - TransparentFX
