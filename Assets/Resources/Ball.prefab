@@ -113,7 +113,6 @@ MonoBehaviour:
   outlineSpriteRenderer: {fileID: 6452789319832915901}
   myCircleCollider: {fileID: 6452789319832915902}
   ballGrabScript: {fileID: 6452789319832915875}
-  mass: 0
   codeDescription: {fileID: 985188192327879737}
   myRb: {fileID: 6452789319832915903}
   color: Red
@@ -197,8 +196,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
-  m_LinearDrag: 2.85
+  m_Mass: 0.8
+  m_LinearDrag: 3
   m_AngularDrag: 5.64
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -372,7 +371,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.9245283, g: 0.13431823, b: 0.2948319, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

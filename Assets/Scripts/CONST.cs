@@ -62,4 +62,9 @@ public class CONST {
     public const float simulationSpeedPause = 0.3f;
     public const float spriteVelocity = 2f;
 
+    //code execution
+    public const float codeVelocity = 1.25f; //[seconds]
+    public const float codeLoopVelocity = 0.6f; //[seconds]
+
+
 }

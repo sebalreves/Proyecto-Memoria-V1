@@ -69,7 +69,7 @@ public class CodeLineManager : MonoBehaviour {
 
 
 
-    public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = 1f, Action _action = null) {
+    public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, Action _action = null) {
         StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
@@ -101,30 +101,31 @@ public class CodeLineManager : MonoBehaviour {
         Image _fillImage = codeLine.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
         _fillImage.color = _color;
 
-
-        float aux = 0f;
-        while (_slider.value < 1) {
-            _slider.value = fillAnimationCurve.Evaluate(aux / _time);
-            aux += _time * Time.deltaTime;
-            yield return null;
+        float fillTime = _time * 0.7f;
+        float alphaTime = _time * 0.3f;
+        float auxTime = 0f;
+        while (auxTime < fillTime) {
+            _slider.value = fillAnimationCurve.Evaluate(auxTime / fillTime);
+            auxTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
         // yield return new WaitForSeconds(_time);
         // codeLine.GetComponent<Image>().color = _color;
         try {
-            StartCoroutine(codeLineAlphaRoutine(_fillImage, _time));
+            StartCoroutine(codeLineAlphaRoutine(_fillImage, alphaTime));
         } catch (System.Exception) {
             Debug.LogWarning("Error al animar alpha");
         }
 
     }
 
-    public IEnumerator codeLineAlphaRoutine(Image _fillImage, float _time) {
+    public IEnumerator codeLineAlphaRoutine(Image _fillImage, float _alphaTime) {
         // _fillImage
-        float aux = 0f;
-        while (_fillImage && _fillImage.color.a > 0f) {
-            _fillImage.color = new Color(_fillImage.color.r, _fillImage.color.g, _fillImage.color.b, 1 - fillAnimationCurve.Evaluate(aux));
-            aux += Time.deltaTime;
-            yield return null;
+        float auxTime = 0f;
+        while (_fillImage && auxTime < _alphaTime) {
+            _fillImage.color = new Color(_fillImage.color.r, _fillImage.color.g, _fillImage.color.b, 1 - fillAnimationCurve.Evaluate(auxTime / _alphaTime));
+            auxTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
 
     }

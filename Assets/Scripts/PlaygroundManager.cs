@@ -53,7 +53,8 @@ public class PlaygroundManager : MonoBehaviour {
 
     }
 
-    void Start() {
+    IEnumerator Start() {
+        while (PlayerFactory._instance == null) yield return null;
         #region INSTANCIAR OBJETOS  
         // var editorPlayer = GameObject.Find("Player");
         // if (editorPlayer != null)
@@ -72,7 +73,7 @@ public class PlaygroundManager : MonoBehaviour {
 
         } else {
             PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
-            BallFactory._instance.instantiateBall(new Vector2(-4, -1));
+            // BallFactory._instance.instantiateBall(new Vector2(-4, -1));
         }
         #endregion
         isReady = true;

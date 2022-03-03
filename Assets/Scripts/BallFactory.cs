@@ -3,13 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using System;
+using TMPro;
 
 
 public class BallFactory : MonoBehaviour {
     public static BallFactory _instance;
-    public Dictionary<int, GameObject> instancedBalls;
+    public int ballCount, cubeCount;
+    public int BallCount {
+        get {
+            return ballCount;
+        }
+        set {
+            if (ballCount == value) return;
+            ballCount = value;
+            if (onCountChange != null)
+                onCountChange(CONST.Ball, ballCount);
+        }
+    }
+    public int CubeCount {
+        get {
+            return cubeCount;
+        }
+        set {
+            if (cubeCount == value) return;
+            cubeCount = value;
+            if (onCountChange != null)
+                onCountChange(CONST.Cube, cubeCount);
+        }
+    }
+    public Dictionary<int, GameObject> instancedBalls = null;
     // public Dictionary<int, GameObject> instancedCubes;
     public GameObject ballPrefab, cubePrefab;
+
+    private Action<string, int> onCountChange;
+    public bool ready = false;
+    private TextMeshProUGUI ballCountTMP, cubeCountTMP;
 
 
     //TODO check network sync of dictionary
@@ -21,12 +50,30 @@ public class BallFactory : MonoBehaviour {
         } else if (_instance != this) {
             //Then, destroy this. This enforces our singletton pattern, meaning rhat there can only ever be one instance of a GameManager
             Destroy(gameObject);
-
         }
+
+        onCountChange += onCountChangeCallback;
+
     }
 
-    private void Start() {
+    void onCountChangeCallback(string _type, int _newCount) {
+        if (_type == CONST.Ball)
+            ballCountTMP.text = _newCount.ToString();
+
+        else if (_type == CONST.Cube)
+            cubeCountTMP.text = _newCount.ToString();
+
+    }
+
+    IEnumerator Start() {
+        while (PlayerFactory._instance.localPlayer == null) yield return null;
+        var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0);
+        ballCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Balls").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Cubes").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
         instancedBalls = new Dictionary<int, GameObject>();
+        BallCount = 0;
+        CubeCount = 0;
         // instancedCubes = new Dictionary<int, GameObject>();
 
         //register all object with "ball" tag
@@ -41,6 +88,7 @@ public class BallFactory : MonoBehaviour {
                 // instancedBalls.Add(syncBall.GetComponent<PhotonView>().ViewID, syncBall);
             } else
                 instancedBalls.Add(ball.GetInstanceID(), ball);
+            BallCount++;
         }
         foreach (GameObject cube in GameObject.FindGameObjectsWithTag("Cube")) {
             if (PhotonNetwork.IsConnectedAndReady) {
@@ -52,16 +100,20 @@ public class BallFactory : MonoBehaviour {
                 // instancedBalls.Add(syncCube.GetComponent<PhotonView>().ViewID, syncCube);
             } else
                 instancedBalls.Add(cube.GetInstanceID(), cube);
+            CubeCount++;
         }
+        ready = true;
     }
 
 
     public GameObject instantiateBall(Vector2 _instantiatePosition, string _color = null) {
+        BallCount++;
         return instantiateObject(_instantiatePosition, ballPrefab, _color);
 
     }
 
     public GameObject instantiateCube(Vector2 _instantiatePosition, string _color = null) {
+        CubeCount++;
         return instantiateObject(_instantiatePosition, cubePrefab, _color);
     }
 
@@ -81,8 +133,8 @@ public class BallFactory : MonoBehaviour {
         return spawnedObject;
     }
 
-    public void deleteGroup(string _shape = null, string _color = null) {
-        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) return;
+    public IEnumerator deleteGroup(string _shape = null, string _color = null, Action onDeleted = null) {
+        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) yield return null;
         List<GameObject> toDeleteList = new List<GameObject>();
         //BALLS
         if (_shape == CONST.Ball) {
@@ -104,19 +156,20 @@ public class BallFactory : MonoBehaviour {
                 }
             }
 
-        StartCoroutine(iterativeDeleteRoutine(toDeleteList));
+        yield return StartCoroutine(iterativeDeleteRoutine(toDeleteList, onDeleted));
     }
 
-    private IEnumerator iterativeDeleteRoutine(List<GameObject> toDeleteList) {
+    private IEnumerator iterativeDeleteRoutine(List<GameObject> toDeleteList, Action onDeleted) {
         while (toDeleteList.Count > 0) {
             var toDeleteItem = toDeleteList[0];
             toDeleteList.RemoveAt(0);
             DestroyBall(toDeleteItem);
-            yield return new WaitForSeconds(0.2f);
+            if (onDeleted != null) onDeleted();
+            yield return new WaitForSeconds(CONST.codeLoopVelocity + 0.1f);
         }
     }
 
-    public void transformGroup(string _fromShape = null, string _fromColor = null, string _toShape = null, string _toColor = null) {
+    public IEnumerator transformGroup(string _fromShape = null, string _fromColor = null, string _toShape = null, string _toColor = null, Action onTransformAction = null) {
         // if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) return;
         List<GameObject> toTransformList = new List<GameObject>();
         //BALLS
@@ -139,19 +192,22 @@ public class BallFactory : MonoBehaviour {
                 }
             }
 
-        StartCoroutine(iterativeTransformRoutine(toTransformList, _toShape, _toColor));
+        yield return StartCoroutine(iterativeTransformRoutine(toTransformList, _toShape, _toColor, onTransformAction));
     }
 
-    private IEnumerator iterativeTransformRoutine(List<GameObject> toTransformList, string _toShape, string _toColor) {
+    private IEnumerator iterativeTransformRoutine(List<GameObject> toTransformList, string _toShape, string _toColor, Action onTransformAction) {
         while (toTransformList.Count > 0) {
             var toTransformItem = toTransformList[0];
             toTransformList.RemoveAt(0);
             GenericBall ballScripReference = toTransformItem.GetComponent<GenericBall>();
-            if (_toShape == null) _toShape = ballScripReference.shape;
-            if (_toColor == null) _toColor = ballScripReference.color;
+            if (ballScripReference != null) {
+                if (_toShape == null) _toShape = ballScripReference.shape;
+                if (_toColor == null) _toColor = ballScripReference.color;
 
-            ballScripReference.onPortalTransform(_toColor, _toShape);
-            yield return new WaitForSeconds(0.2f);
+                ballScripReference.onPortalTransform(_toColor, _toShape);
+                if (onTransformAction != null) onTransformAction();
+                yield return new WaitForSeconds(CONST.codeLoopVelocity + 0.1f);
+            }
         }
     }
 
@@ -179,9 +235,10 @@ public class BallFactory : MonoBehaviour {
     }
 
 
-
-    //TODO destroy
     public void DestroyBall(GameObject _ball) {
+        if (_ball == null) return;
+        if (_ball.GetComponent<GenericBall>().shape == CONST.Cube) CubeCount--;
+        else BallCount--;
         if (PhotonNetwork.IsConnectedAndReady) {
             if (PhotonNetwork.IsMasterClient) {
                 _ball.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);

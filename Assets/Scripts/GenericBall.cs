@@ -11,7 +11,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     public SpriteRenderer outlineSpriteRenderer;
     public CircleCollider2D myCircleCollider;
     public BallGrabScript ballGrabScript;
-    public float mass;
+    // public float mass;
     public CodeDescription codeDescription;
 
     public Rigidbody2D myRb;
@@ -54,21 +54,16 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         object[] data = info.photonView.InstantiationData;
         string syncColor = (string)data[0];
         color = syncColor;
-        // if (!photonView.IsMine) {
-        //     Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        //     // PhotonRigidbody2DView photonRigidbody2DView = GetComponent<PhotonRigidbody2DView>();
-        //     // photonView.ObservedComponents.RemoveAt(0);
-        //     Destroy(photonRigidbody2DView);
-        //     Destroy(rb);
-        // }
         initializeBall();
     }
 
     private void initializeBall() {
         if (color == CONST.Red)
             innerSpriteRenderer.color = RedColor;
-        else
+        else if (color == CONST.Blue)
             innerSpriteRenderer.color = BlueColor;
+        else
+            innerSpriteRenderer.color = Color.grey;
 
         if (shape == CONST.Cube) {
             codeDescription.titulo = "Cubo";
@@ -77,8 +72,13 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         } else if (shape == CONST.Ball) {
             codeDescription.titulo = "Pelota";
             convertToBall();
-        }
+        } else
+            innerSpriteRenderer.color = Color.grey;
     }
+
+    // private void OnValidate() {
+    //     initializeBall();
+    // }
 
 
     private void Start() {
@@ -88,7 +88,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
 
     private void convertToBall() {
         WindInteractionGameObject.SetActive(true);
-        mass = CONST.ballMass;
+        // mass = CONST.ballMass;
         gameObject.tag = CONST.ballTag;
         outlineSpriteRenderer.sprite = BallSprite;
         myRb.drag = CONST.ballLinearDrag;
@@ -105,6 +105,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         gameObject.tag = CONST.cubeTag;
         outlineSpriteRenderer.sprite = CubeSrite;
         myRb.drag = CONST.cubeLinearDrag;
+        // mass = CONST.cubeMass;
 
 
         if (!ballGrabScript.beingCarried) {
@@ -129,9 +130,13 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
 
         //CHANGE MATERIAL
         if (_newShape == CONST.Cube) {
+            BallFactory._instance.CubeCount++;
+            BallFactory._instance.BallCount--;
             convertToCube();
 
         } else if (_newShape == CONST.Ball) {
+            BallFactory._instance.CubeCount--;
+            BallFactory._instance.BallCount++;
             convertToBall();
         }
     }

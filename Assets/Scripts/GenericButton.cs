@@ -9,6 +9,7 @@ public class GenericButton : MonoBehaviourPun {
     public Sprite activableSprite, noActivableSprite;
     public bool activable;
     public bool ejecutando;
+    // public bool lockMovementOnPress = false;
     public Action onPressEvent;
     void Start() {
         switchActivableState();
