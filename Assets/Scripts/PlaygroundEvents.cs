@@ -45,6 +45,7 @@ public class PlaygroundEvents : MonoBehaviour {
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonA;
         ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonB;
         ButtonsList[CONST.C].GetComponent<GenericButton>().onPressEvent += pressButtonC;
+        ButtonsList[CONST.D].GetComponent<GenericButton>().onPressEvent += pressButtonD;
 
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStatePressed += pressPlatformA;
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStateReleased += releasePlatformA;
@@ -103,6 +104,72 @@ public class PlaygroundEvents : MonoBehaviour {
     }
 
     #endregion
+
+    #region BUTTON D
+    public void pressButtonD() {
+        //asi, aunque se este mirando otra animacion, no se solapan
+        CodeLineManager._instance.resetCodeColor();
+        StartCoroutine(pressButtonDRoutine());
+    }
+
+    public IEnumerator pressButtonDRoutine(int _lineIndex = 0) {
+        bool ejecutando = true;
+        int prevLine = _lineIndex;
+        GameObject buttonObject = ButtonsList[CONST.D];
+        // PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().controllEnabled = false;
+        while (ejecutando) {
+            Debug.Log("Ejecutando" + prevLine + "   " + _lineIndex);
+            switch (_lineIndex) {
+                case 0:
+                    PlayerFactory._instance.localPlayer.GetComponent<PlayerMovement>().controllEnabled = true;
+                    yield return WaitScript._instance.waitCodeLineAction(10f,
+                    (time) => {
+                        CodeLineManager._instance.trySetColorLine(buttonObject, 0, green, _time: time, fadeUp: false, lineal: true);
+                    }
+                    );
+                    _lineIndex = 1;
+                    break;
+                case 1:
+                    CodeLineManager._instance.trySetColorLine(buttonObject, 1, green,
+                    _action: () => {
+                        DoorsList[CONST.A].GetComponent<GenericDoor>().open();
+                        // ejecutando = false;
+                    });
+                    _lineIndex = 2;
+
+
+                    // CodeLineManager._instance.trySetColorLine(2, 3, grey);
+                    break;
+                case 2:
+                    //esperar 5 s
+                    yield return WaitScript._instance.waitCodeLineAction(5f,
+                   (time) => {
+                       CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: time, fadeUp: false, lineal: true);
+                   }
+                   );
+                    _lineIndex = 3;
+                    break;
+                case 3:
+                    CodeLineManager._instance.trySetColorLine(buttonObject, 3, green,
+                    _action: () => {
+                        DoorsList[CONST.A].GetComponent<GenericDoor>().close();
+                        ejecutando = false;
+                    });
+                    break;
+                default:
+                    break;
+            }
+            if (ejecutando)
+                yield return new WaitForSeconds(CONST.codeVelocity + 0.1f);
+            if (prevLine == _lineIndex) ejecutando = false;
+            else prevLine = _lineIndex;
+        }
+        ButtonsList[CONST.D].GetComponent<GenericButton>().activateButton(false);
+        terminarEjecucion();
+    }
+
+    #endregion
+
 
     #region PLATFORM A
     public void releasePlatformA() {

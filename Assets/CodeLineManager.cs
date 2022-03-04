@@ -12,7 +12,7 @@ public class CodeLineManager : MonoBehaviour {
     public static CodeLineManager _instance;
     GameObject linePrefab;
     public Color amarillo_1, amarillo_2, verde;
-    public AnimationCurve fillAnimationCurve;
+    public AnimationCurve fillAnimationCurve, fillAnimationLine;
     public AnimationCurve fillAlphaAnimationCurve;
     // public string currentTitle = null;
 
@@ -40,7 +40,7 @@ public class CodeLineManager : MonoBehaviour {
 
 
 
-    public void trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, Action _action = null) {
+    public void trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, Action _action = null, bool fadeUp = true, bool lineal = false) {
         if (_fromLineIndex > _toLineIndex) {
             Debug.LogWarning("_fromline parameter > toLine");
         }
@@ -59,7 +59,7 @@ public class CodeLineManager : MonoBehaviour {
             }
             // codeLine.GetComponent<Image>().color = _color;
             try {
-                StartCoroutine(fillCodeLine(codeLine, _color, _time, _action));
+                StartCoroutine(fillCodeLine(codeLine, _color, _time, _action, fadeUp, lineal));
             } catch (System.Exception) {
 
                 Debug.LogWarning("Error al animar linea");
@@ -69,7 +69,7 @@ public class CodeLineManager : MonoBehaviour {
 
 
 
-    public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, Action _action = null) {
+    public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, Action _action = null, bool fadeUp = true, bool lineal = false) {
         StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
@@ -83,7 +83,7 @@ public class CodeLineManager : MonoBehaviour {
         }
         // codeLine.GetComponent<Image>().color = _color;
         try {
-            StartCoroutine(fillCodeLine(codeLine, _color, _time, _action));
+            StartCoroutine(fillCodeLine(codeLine, _color, _time, _action, fadeUp, lineal));
         } catch (System.Exception) {
 
             Debug.LogWarning("Error al animar linea");
@@ -96,26 +96,28 @@ public class CodeLineManager : MonoBehaviour {
             _action();
     }
 
-    public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, Action _action) {
+    public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, Action _action, bool fadeUp, bool lineal) {
         Slider _slider = codeLine.transform.Find("Slider").GetComponent<Slider>();
         Image _fillImage = codeLine.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
         _fillImage.color = _color;
 
-        float fillTime = _time * 0.7f;
+        float fillTime = fadeUp ? _time * 0.7f : _time;
         float alphaTime = _time * 0.3f;
         float auxTime = 0f;
         while (auxTime < fillTime) {
-            _slider.value = fillAnimationCurve.Evaluate(auxTime / fillTime);
+            if (lineal) _slider.value = fillAnimationLine.Evaluate(auxTime / fillTime);
+            else _slider.value = fillAnimationCurve.Evaluate(auxTime / fillTime);
             auxTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         // yield return new WaitForSeconds(_time);
         // codeLine.GetComponent<Image>().color = _color;
-        try {
-            StartCoroutine(codeLineAlphaRoutine(_fillImage, alphaTime));
-        } catch (System.Exception) {
-            Debug.LogWarning("Error al animar alpha");
-        }
+        if (fadeUp)
+            try {
+                StartCoroutine(codeLineAlphaRoutine(_fillImage, alphaTime));
+            } catch (System.Exception) {
+                Debug.LogWarning("Error al animar alpha");
+            }
 
     }
 

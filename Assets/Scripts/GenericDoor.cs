@@ -12,7 +12,19 @@ public class GenericDoor : MonoBehaviour {
 
     public Action onInteractEvent;
 
+    public void open() {
+        if (opened) return;
+        opened = true;
+        spriteRenderer.color = openedColor;
+        boxCollider.enabled = false;
+    }
 
+    public void close() {
+        if (!opened) return;
+        opened = false;
+        spriteRenderer.color = closedColor;
+        boxCollider.enabled = true;
+    }
 
     public void openOrClose() {
         if (opened) {
@@ -24,6 +36,4 @@ public class GenericDoor : MonoBehaviour {
         }
         opened = !opened;
     }
-
-
 }
