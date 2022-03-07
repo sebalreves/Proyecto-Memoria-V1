@@ -72,9 +72,23 @@ public class TargetingScript : MonoBehaviourPun {
         //llamar cuando se toma una bola
         if (actualBallFocus != null) {
             // Debug.Log(actualBallFocus.name);
-            actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+            enableTargeted(actualBallFocus, false);
+            // actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
             actualBallFocus = null;
         }
+    }
+
+    void enableTargeted(GameObject targetObject, bool newState) {
+        targetObject.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(newState);
+
+        var ingameUI = targetObject.transform.parent.Find("InGameUI");
+        if (!ingameUI) return;
+        ingameUI.gameObject.SetActive(newState);
+        if (newState) {
+            ingameUI.gameObject.transform.Find("1stSpring").transform.position = targetObject.transform.position;
+            ingameUI.gameObject.transform.Find("2ndSpring").transform.position = targetObject.transform.position;
+        }
+        // actualBallFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().UIIngameReference.SetActive(newState);
     }
 
     public void UpdateTargetedObject() {
@@ -98,10 +112,12 @@ public class TargetingScript : MonoBehaviourPun {
         if (nearBalls.Count > 0 && !playerGrabReference.grabingBall && actualBallFocus != nearBalls[0]) {
             //solo si no se esta tomando una bola, desactivar la actual, y target la nueva mas cercana
             if (actualBallFocus != null) {
-                actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                // actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                enableTargeted(actualBallFocus, false);
             }
             actualBallFocus = nearBalls[0];
-            actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
+            enableTargeted(actualBallFocus, true);
+            // actualBallFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
         }
 
         //Activables (botones y plataformas)
@@ -163,7 +179,8 @@ public class TargetingScript : MonoBehaviourPun {
             var parent = other.gameObject.transform.parent.gameObject;
             if (nearObjects.Contains(parent)) {
                 nearObjects.Remove(parent);
-                parent.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                enableTargeted(parent, false);
+                // parent.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
             }
         }
     }

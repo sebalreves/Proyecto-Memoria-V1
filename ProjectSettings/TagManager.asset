@@ -19,6 +19,7 @@ TagManager:
   - BallPlatformInteraction
   - Platform
   - Coin
+  - UIIngame
   layers:
   - Default
   - TransparentFX

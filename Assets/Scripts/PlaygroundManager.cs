@@ -44,7 +44,7 @@ public class PlaygroundManager : MonoBehaviour {
         }
         //To not be destroyed when reloading scene
         #region LISTAR BUTTONS, DOORS, ETC
-        ButtonsList = getChildren(Buttons);
+        ButtonsList = getChildren(Buttons, "buttons");
         DoorsList = getChildren(Doors);
         WindAreasList = getChildren(WindAreas);
         PlatformsList = getChildren(Platforms);
@@ -79,10 +79,13 @@ public class PlaygroundManager : MonoBehaviour {
         isReady = true;
     }
 
-    private List<GameObject> getChildren(GameObject go) {
+    private List<GameObject> getChildren(GameObject go, string types = "") {
         List<GameObject> children = new List<GameObject>();
         for (int i = 0; i < go.transform.childCount; i++) {
-            children.Add(go.transform.GetChild(i).gameObject);
+            if (types == "buttons")
+                children.Add(go.transform.GetChild(i).transform.Find("Button").gameObject);
+            else
+                children.Add(go.transform.GetChild(i).gameObject);
         }
         // Debug.Log(children.Count);
         return children;

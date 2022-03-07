@@ -14,7 +14,9 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     // public float mass;
     public CodeDescription codeDescription;
 
-    public Rigidbody2D myRb;
+    public Rigidbody2D myRb, anchorRb;
+    public BoxCollider2D UICollider;
+    public CircleCollider2D UIEffectorCollider;
 
     string[] colorList = new string[] { CONST.Red, CONST.Blue };
     string[] shapeList = new string[] { CONST.Ball, CONST.Cube };
@@ -24,6 +26,9 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
 
     // [Dropdown("shapeList")]
     public string shape;
+    private void Awake() {
+        Physics2D.IgnoreCollision(UICollider, UIEffectorCollider);
+    }
 
     // private void OnDestroy() {
     //     if (PhotonNetwork.IsConnectedAndReady) {
@@ -140,6 +145,10 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
             convertToBall();
         }
     }
+
+    // private void FixedUpdate() {
+    //     anchorRb.position = myRb.position;
+    // }
 
     // private void OnCollisionEnter2D(Collision2D other) {
     //     Debug.Log(

@@ -125,10 +125,10 @@ public class BallFactory : MonoBehaviour {
         if (PhotonNetwork.IsConnectedAndReady) {
             object[] customData = new object[] { _color };
             spawnedObject = PhotonNetwork.Instantiate(_prefab.name, _instantiatePosition, Quaternion.identity, 0, customData);
-            instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject);
+            instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject.transform.GetChild(0).gameObject);
         } else {
             spawnedObject = Instantiate(_prefab, _instantiatePosition, Quaternion.identity);
-            instancedBalls.Add(spawnedObject.GetInstanceID(), spawnedObject);
+            instancedBalls.Add(spawnedObject.GetInstanceID(), spawnedObject.transform.GetChild(0).gameObject);
         }
         return spawnedObject;
     }
@@ -239,6 +239,7 @@ public class BallFactory : MonoBehaviour {
         if (_ball == null) return;
         if (_ball.GetComponent<GenericBall>().shape == CONST.Cube) CubeCount--;
         else BallCount--;
+        GameObject ballParent = _ball.transform.parent.gameObject;
         if (PhotonNetwork.IsConnectedAndReady) {
             if (PhotonNetwork.IsMasterClient) {
                 _ball.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
@@ -248,6 +249,7 @@ public class BallFactory : MonoBehaviour {
             _ball.GetComponent<GenericBall>().ReleaseBallBlackHole(_ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
             Destroy(_ball);
         }
+        Destroy(ballParent);
     }
 
 
