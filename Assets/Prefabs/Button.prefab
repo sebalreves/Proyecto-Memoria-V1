@@ -105,6 +105,7 @@ MonoBehaviour:
   noActivableSprite: {fileID: 7691600715906673928, guid: c01a530a9226ca242bd132d8e088424e, type: 3}
   activable: 0
   ejecutando: 0
+  pressingPosition: {fileID: 1996897901401425945}
 --- !u!114 &3977970701392125577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6990824532591759184}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.14, z: 0}
+  m_LocalPosition: {x: 0, y: -1.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4207884586570894186}
@@ -247,6 +248,30 @@ PrefabInstance:
     - target: {fileID: 620980570735345381, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
       propertyPath: m_Name
       value: InGameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 620980570735345381, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_Anchor.x
+      value: -1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_Anchor.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_Frequency
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1429597871696449562, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
       propertyPath: m_ConnectedRigidBody
@@ -296,9 +321,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5909060111966597656, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_text
+      value: Mantener <Espacio>
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486360630557495048, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+      propertyPath: m_Distance
+      value: 1.11
+      objectReference: {fileID: 0}
     - target: {fileID: 9193362073428494708, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}

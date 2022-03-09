@@ -9,6 +9,7 @@ public class GenericButton : MonoBehaviourPun {
     public Sprite activableSprite, noActivableSprite;
     public bool activable;
     public bool ejecutando;
+    public Transform pressingPosition;
     // public bool lockMovementOnPress = false;
     public Action onPressEvent;
     void Start() {
@@ -60,9 +61,12 @@ public class GenericButton : MonoBehaviourPun {
         if (PhotonNetwork.IsConnectedAndReady) {
             if (player.GetComponent<PhotonView>().IsMine) {
                 player.GetComponent<PlayerMovement>().controllEnabled = false;
+                player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position, false);
             }
-        } else
+        } else {
             player.GetComponent<PlayerMovement>().controllEnabled = false;
+            player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position, false);
+        }
 
 
         activateButton(true);

@@ -79,14 +79,16 @@ public class TargetingScript : MonoBehaviourPun {
     }
 
     void enableTargeted(GameObject targetObject, bool newState) {
+        // Debug.Log(targetObject.tag);
         targetObject.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(newState);
 
         var ingameUI = targetObject.transform.parent.Find("InGameUI");
         if (!ingameUI) return;
         ingameUI.gameObject.SetActive(newState);
         if (newState) {
-            ingameUI.gameObject.transform.Find("1stSpring").transform.position = targetObject.transform.position;
-            ingameUI.gameObject.transform.Find("2ndSpring").transform.position = targetObject.transform.position;
+            Vector3 anchor = ingameUI.gameObject.transform.Find("1stSpring").GetComponent<SpringJoint2D>().anchor;
+            ingameUI.gameObject.transform.Find("1stSpring").transform.position = targetObject.transform.position - anchor;
+            ingameUI.gameObject.transform.Find("2ndSpring").transform.position = targetObject.transform.position - anchor;
         }
         // actualBallFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().UIIngameReference.SetActive(newState);
     }
@@ -123,10 +125,14 @@ public class TargetingScript : MonoBehaviourPun {
         //Activables (botones y plataformas)
         if (nearActives.Count > 0 && actualFocus != nearActives[0]) {
             if (actualFocus != null) {
-                actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
+                enableTargeted(actualFocus, false);
+
+                // actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(false);
             }
             actualFocus = nearActives[0];
-            actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
+            enableTargeted(actualFocus, true);
+
+            // actualFocus.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(true);
             updateCodeDescription();
 
             // actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>().targeted = true;

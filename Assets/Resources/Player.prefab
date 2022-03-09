@@ -976,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3673552372443123070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3342,6 +3342,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975db00e7b990914aaaa9e24f679f93b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonSliderAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  red: {r: 0.9882353, g: 0.39215687, b: 0.08627451, a: 1}
+  green: {r: 0.34117648, g: 0.8862745, b: 0.5254902, a: 1}
 --- !u!114 &376256696
 MonoBehaviour:
   m_ObjectHideFlags: 0

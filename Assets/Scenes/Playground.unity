@@ -30774,6 +30774,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 326866955}
     m_Modifications:
+    - target: {fileID: 2138310122014198310, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: titulo
+      value: Cubos a azul
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138310122014198310, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: codeLines.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138310122014198310, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: codeLines.Array.data[0]
+      value: Si hay cubos
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138310122014198310, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: codeLines.Array.data[1]
+      value: '#Para cada cubo en el escenario'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138310122014198310, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: codeLines.Array.data[2]
+      value: '##Cubo.color = azul'
+      objectReference: {fileID: 0}
     - target: {fileID: 2218703625188841153, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -30822,53 +30842,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 2218703625188841166, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: sceneViewId
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3253927359807059625, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3613148348780091420, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: titulo
-      value: Transformador
-      objectReference: {fileID: 0}
-    - target: {fileID: 3613148348780091420, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: codeLines.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3613148348780091420, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: codeLines.Array.data[0]
-      value: 'Si hay cubos :'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3613148348780091420, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: codeLines.Array.data[1]
-      value: '#Para cada cubo C:'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3613148348780091420, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: codeLines.Array.data[2]
-      value: '##Color cubo C = Azul'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3902035130836539734, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3977970701392125577, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
       propertyPath: sceneViewId
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 4234845032753667103, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: m_CollisionDetection
+    - target: {fileID: 8683343274222920110, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
+      propertyPath: m_Colors.m_ColorMultiplier
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5215215237092930095, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7618640360311827013, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8856255443287617506, guid: f2075525e6cab124096f9f5f0abc8e65, type: 3}
       propertyPath: m_AnchorMax.y

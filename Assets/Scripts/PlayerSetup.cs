@@ -85,17 +85,17 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
 
 
 
-        SetPlayerUI();
+        // SetPlayerUI();
     }
 
 
-    private void SetPlayerUI() {
-        if (PlayerNameText != null) {
-            PlayerNameText.text = photonView.Owner.NickName;
+    // private void SetPlayerUI() {
+    //     if (PlayerNameText != null) {
+    //         PlayerNameText.text = photonView.Owner.NickName;
 
-            if (photonView.IsMine) {
-                PlayerNameText.gameObject.SetActive(false);
-            }
-        }
-    }
+    //         if (photonView.IsMine) {
+    //             PlayerNameText.gameObject.SetActive(false);
+    //         }
+    //     }
+    // }
 }

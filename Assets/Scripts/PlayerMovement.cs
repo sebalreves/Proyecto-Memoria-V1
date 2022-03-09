@@ -46,15 +46,16 @@ public class PlayerMovement : MonoBehaviourPun {
         StartCoroutine(playerMoveToRoutine(direction, time, setControllsEnbaled));
     }
 
-    public void playerTeleportTo(Vector2 position) {
-        StartCoroutine(teleportRoutine(position));
+    public void playerTeleportTo(Vector2 position, bool reEnableControls = true) {
+        StartCoroutine(teleportRoutine(position, reEnableControls));
     }
 
-    public IEnumerator teleportRoutine(Vector2 position) {
+    public IEnumerator teleportRoutine(Vector2 position, bool reEnableControls) {
         controllEnabled = false;
         movementInput = Vector2.zero;
         playerRB.velocity = Vector2.zero;
         playerRB.position = position;
+        if (!reEnableControls) yield break;
         yield return new WaitForSeconds(1f);
         controllEnabled = true;
     }
