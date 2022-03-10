@@ -100,7 +100,9 @@ public class CameraManager : MonoBehaviour {
                 confiner2.InvalidatePathCache();
                 virtualCam2GM.SetActive(false);
             }
+
             resizeExitingCamZone(actualCamZone, newPolyOriginalScale);
+
             actualCamZone = newCamZone;
         }
     }

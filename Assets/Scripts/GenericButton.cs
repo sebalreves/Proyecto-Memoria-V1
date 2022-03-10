@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class GenericButton : MonoBehaviourPun {
     public SpriteRenderer actualSprite;
@@ -10,6 +11,12 @@ public class GenericButton : MonoBehaviourPun {
     public bool activable;
     public bool ejecutando;
     public Transform pressingPosition;
+    public TextMeshProUGUI HUDText;
+    public bool spawner = false;
+
+    private string activatedButtonHUD = "Ejecución en curso";
+    private string deactivatedButtonHUD = "Mantener <Espacio>";
+
     // public bool lockMovementOnPress = false;
     public Action onPressEvent;
     void Start() {
@@ -23,14 +30,18 @@ public class GenericButton : MonoBehaviourPun {
     }
 
     public void activateButton(bool activate) {
+
         if (activate) {
             actualSprite.sprite = activableSprite;
             ejecutando = true;
             activable = false;
+            HUDText.text = activatedButtonHUD;
+
         } else {
             ejecutando = false;
             activable = true;
             actualSprite.sprite = noActivableSprite;
+            HUDText.text = deactivatedButtonHUD;
         }
 
     }
@@ -69,9 +80,16 @@ public class GenericButton : MonoBehaviourPun {
         }
 
 
+
         activateButton(true);
         if (onPressEvent != null) {
             onPressEvent();
+        }
+
+        if (spawner) {
+            activateButton(false);
+            player.GetComponent<PlayerMovement>().controllEnabled = true;
+
         }
         //reiniciar el estado del boton cuando termina su ejecucion (opcional)
         // StartCoroutine(rutinaPresionar());

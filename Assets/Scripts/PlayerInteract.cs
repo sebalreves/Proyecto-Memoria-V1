@@ -21,6 +21,7 @@ public class PlayerInteract : MonoBehaviourPun {
     bool filling = false;
     public AnimationCurve ButtonSliderAnimation;
     Coroutine fadeOutAnimation = null;
+    public Color originalColorCode;
 
     public Color red, green;
 
@@ -58,6 +59,7 @@ public class PlayerInteract : MonoBehaviourPun {
         //restaura los valores y hace tilin con un color el slider
         if (ActualButtonSlider != null) {
             ActualButtonSlider.value = 0f;
+            ActualButtonSlider.transform.Find("Background").GetComponent<Image>().color = originalColorCode;
             // LeanTween.color(ActualButtonSlider.transform.Find("Background").gameObject, color, 1f);
             if (fadeOutAnimation != null)
                 StopCoroutine(fadeOutAnimation);
@@ -92,7 +94,7 @@ public class PlayerInteract : MonoBehaviourPun {
         #region BUTTON BEGIN PRESS
         if (_context.phase == InputActionPhase.Started && _context.interaction is UnityEngine.InputSystem.Interactions.SlowTapInteraction) {
             var focusedElement = targetingScriptReference.getTargetedButton();
-            if (focusedElement != null) {
+            if (focusedElement != null && focusedElement.GetComponent<GenericButton>().activable) {
                 filling = true;
                 ActualButtonPressed = focusedElement;
                 ActualButtonSlider = focusedElement.transform.parent.Find("InGameUI").Find("2ndSpring").Find("Canvas").Find("Slider").GetComponent<Slider>();

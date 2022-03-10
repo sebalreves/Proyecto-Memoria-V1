@@ -128,7 +128,7 @@ public class BallFactory : MonoBehaviour {
             instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject.transform.GetChild(0).gameObject);
         } else {
             spawnedObject = Instantiate(_prefab, _instantiatePosition, Quaternion.identity);
-            instancedBalls.Add(spawnedObject.GetInstanceID(), spawnedObject.transform.GetChild(0).gameObject);
+            instancedBalls.Add(spawnedObject.transform.GetChild(0).gameObject.GetInstanceID(), spawnedObject.transform.GetChild(0).gameObject);
         }
         return spawnedObject;
     }

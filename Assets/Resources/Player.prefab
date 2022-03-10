@@ -3366,6 +3366,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  originalColorCode: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   red: {r: 0.9882353, g: 0.39215687, b: 0.08627451, a: 1}
   green: {r: 0.34117648, g: 0.8862745, b: 0.5254902, a: 1}
 --- !u!114 &376256696

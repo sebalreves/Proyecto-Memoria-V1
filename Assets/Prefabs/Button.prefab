@@ -106,6 +106,7 @@ MonoBehaviour:
   activable: 0
   ejecutando: 0
   pressingPosition: {fileID: 1996897901401425945}
+  HUDText: {fileID: 6301641586299425934}
 --- !u!114 &3977970701392125577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +341,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5553771631532758201, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
   m_PrefabInstance: {fileID: 392621857830217366}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6301641586299425934 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5909060111966597656, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
+  m_PrefabInstance: {fileID: 392621857830217366}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3549643328751814444
 PrefabInstance:
   m_ObjectHideFlags: 0

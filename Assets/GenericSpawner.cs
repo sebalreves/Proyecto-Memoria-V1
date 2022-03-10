@@ -16,12 +16,14 @@ public class GenericSpawner : MonoBehaviourPun {
             return;
         }
         genericButtonScript.onPressEvent += spawnObject;
+        genericButtonScript.spawner = true;
     }
 
     private void spawnObject() {
         if (spawnBall) {
             // Debug.Log("ball spawn");
             BallFactory._instance.instantiateBall(spawnPoint.position);
+
         } else if (spawnCube) {
             // Debug.Log("cube spawn");
             BallFactory._instance.instantiateCube(spawnPoint.position);
