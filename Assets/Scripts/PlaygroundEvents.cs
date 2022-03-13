@@ -313,7 +313,8 @@ public class PlaygroundEvents : MonoBehaviour {
     public void pressButtonB() {
         // Debug.Log("Boton B presionado");
         // BallFactory._instance.deleteGroup(CONST.Cube, CONST.Blue);
-        StartCoroutine(pressButtonBRoutine());
+        // StartCoroutine(pressButtonBRoutine());
+        PlayerFactory._instance.localPlayer.transform.Find("Camera").GetComponent<CameraManager>().lookObject(DoorsList[CONST.A].transform, 2f);
     }
 
     IEnumerator pressButtonBRoutine() {

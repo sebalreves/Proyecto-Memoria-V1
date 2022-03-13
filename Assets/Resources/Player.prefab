@@ -3876,7 +3876,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6441550078611682596}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.043838747, y: -0, z: -0, w: 0.99903864}
   m_LocalPosition: {x: 0, y: 0, z: -14.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3954,11 +3954,38 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 2
-    m_Time: 0.55
+    m_Style: 7
+    m_Time: 0.73
     m_CustomCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.10921002
+        outSlope: 0.10921002
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.30392218
+      - serializedVersion: 3
+        time: 0.3413306
+        value: 0.65274835
+        inSlope: 1.7430383
+        outSlope: 1.7430383
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.16550228
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

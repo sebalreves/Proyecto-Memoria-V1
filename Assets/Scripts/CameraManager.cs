@@ -19,6 +19,8 @@ public class CameraManager : MonoBehaviour {
     public GameObject actualCamZone = null;
     Vector3 originalCamZoneScale;
     public PhotonView myPhotonView;
+    private Transform playerTransform;
+    private bool followingPlayer = true;
     // private IEnumerator maskBugRoutine() {
     //     yield return new WaitForSeconds(0.01f);
     //     cutOutMaskUI.enabled = false;
@@ -39,6 +41,7 @@ public class CameraManager : MonoBehaviour {
         rightMargin = inGameSquareRect.offsetMax.x;
         topMargin = inGameSquareRect.offsetMax.y;
         bottomMargin = inGameSquareRect.offsetMin.y;
+        playerTransform = virtualCam1.Follow;
     }
 
     private void resizeEnteringCamZone(GameObject _newPoly) {
@@ -73,37 +76,77 @@ public class CameraManager : MonoBehaviour {
 
     }
 
+    private GameObject GetCamZone(Vector2 _position) {
+        int layerMask = 1 << 17;
+        RaycastHit2D hit = Physics2D.Raycast(_position, Vector2.zero, Mathf.Infinity, layerMask);
+        if (!hit) return null;
+        return hit.collider.gameObject;
+    }
+
+    public void lookObject(Transform newPosition, float _time = 0f) {
+        GameObject newCamZone = GetCamZone(newPosition.position);
+        followingPlayer = newPosition == playerTransform;
+
+        //find new camzone
+        // int layerMask = LayerMask.NameToLayer("CamZones");
+
+        StartCoroutine(lookObjectRoutine(newPosition, _time, newCamZone));
+    }
+
+    private IEnumerator lookObjectRoutine(Transform newPosition, float _time, GameObject newCamZone) {
+        Transform prevTransform = virtualCam1.Follow;
+        virtualCam1.Follow = newPosition;
+        virtualCam1.LookAt = newPosition;
+        virtualCam2.Follow = newPosition;
+        virtualCam2.LookAt = newPosition;
+        ChangeCamZone(newCamZone);
+
+        if (_time == 0f) yield break;
+        yield return new WaitForSeconds(_time);
+        virtualCam1.Follow = prevTransform;
+        virtualCam1.LookAt = prevTransform;
+        virtualCam2.Follow = prevTransform;
+        virtualCam2.LookAt = prevTransform;
+        ChangeCamZone(GetCamZone(prevTransform.position));
+
+    }
+
+    private void ChangeCamZone(GameObject newCamZone) {
+        if (actualCamZone == newCamZone) return;
+        Vector3 newPolyOriginalScale = newCamZone.transform.localScale;
+        resizeEnteringCamZone(newCamZone);
+
+        PolygonCollider2D newPoly = newCamZone.GetComponent<PolygonCollider2D>();
+
+        //quitar controles al jugador un momento al entrar a una zona, exceptuando al spawnear
+        if (firstEnteringCameraZone) {
+            if (followingPlayer)
+                playerMovementScript.playerMoveTo(playerMovementScript.playerRB.velocity, CONST.waitTimeEnterCamZone);
+        } else firstEnteringCameraZone = true;
+
+        //get zone collider
+        if (virtualCam1GM.activeSelf) {
+            virtualCam2GM.SetActive(true);
+            confiner2.m_BoundingShape2D = newPoly;
+            confiner1.InvalidatePathCache();
+            virtualCam1GM.SetActive(false);
+        } else if (virtualCam2GM.activeSelf) {
+            virtualCam1GM.SetActive(true);
+            confiner1.m_BoundingShape2D = newPoly;
+            confiner2.InvalidatePathCache();
+            virtualCam2GM.SetActive(false);
+        }
+
+        resizeExitingCamZone(actualCamZone, newPolyOriginalScale);
+        actualCamZone = newCamZone;
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
         //TODO bug cuando se devuelve
         if (other.gameObject.CompareTag("CamZone")) {
             if (PhotonNetwork.IsConnectedAndReady && !myPhotonView.IsMine) return;
             GameObject newCamZone = other.gameObject;
-            Vector3 newPolyOriginalScale = newCamZone.transform.localScale;
-            resizeEnteringCamZone(newCamZone);
-
-            PolygonCollider2D newPoly = newCamZone.GetComponent<PolygonCollider2D>();
-            if (actualCamZone == newCamZone) return;
-
-            //quitar controles al jugador un momento al entrar a una zona
-            if (firstEnteringCameraZone) playerMovementScript.playerMoveTo(playerMovementScript.playerRB.velocity, CONST.waitTimeEnterCamZone);
-            else firstEnteringCameraZone = true;
-
-            //get zone collider
-            if (virtualCam1GM.activeSelf) {
-                virtualCam2GM.SetActive(true);
-                confiner2.m_BoundingShape2D = newPoly;
-                confiner1.InvalidatePathCache();
-                virtualCam1GM.SetActive(false);
-            } else if (virtualCam2GM.activeSelf) {
-                virtualCam1GM.SetActive(true);
-                confiner1.m_BoundingShape2D = newPoly;
-                confiner2.InvalidatePathCache();
-                virtualCam2GM.SetActive(false);
-            }
-
-            resizeExitingCamZone(actualCamZone, newPolyOriginalScale);
-
-            actualCamZone = newCamZone;
+            ChangeCamZone(newCamZone);
         }
     }
 }

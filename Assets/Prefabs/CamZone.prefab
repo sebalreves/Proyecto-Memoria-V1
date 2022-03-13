@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 658531869166212992}
   - component: {fileID: 658531869166212994}
   - component: {fileID: 658531869166212995}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: CamZone
   m_TagString: CamZone
   m_Icon: {fileID: 0}
