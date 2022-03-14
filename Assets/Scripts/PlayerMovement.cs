@@ -46,18 +46,19 @@ public class PlayerMovement : MonoBehaviourPun {
         StartCoroutine(playerMoveToRoutine(direction, time, setControllsEnbaled));
     }
 
-    public void playerTeleportTo(Vector2 position, bool reEnableControls = true) {
-        StartCoroutine(teleportRoutine(position, reEnableControls));
+    public void playerTeleportTo(Vector2 position, bool disableControls = false) {
+        StartCoroutine(teleportRoutine(position, disableControls));
     }
 
-    public IEnumerator teleportRoutine(Vector2 position, bool reEnableControls) {
-        controllEnabled = false;
+    public IEnumerator teleportRoutine(Vector2 position, bool disableControls) {
+        if (disableControls)
+            controllEnabled = false;
         movementInput = Vector2.zero;
         playerRB.velocity = Vector2.zero;
         playerRB.position = position;
-        if (!reEnableControls) yield break;
         yield return new WaitForSeconds(1f);
-        controllEnabled = true;
+        if (disableControls)
+            controllEnabled = true;
     }
 
     private IEnumerator playerMoveToRoutine(Vector2 direction, float time, bool setControllsEnbaled) {

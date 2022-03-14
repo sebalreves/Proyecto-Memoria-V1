@@ -12,13 +12,16 @@ public class GenericButton : MonoBehaviourPun {
     public bool ejecutando;
     public Transform pressingPosition;
     public TextMeshProUGUI HUDText;
+    [HideInInspector]
     public bool spawner = false;
+
+    public bool freezePlayer = true;
 
     private string activatedButtonHUD = "Ejecución en curso";
     private string deactivatedButtonHUD = "Mantener <Espacio>";
 
     // public bool lockMovementOnPress = false;
-    public Action onPressEvent;
+    public Func<GameObject, IEnumerator> onPressEvent;
     void Start() {
         switchActivableState();
         actualSprite.sprite = noActivableSprite;
@@ -60,56 +63,56 @@ public class GenericButton : MonoBehaviourPun {
     private void OnDisable() {
         if (onPressEvent != null)
             foreach (var d in onPressEvent.GetInvocationList())
-                onPressEvent -= (d as Action);
+                onPressEvent -= (d as Func<GameObject, IEnumerator>);
     }
 
     [PunRPC]
     private void PresionarRPC(int playerId) {
-        if (!activable) return;
-
-        //mover jugador
-        GameObject player = PlayerFactory._instance.findPlayer(playerId);
-        if (PhotonNetwork.IsConnectedAndReady) {
-            if (player.GetComponent<PhotonView>().IsMine) {
-                player.GetComponent<PlayerMovement>().controllEnabled = false;
-                player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position, false);
-            }
-        } else {
-            player.GetComponent<PlayerMovement>().controllEnabled = false;
-            player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position, false);
-        }
+        StartCoroutine(rutinaPresionar(playerId));
 
 
-
-        activateButton(true);
-        if (onPressEvent != null) {
-            onPressEvent();
-        }
-
-        if (spawner) {
-            activateButton(false);
-            player.GetComponent<PlayerMovement>().controllEnabled = true;
-
-        }
         //reiniciar el estado del boton cuando termina su ejecucion (opcional)
         // StartCoroutine(rutinaPresionar());
     }
 
 
-    // private IEnumerator rutinaPresionar() {
-    //     if (!activable) yield break;
+    private IEnumerator rutinaPresionar(int playerId) {
+        if (!activable) yield break;
 
-    //     activateButton(true);
-    //     if (onPressEvent != null) {
-    //         onPressEvent();
-    //     }
-    //     yield return new WaitForSeconds(2);
-    //     // activateButton(false);
+        //mover jugador
+        GameObject player = PlayerFactory._instance.findPlayer(playerId);
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (player.GetComponent<PhotonView>().IsMine) {
+                if (freezePlayer)
+                    player.GetComponent<PlayerMovement>().controllEnabled = false;
+                player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
+            }
+        } else {
+            if (freezePlayer)
+                player.GetComponent<PlayerMovement>().controllEnabled = false;
+            player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
+        }
 
+        if (onPressEvent != null) {
+            CodeLineManager._instance.resetCodeColor();
 
-    // }
+            yield return onPressEvent(gameObject);
+        }
 
-    void Update() {
+        activateButton(false);
+        if (freezePlayer)
+            player.GetComponent<PlayerMovement>().controllEnabled = true;
+
+        yield return new WaitForSeconds(1f);
+        CodeLineManager._instance.fadeOutCodeColor();
+
+        // if (spawner) {
+        //     activateButton(false);
+        //     if (freezePlayer)
+        //         player.GetComponent<PlayerMovement>().controllEnabled = true;
+        // }
 
     }
+
+
 }

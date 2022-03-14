@@ -64,8 +64,10 @@ public class CONST {
 
     //code execution
     public const float codeVelocity = 1.25f; //[seconds]
-    public const float codeLoopVelocity = 0.6f; //[seconds]
+    public const float codeLoopVelocity = 1f; //[seconds]
     public const float slowTapTime = 0.8f; //[seconds]
+    public const float fillLoopOffsetTime = 0.5f; //[seconds]
+
 
 
 }

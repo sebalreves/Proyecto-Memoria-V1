@@ -125,7 +125,7 @@ public class BallFactory : MonoBehaviour {
         if (PhotonNetwork.IsConnectedAndReady) {
             object[] customData = new object[] { _color };
             spawnedObject = PhotonNetwork.Instantiate(_prefab.name, _instantiatePosition, Quaternion.identity, 0, customData);
-            instancedBalls.Add(spawnedObject.GetComponent<PhotonView>().ViewID, spawnedObject.transform.GetChild(0).gameObject);
+            instancedBalls.Add(spawnedObject.transform.GetChild(0).GetComponent<PhotonView>().ViewID, spawnedObject.transform.GetChild(0).gameObject);
         } else {
             spawnedObject = Instantiate(_prefab, _instantiatePosition, Quaternion.identity);
             instancedBalls.Add(spawnedObject.transform.GetChild(0).gameObject.GetInstanceID(), spawnedObject.transform.GetChild(0).gameObject);

@@ -60,7 +60,6 @@ public class PlayerGrab : MonoBehaviourPun {
         targetingScriptReference.deactivateBallFocus();
 
         grabedBallId = BallFactory._instance.getBallId(_ball);
-        Debug.Log(_ball.name);
         // StartCoroutine(disableCollisionRoutine(_ball.GetComponent<CircleCollider2D>()));
         if (PhotonNetwork.IsConnectedAndReady) {
             // ObjectFocused.GetComponent<BallGrabScript>().BallTryGrab(photonView.ViewID);

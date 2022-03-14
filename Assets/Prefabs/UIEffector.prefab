@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8891644306119445323}
   - component: {fileID: 4240270636344386203}
   - component: {fileID: 8743102483895488393}
-  m_Layer: 5
+  m_Layer: 18
   m_Name: UIEffector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +44,8 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 32
-  m_ForceMagnitude: 0.88
-  m_ForceVariation: 0
+  m_ForceMagnitude: 0.12
+  m_ForceVariation: 0.12
   m_DistanceScale: 1
   m_ForceSource: 0
   m_ForceTarget: 1

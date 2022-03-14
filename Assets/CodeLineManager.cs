@@ -11,7 +11,7 @@ public class CodeLineManager : MonoBehaviour {
     public TextMeshProUGUI titulo;
     public static CodeLineManager _instance;
     GameObject linePrefab;
-    public Color amarillo_1, amarillo_2, verde;
+    public Color amarillo_1, amarillo_2, verde, gris;
     public AnimationCurve fillAnimationCurve, fillAnimationLine;
     public AnimationCurve fillAlphaAnimationCurve;
     // public string currentTitle = null;
@@ -50,6 +50,7 @@ public class CodeLineManager : MonoBehaviour {
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
         if (animationTarget != currentTargetCodeDisplayed) return;
         GameObject codeLine;
+        float offsetTime = 0f;
         for (int i = _fromLineIndex; i <= _toLineIndex; i++) {
             try {
                 codeLine = codeContainer.transform.GetChild(i).gameObject;
@@ -59,14 +60,14 @@ public class CodeLineManager : MonoBehaviour {
             }
             // codeLine.GetComponent<Image>().color = _color;
             try {
-                StartCoroutine(fillCodeLine(codeLine, _color, _time, _action, fadeUp, lineal));
+                StartCoroutine(fillCodeLine(codeLine, _color, _time, _action, fadeUp, lineal, offsetTime));
             } catch (System.Exception) {
 
                 Debug.LogWarning("Error al animar linea");
             }
+            offsetTime += CONST.fillLoopOffsetTime;
         }
     }
-
 
 
     public void trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, Action _action = null, bool fadeUp = true, bool lineal = false) {
@@ -96,7 +97,9 @@ public class CodeLineManager : MonoBehaviour {
             _action();
     }
 
-    public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, Action _action, bool fadeUp, bool lineal) {
+    public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, Action _action, bool fadeUp, bool lineal, float offsetTime = 0f) {
+        yield return new WaitForSeconds(offsetTime);
+
         Slider _slider = codeLine.transform.Find("Slider").GetComponent<Slider>();
         Image _fillImage = codeLine.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
         _fillImage.color = _color;
@@ -119,6 +122,14 @@ public class CodeLineManager : MonoBehaviour {
                 Debug.LogWarning("Error al animar alpha");
             }
 
+    }
+
+    public void fadeOutCodeColor() {
+        foreach (Transform child in codeContainer.transform) {
+            Image _fillImage = child.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
+            _fillImage.color = gris;
+            StartCoroutine(codeLineAlphaRoutine(_fillImage, 0.5f));
+        }
     }
 
     public IEnumerator codeLineAlphaRoutine(Image _fillImage, float _alphaTime) {

@@ -7,45 +7,29 @@ public class GenericPlatform : MonoBehaviour {
     public PointEffector2D attractPointEffector;
     public bool presionado = false;
     public bool activado = false;
-    // public bool pressedPrevFrame = false;
-    // public bool activePrevFrame = false;
-    // public GameObject grabedObject;
     public Color ActivatedColor, DeactivatedColor;
     public SpriteRenderer spriteReference;
-    // public CircleCollider2D innerCollider;
-    public Action setStatePressed;
-    public Action setStateReleased;
-    // public Action currentAnimation = null;
+
+
+    public Func<GameObject, IEnumerator> setStatePressed;
+    public Func<GameObject, IEnumerator> setStateReleased;
 
     public platformTrigger platformTriggerReference;
-    // public bool keepLoopingCode = false;
     public Coroutine loopingCodeRoutine = null;
-
-    // public bool cubeInteract = false;
-    // public bool ballInteract = false;
-    // public bool playerInteract = false;
-
-    // private int interactMask;
-
-
-
 
 
     private void Awake() {
-        // attractPointEffector = GetComponent<PointEffector2D>();
-        // spriteReference = GetComponent<SpriteRenderer>();
-        ActivatePlatform();
-
+        // ActivatePlatform();
     }
 
     private void OnDisable() {
         if (setStatePressed != null)
             foreach (var d in setStatePressed.GetInvocationList())
-                setStatePressed -= (d as Action);
+                setStatePressed -= (d as Func<GameObject, IEnumerator>);
 
         if (setStateReleased != null)
             foreach (var d in setStateReleased.GetInvocationList())
-                setStateReleased -= (d as Action);
+                setStateReleased -= (d as Func<GameObject, IEnumerator>);
     }
 
 
@@ -57,8 +41,11 @@ public class GenericPlatform : MonoBehaviour {
             spriteReference.color = ActivatedColor;
             attractPointEffector.enabled = false;
             activado = platformTriggerReference.activado;
-            if (setStatePressed != null)
-                setStatePressed();
+            if (setStatePressed != null) {
+                if (loopingCodeRoutine != null) StopCoroutine(loopingCodeRoutine);
+                CodeLineManager._instance.resetCodeColor();
+                loopingCodeRoutine = StartCoroutine(setStatePressed(gameObject));
+            }
             return;
         } else if (!platformTriggerReference.presionado && presionado) {
             //si se libera la plataforma
@@ -66,8 +53,10 @@ public class GenericPlatform : MonoBehaviour {
             spriteReference.color = DeactivatedColor;
             attractPointEffector.enabled = true;
             activado = false;
-            if (setStateReleased != null)
-                setStateReleased();
+            if (setStateReleased != null) {
+                if (loopingCodeRoutine != null) StopCoroutine(loopingCodeRoutine);
+                StartCoroutine(setStateReleased(gameObject));
+            }
             return;
         }
 
@@ -75,28 +64,15 @@ public class GenericPlatform : MonoBehaviour {
         if (!platformTriggerReference.presionado) return;
         if (platformTriggerReference.activado ^ activado) {
             activado = !activado;
-            if (setStatePressed != null)
-                setStatePressed();
+            if (setStatePressed != null) {
+                if (loopingCodeRoutine != null) StopCoroutine(loopingCodeRoutine);
+                CodeLineManager._instance.resetCodeColor();
+                loopingCodeRoutine = StartCoroutine(setStatePressed(gameObject));
+            }
         }
     }
 
-
-
-
     private void FixedUpdate() {
-        //Set mask
-        // Debug.Log(activado + " - " + presionado);
-        // interactMask = ((cubeInteract ? 1 : 0) * CONST.cubeLayer) | ((ballInteract ? 1 : 0) * CONST.ballLayer) | ((playerInteract ? 1 : 0) * CONST.playerLayer);
-        // presionado = innerCollider.IsTouchingLayers((CONST.cubeLayer) | (CONST.ballLayer) | (CONST.playerLayer));
-        // pressedPrevFrame = presionado;
-        // activePrevFrame = activado;
-        // activado = innerCollider.IsTouchingLayers(((cubeInteract ? 1 : 0) * CONST.cubeLayer) | ((ballInteract ? 1 : 0) * CONST.ballLayer) | ((playerInteract ? 1 : 0) * CONST.playerLayer));
-        // presionado = innerCollider.IsTouchingLayers((CONST.cubeLayer) | (CONST.ballLayer) | (CONST.playerLayer));
-        // presionado = platformTriggerReference.presionado;
-        // activado = platformTriggerReference.activado;
         ActivatePlatform();
-        // DeactivatePlatform();
     }
-
-
 }
