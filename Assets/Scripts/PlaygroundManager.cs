@@ -49,7 +49,7 @@ public class PlaygroundManager : MonoBehaviour {
         WindAreasList = getChildren(WindAreas);
         PlatformsList = getChildren(Platforms);
         #endregion
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
 
     }
 
@@ -90,10 +90,4 @@ public class PlaygroundManager : MonoBehaviour {
         // Debug.Log(children.Count);
         return children;
     }
-
-
-    void Update() {
-    }
-    //TODO if player disconnects, end game
-
 }

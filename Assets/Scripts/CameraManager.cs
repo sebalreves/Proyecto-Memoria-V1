@@ -145,7 +145,7 @@ public class CameraManager : MonoBehaviour {
         //TODO bug cuando se devuelve
         if (other.gameObject.CompareTag("CamZone")) {
             if (PhotonNetwork.IsConnectedAndReady && !myPhotonView.IsMine) return;
-            GameObject newCamZone = other.gameObject;
+            GameObject newCamZone = other.transform.parent.gameObject;
             ChangeCamZone(newCamZone);
         }
     }

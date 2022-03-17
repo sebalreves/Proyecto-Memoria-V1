@@ -7,33 +7,29 @@ using UnityEngine;
 // PlayerFactory._instance.localPlayer.transform.Find("Camera").GetComponent<CameraManager>().lookObject(DoorsList[CONST.A].transform, 2f);
 
 public class PlaygroundEvents : MonoBehaviour {
-    private List<GameObject> ButtonsList;
-    private List<GameObject> WindAreasList;
-    private List<GameObject> DoorsList;
-    private List<GameObject> PlatformsList;
+    protected List<GameObject> ButtonsList;
+    protected List<GameObject> WindAreasList;
+    protected List<GameObject> DoorsList;
+    protected List<GameObject> PlatformsList;
 
     public Color grey, green, red;
 
-    public static PlaygroundEvents instance;
-    // public Coroutine currentRoutine = null;
+    // public static PlaygroundEvents instance;
+    // // public Coroutine currentRoutine = null;
 
-    private void Awake() {
-        if (instance == null) {
-            instance = this;
-        }
+    // protected virtual void Awake() {
+    //     if (instance == null) {
+    //         instance = this;
+    //     }
 
-        //If intance already exists and it is not !this!
-        else if (instance != this) {
-            //Then, destroy this. This enforces our singletton pattern, meaning rhat there can only ever be one instance of a GameManager
-            Destroy(gameObject);
-        }
-    }
-    // public void stopAnimations() {
-    //     //detiene animaciones localmente
-    //     StopAllCoroutines();
+    //     //If intance already exists and it is not !this!
+    //     else if (instance != this) {
+    //         //Then, destroy this. This enforces our singletton pattern, meaning rhat there can only ever be one instance of a GameManager
+    //         Destroy(gameObject);
+    //     }
     // }
 
-    IEnumerator Start() {
+    protected virtual IEnumerator Start() {
         yield return new WaitUntil(() => PlaygroundManager.instance.isReady);
         WindAreasList = PlaygroundManager.instance.WindAreasList;
         DoorsList = PlaygroundManager.instance.DoorsList;
@@ -43,7 +39,7 @@ public class PlaygroundEvents : MonoBehaviour {
     }
 
     #region SUSCRIBIR METODOS
-    public void subscribeMethods() {
+    public virtual void subscribeMethods() {
         // Debug.Log(ButtonsList.Count);
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonARoutine;
         ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonBRoutine;
@@ -54,6 +50,8 @@ public class PlaygroundEvents : MonoBehaviour {
         PlatformsList[CONST.A].GetComponent<GenericPlatform>().setStateReleased += releasePlatformA;
     }
     #endregion
+
+
 
     #region BUTTON C
     IEnumerator pressButtonCRoutine(GameObject buttonObject) {
