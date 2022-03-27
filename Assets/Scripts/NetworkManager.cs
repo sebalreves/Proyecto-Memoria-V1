@@ -135,7 +135,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public void OnStartGameButtonClicked() {
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
-            PhotonNetwork.LoadLevel("Playground");
+            PhotonNetwork.LoadLevel("Level 1");
 
             // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) {
             //     //Racing game mode

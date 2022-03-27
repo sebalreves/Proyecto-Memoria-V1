@@ -7,7 +7,7 @@ public class CONST {
     public const float PLATFORM_REPULSION = 10f;
     public const float PLATFORM_ATTRACTION = 10f;
     public const float PLATFORM_INNER_ATRACTION = 8f;
-    public const float waitTimeEnterCamZone = 0.5f;
+    public const float waitTimeEnterCamZone = 0.4f;
 
     //PLAYER PROPERTIES
     public const float playerMaxSpeed = 10f;
@@ -30,7 +30,7 @@ public class CONST {
     public const float breakForce = 240f;
 
     //rotate camera
-    public const float cameraInclination = 1.7f;
+    public const float cameraInclination = 1.6f;
 
     //layer indexing
     public const int playerLayer = (1 << 8);
@@ -44,6 +44,12 @@ public class CONST {
     public const int B = 1;
     public const int C = 2;
     public const int D = 3;
+    public const int E = 4;
+    public const int F = 5;
+    public const int G = 6;
+    public const int H = 7;
+    public const int I = 8;
+    public const int J = 9;
 
     //Portal variables
     public const string Any = "Any";
@@ -67,6 +73,7 @@ public class CONST {
     public const float codeLoopVelocity = 1f; //[seconds]
     public const float slowTapTime = 0.8f; //[seconds]
     public const float fillLoopOffsetTime = 0.5f; //[seconds]
+    public const float codeTabSize = 0.7f;
 
 
 

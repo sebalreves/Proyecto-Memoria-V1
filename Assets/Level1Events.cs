@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Level1Events : PlaygroundEvents {
-    // protected override void Awake() {
-    //     base.Awake();
-    // }
 
-    // protected override IEnumerator Start() {
-    //     return base.Start();
-    // }
-
-    // protected override void Awake() {
-    //     base.Awake();
-    // }
 
     public override void subscribeMethods() {
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
         ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
         ButtonsList[CONST.C].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
+        // ButtonsList[CONST.D].GetComponent<GenericButton>().onPressEvent += pressBuwttonD;
     }
 
     #region  SWITCH PUERTAS
@@ -46,104 +37,37 @@ public class Level1Events : PlaygroundEvents {
         DoorsList[CONST.D].GetComponent<GenericDoor>().close();
     }
 
-    public IEnumerator pressButtonSwitchDoorsV2(GameObject buttonObject) {
-        bool ejecutando = true;
-        int _lineIndex = 0;
-        while (ejecutando) {
-            switch (_lineIndex) {
-                case 0:
-                    if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, grey, fadeUp: false);
-                        _lineIndex = 2;
-                    } else {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false,
-                        _action: () => { openDoors(); }
-                        );
-                        _lineIndex = 2;
-                    }
-                    break;
-                case 2:
-                    CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 4f, fadeUp: false, lineal: true);
-                    yield return new WaitForSeconds(4f);
-                    _lineIndex = 3;
-                    break;
-                case 3:
-                    if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false,
-                        _action: () => {
-                            closeDoors();
-                        });
-                        yield return new WaitForSeconds(CONST.codeVelocity + 0.1f);
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, grey, fadeUp: false);
-                        ejecutando = false;
-                    } else {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, grey, fadeUp: false);
-                        _lineIndex = 5;
-                    }
-                    break;
+    public IEnumerator pressButtonSwitchDoors(GameObject buttonObject) {
+        if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, grey, fadeUp: false);
 
-                case 5:
-                    CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, green, fadeUp: false,
-                    _action: () => { openDoors(); });
+        } else {
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false,
+            _action: () => { openDoors(); }
+            );
+        }
+        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 4f, fadeUp: false, lineal: true);
 
-                    ejecutando = false;
-                    break;
-                default:
-                    break;
-            }
-            if (ejecutando)
-                yield return new WaitForSeconds(CONST.codeVelocity + 0.1f);
+        if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false,
+                _action: () => {
+                    closeDoors();
+                });
+
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, grey, fadeUp: false);
+        } else {
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, grey, fadeUp: false);
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, green, fadeUp: false,
+            _action: () => { openDoors(); });
         }
     }
+    #endregion
 
-    public IEnumerator pressButtonSwitchDoors(GameObject buttonObject) {
-        bool ejecutando = true;
-        int _lineIndex = 0;
-        while (ejecutando) {
-            switch (_lineIndex) {
-                case 0:
-                    if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, grey, fadeUp: false);
-                        _lineIndex = 2;
-                    } else {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false,
-                        _action: () => { openDoors(); }
-                        );
-                        _lineIndex = 2;
-                    }
-                    break;
-                case 2:
-                    CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 4f, fadeUp: false, lineal: true);
-                    yield return new WaitForSeconds(4f);
-                    _lineIndex = 3;
-                    break;
-                case 3:
-                    if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false,
-                        _action: () => {
-                            closeDoors();
-                        });
-                        yield return new WaitForSeconds(CONST.codeVelocity + 0.1f);
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, grey, fadeUp: false);
-                        ejecutando = false;
-                    } else {
-                        CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, grey, fadeUp: false);
-                        _lineIndex = 5;
-                    }
-                    break;
-
-                case 5:
-                    CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, green, fadeUp: false,
-                    _action: () => { openDoors(); });
-
-                    ejecutando = false;
-                    break;
-                default:
-                    break;
-            }
-            if (ejecutando)
-                yield return new WaitForSeconds(CONST.codeVelocity + 0.1f);
-        }
+    #region CERRAR PUERTAS
+    IEnumerator pressButtonD(GameObject buttonObject) {
+        //cerrar puertas
+        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, green, fadeUp: false,
+            _action: () => { closeDoors(); });
     }
     #endregion
 

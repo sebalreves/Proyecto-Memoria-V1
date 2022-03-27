@@ -13,6 +13,8 @@ public class CameraManager : MonoBehaviour {
     private float leftMargin, rightMargin, topMargin, bottomMargin;
     public CutOutMaskUI cutOutMaskUI;
 
+    private float lastCamChange = 0f;
+
     private PlayerMovement playerMovementScript;
 
     private bool firstEnteringCameraZone = false;
@@ -21,6 +23,8 @@ public class CameraManager : MonoBehaviour {
     public PhotonView myPhotonView;
     private Transform playerTransform;
     private bool followingPlayer = true;
+
+    private bool resizingArea = false;
     // private IEnumerator maskBugRoutine() {
     //     yield return new WaitForSeconds(0.01f);
     //     cutOutMaskUI.enabled = false;
@@ -68,11 +72,13 @@ public class CameraManager : MonoBehaviour {
     }
 
     private IEnumerator resizeExitingCamZoneRoutine(GameObject _oldPoly, Vector3 _newPolyScale) {
+        resizingArea = true;
         yield return new WaitForSeconds(CONST.waitTimeEnterCamZone);
         if (_oldPoly != null) {
             _oldPoly.transform.localScale = originalCamZoneScale;
         }
         originalCamZoneScale = _newPolyScale;
+        resizingArea = false;
 
     }
 
@@ -112,7 +118,9 @@ public class CameraManager : MonoBehaviour {
     }
 
     private void ChangeCamZone(GameObject newCamZone) {
-        if (actualCamZone == newCamZone) return;
+        if (actualCamZone == newCamZone || resizingArea) {
+            return;
+        }
         Vector3 newPolyOriginalScale = newCamZone.transform.localScale;
         resizeEnteringCamZone(newCamZone);
 
@@ -147,6 +155,19 @@ public class CameraManager : MonoBehaviour {
             if (PhotonNetwork.IsConnectedAndReady && !myPhotonView.IsMine) return;
             GameObject newCamZone = other.transform.parent.gameObject;
             ChangeCamZone(newCamZone);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject.CompareTag("CamZone")) {
+            if (lastCamChange > 0.2f) {
+                lastCamChange = 0f;
+                if (PhotonNetwork.IsConnectedAndReady && !myPhotonView.IsMine) return;
+                GameObject newCamZone = other.transform.parent.gameObject;
+                ChangeCamZone(newCamZone);
+            } else {
+                lastCamChange += Time.fixedDeltaTime;
+            }
         }
     }
 }

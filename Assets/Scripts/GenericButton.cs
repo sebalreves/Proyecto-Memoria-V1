@@ -15,9 +15,10 @@ public class GenericButton : MonoBehaviourPun {
     [HideInInspector]
     public bool spawner = false;
 
+    public bool teleportPlayer = true;
     public bool freezePlayer = true;
 
-    private string activatedButtonHUD = "Ejecución en curso";
+    private string activatedButtonHUD = "Ejecutando";
     private string deactivatedButtonHUD = "Mantener <Espacio>";
 
     // public bool lockMovementOnPress = false;
@@ -33,7 +34,7 @@ public class GenericButton : MonoBehaviourPun {
     }
 
     public void activateButton(bool activate) {
-
+        //todo animate when executing
         if (activate) {
             actualSprite.sprite = activableSprite;
             ejecutando = true;
@@ -69,10 +70,6 @@ public class GenericButton : MonoBehaviourPun {
     [PunRPC]
     private void PresionarRPC(int playerId) {
         StartCoroutine(rutinaPresionar(playerId));
-
-
-        //reiniciar el estado del boton cuando termina su ejecucion (opcional)
-        // StartCoroutine(rutinaPresionar());
     }
 
 
@@ -85,13 +82,16 @@ public class GenericButton : MonoBehaviourPun {
             if (player.GetComponent<PhotonView>().IsMine) {
                 if (freezePlayer)
                     player.GetComponent<PlayerMovement>().controllEnabled = false;
-                player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
+                if (teleportPlayer)
+                    player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
             }
         } else {
             if (freezePlayer)
                 player.GetComponent<PlayerMovement>().controllEnabled = false;
-            player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
+            if (teleportPlayer)
+                player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
         }
+        activateButton(true);
 
         if (onPressEvent != null) {
             CodeLineManager._instance.resetCodeColor();

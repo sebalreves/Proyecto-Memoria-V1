@@ -107,6 +107,8 @@ MonoBehaviour:
   ejecutando: 0
   pressingPosition: {fileID: 1996897901401425945}
   HUDText: {fileID: 6301641586299425934}
+  spawner: 0
+  freezePlayer: 1
 --- !u!114 &3977970701392125577
 MonoBehaviour:
   m_ObjectHideFlags: 0
