@@ -33,19 +33,15 @@ public class GenericSpawner : MonoBehaviour {
     }
 
     private IEnumerator spawnObject(GameObject buttonObject) {
-        CodeLineManager._instance.trySetColorLine(buttonObject, 0, green,
-        _action: () => {
-            if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
-            if (spawnBall) {
-                // Debug.Log("ball spawn");
-                BallFactory._instance.instantiateBall(spawnPoint.position);
+        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, green);
+        if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine && !PhotonNetwork.IsMasterClient) yield break;
+        if (spawnBall) {
+            // Debug.Log("ball spawn");
+            BallFactory._instance.instantiateBall(spawnPoint.position);
 
-            } else if (spawnCube) {
-                // Debug.Log("cube spawn");
-                BallFactory._instance.instantiateCube(spawnPoint.position);
-            }
-        });
-
-        yield return null;
+        } else if (spawnCube) {
+            // Debug.Log("cube spawn");
+            BallFactory._instance.instantiateCube(spawnPoint.position);
+        }
     }
 }

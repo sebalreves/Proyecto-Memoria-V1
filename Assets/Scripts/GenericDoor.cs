@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GenericDoor : MonoBehaviour {
+public class GenericDoor : MonoBehaviourPun {
     public bool opened;
     public Color openedColor, closedColor;
     public SpriteRenderer spriteRenderer;
@@ -13,37 +14,44 @@ public class GenericDoor : MonoBehaviour {
     public Action onInteractEvent;
 
     public void open() {
-        opened = true;
-        spriteRenderer.color = openedColor;
-        boxCollider.enabled = false;
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (!PhotonNetwork.IsMasterClient) return;
+            photonView.RPC("RPC_DoorInteract", RpcTarget.AllViaServer, true);
+        } else {
+            RPC_DoorInteract(true);
+        }
     }
 
     public void close() {
-        opened = false;
-        spriteRenderer.color = closedColor;
-        boxCollider.enabled = true;
+        if (PhotonNetwork.IsConnectedAndReady) {
+            if (!PhotonNetwork.IsMasterClient) return;
+            photonView.RPC("RPC_DoorInteract", RpcTarget.AllViaServer, false);
+        } else {
+            RPC_DoorInteract(false);
+        }
     }
 
     public void openOrClose() {
         if (opened) {
-            spriteRenderer.color = closedColor;
-            boxCollider.enabled = true;
+            close();
         } else {
-            spriteRenderer.color = openedColor;
-            boxCollider.enabled = false;
+            open();
         }
         opened = !opened;
     }
 
-    private void OnValidate() {
-
-        if (opened) {
-
-            open();
-        } else {
-
-            close();
-        }
-
+    [PunRPC]
+    public void RPC_DoorInteract(bool newState) {
+        opened = newState;
+        spriteRenderer.color = newState ? openedColor : closedColor;
+        boxCollider.enabled = !newState;
     }
+
+    // private void OnValidate() {
+    //     if (opened) {
+    //         open();
+    //     } else {
+    //         close();
+    //     }
+    // }
 }

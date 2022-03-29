@@ -55,12 +55,12 @@ public class CodeLineManager : MonoBehaviour {
         return 0;
     }
 
-    public IEnumerator trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, Action _action = null, bool fadeUp = true, bool lineal = false) {
+    public IEnumerator trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, bool fadeUp = true, bool lineal = false) {
         if (_fromLineIndex > _toLineIndex) {
             Debug.LogWarning("_fromline parameter > toLine");
         }
         //Ejecutar accion independiente si se anima la linea
-        StartCoroutine(executeLine(_time, _action));
+        // StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
         if (animationTarget != currentTargetCodeDisplayed) yield break;
@@ -84,8 +84,8 @@ public class CodeLineManager : MonoBehaviour {
     }
 
 
-    public IEnumerator trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, Action _action = null, bool fadeUp = true, bool lineal = false) {
-        StartCoroutine(executeLine(_time, _action));
+    public IEnumerator trySetColorLine(GameObject animationTarget, int _lineIndex, Color _color, float _time = CONST.codeVelocity, bool fadeUp = true, bool lineal = false) {
+        // StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
         if (animationTarget != currentTargetCodeDisplayed) yield break;
@@ -102,11 +102,7 @@ public class CodeLineManager : MonoBehaviour {
 
     }
 
-    public IEnumerator executeLine(float _time, Action _action) {
-        yield return new WaitForSeconds(_time);
-        if (_action != null)
-            _action();
-    }
+
 
     public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, bool fadeUp, bool lineal, float offsetTime = 0f) {
         yield return new WaitForSeconds(offsetTime);

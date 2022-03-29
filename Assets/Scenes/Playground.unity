@@ -548,19 +548,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 387925625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: 15b261f080a9a8e43ad4b955733b5bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 8
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  grey: {r: 0.9333334, g: 0.9333334, b: 0.9333334, a: 1}
+  green: {r: 0.34117648, g: 0.8862746, b: 0.5254902, a: 1}
+  red: {r: 0.98823535, g: 0.3921569, b: 0.08627451, a: 1}
 --- !u!4 &467685916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 658531869166212992, guid: 4925b225fc0796c4faa04cb97d23f69a, type: 3}
@@ -34884,6 +34877,10 @@ PrefabInstance:
     - target: {fileID: 2319249290092337489, guid: 579b8225a34c2294ca0ae9e2cc8cd5da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105563771410129485, guid: 579b8225a34c2294ca0ae9e2cc8cd5da, type: 3}
+      propertyPath: sceneViewId
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 579b8225a34c2294ca0ae9e2cc8cd5da, type: 3}

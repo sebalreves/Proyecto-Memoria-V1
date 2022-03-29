@@ -9,7 +9,7 @@ public class Level1Events : PlaygroundEvents {
         ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
         ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
         ButtonsList[CONST.C].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
-        // ButtonsList[CONST.D].GetComponent<GenericButton>().onPressEvent += pressBuwttonD;
+        ButtonsList[CONST.D].GetComponent<GenericButton>().onPressEvent += pressButtonD;
     }
 
     #region  SWITCH PUERTAS
@@ -42,23 +42,19 @@ public class Level1Events : PlaygroundEvents {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, grey, fadeUp: false);
 
         } else {
-            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false,
-            _action: () => { openDoors(); }
-            );
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false);
+            openDoors();
         }
         yield return CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 4f, fadeUp: false, lineal: true);
 
         if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
-            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false,
-                _action: () => {
-                    closeDoors();
-                });
-
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false);
+            closeDoors();
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, grey, fadeUp: false);
         } else {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, grey, fadeUp: false);
-            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, green, fadeUp: false,
-            _action: () => { openDoors(); });
+            yield return CodeLineManager._instance.trySetColorLine(buttonObject, 5, 6, green, fadeUp: false);
+            openDoors();
         }
     }
     #endregion
@@ -66,8 +62,8 @@ public class Level1Events : PlaygroundEvents {
     #region CERRAR PUERTAS
     IEnumerator pressButtonD(GameObject buttonObject) {
         //cerrar puertas
-        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, green, fadeUp: false,
-            _action: () => { closeDoors(); });
+        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, green, fadeUp: false);
+        closeDoors();
     }
     #endregion
 
