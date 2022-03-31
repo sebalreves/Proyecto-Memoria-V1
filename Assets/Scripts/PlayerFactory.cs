@@ -12,6 +12,8 @@ public class PlayerFactory : MonoBehaviour {
 
 
     void Awake() {
+        instancedPlayers = new Dictionary<int, GameObject>();
+
         if (_instance == null) {
             _instance = this;
             // DontDestroyOnLoad(this.gameObject);
@@ -23,9 +25,7 @@ public class PlayerFactory : MonoBehaviour {
         }
     }
 
-    private void Start() {
-        instancedPlayers = new Dictionary<int, GameObject>();
-    }
+
 
 
     public GameObject instantiatePlayer(Vector2 _instantiatePosition) {

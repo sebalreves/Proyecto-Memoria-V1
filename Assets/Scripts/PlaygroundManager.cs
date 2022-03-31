@@ -15,14 +15,18 @@ public class PlaygroundManager : MonoBehaviour {
     public Transform[] spawnPositions;
     public GameObject LevelPointers;
 
+    public Color grey1, grey2, yellow1, yellow2, green, red;
+
     #region STAGE OBJECTS
     public GameObject Buttons;
+    public GameObject ButtonGroups;
     public GameObject WindAreas;
     public GameObject Doors;
     public GameObject Platforms;
 
     // [HideInInspector]
     public List<GameObject> ButtonsList;
+    public List<GameObject> ButtonGroupList;
     // [HideInInspector]
     public List<GameObject> WindAreasList;
     // [HideInInspector]
@@ -48,6 +52,8 @@ public class PlaygroundManager : MonoBehaviour {
         DoorsList = getChildren(Doors);
         WindAreasList = getChildren(WindAreas);
         PlatformsList = getChildren(Platforms);
+        ButtonGroupList = getChildren(ButtonGroups);
+
         #endregion
         // DontDestroyOnLoad(gameObject);
 
@@ -82,9 +88,9 @@ public class PlaygroundManager : MonoBehaviour {
     private List<GameObject> getChildren(GameObject go, string types = "") {
         List<GameObject> children = new List<GameObject>();
         for (int i = 0; i < go.transform.childCount; i++) {
-            if (types == "buttons")
+            if (types == "buttons") {
                 children.Add(go.transform.GetChild(i).transform.Find("Button").gameObject);
-            else
+            } else
                 children.Add(go.transform.GetChild(i).gameObject);
         }
         // Debug.Log(children.Count);

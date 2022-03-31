@@ -67,7 +67,7 @@ public class BallFactory : MonoBehaviour {
 
     IEnumerator Start() {
         while (PlayerFactory._instance.localPlayer == null) yield return null;
-        var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0);
+        var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4);
         ballCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Balls").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Cubes").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 

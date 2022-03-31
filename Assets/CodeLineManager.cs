@@ -12,8 +12,7 @@ public class CodeLineManager : MonoBehaviour {
     public TextMeshProUGUI titulo;
     public static CodeLineManager _instance;
     GameObject linePrefab, separatorPrefab;
-    public Color amarillo_1, amarillo_2, verde, gris1, gris2
-    ;
+    private static Color amarillo_1, amarillo_2, gris1, gris2;
     public AnimationCurve fillAnimationCurve, fillAnimationLine;
     public AnimationCurve fillAlphaAnimationCurve;
     // public string currentTitle = null;
@@ -22,6 +21,11 @@ public class CodeLineManager : MonoBehaviour {
 
 
     private IEnumerator Start() {
+        amarillo_1 = PlaygroundManager.instance.yellow1;
+        amarillo_2 = PlaygroundManager.instance.yellow2;
+        gris1 = PlaygroundManager.instance.grey1;
+        gris2 = PlaygroundManager.instance.grey2;
+
         linePrefab = Resources.Load("CodeLine") as GameObject;
         separatorPrefab = Resources.Load("CodeSeparator") as GameObject;
         while (!PlayerFactory._instance.localPlayer) {
@@ -29,9 +33,9 @@ public class CodeLineManager : MonoBehaviour {
         }
 
         aux = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).gameObject;
-        codeContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("#Codigo").transform.Find("Lines").gameObject;
-        fixedLinesContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("#Codigo").transform.Find("LinesFixed").gameObject;
-        titulo = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("#Codigo").transform.Find("Header").transform.Find("Titulo").GetComponent<TextMeshProUGUI>();
+        codeContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Lines").gameObject;
+        fixedLinesContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("LinesFixed").gameObject;
+        titulo = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Header").transform.Find("Titulo").GetComponent<TextMeshProUGUI>();
 
 
         if (_instance == null) {
@@ -63,7 +67,13 @@ public class CodeLineManager : MonoBehaviour {
         // StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
-        if (animationTarget != currentTargetCodeDisplayed) yield break;
+        if (!GameObject.ReferenceEquals(animationTarget, currentTargetCodeDisplayed)) {
+            Debug.Log(animationTarget);
+            Debug.Log(currentTargetCodeDisplayed);
+
+            Debug.Log("Break set code color");
+            yield break;
+        }
         GameObject codeLine;
 
         float offsetTime = 0f;
@@ -88,7 +98,11 @@ public class CodeLineManager : MonoBehaviour {
         // StartCoroutine(executeLine(_time, _action));
 
         //Para que solo se anime si la linea de codigo en cuestien esta targeteada
-        if (animationTarget != currentTargetCodeDisplayed) yield break;
+        if (!GameObject.ReferenceEquals(animationTarget, currentTargetCodeDisplayed)) {
+            Debug.Log(animationTarget, currentTargetCodeDisplayed);
+            Debug.Log("Break set code color");
+            yield break;
+        }
         GameObject codeLine;
 
         try {
@@ -107,7 +121,7 @@ public class CodeLineManager : MonoBehaviour {
     public IEnumerator fillCodeLine(GameObject codeLine, Color _color, float _time, bool fadeUp, bool lineal, float offsetTime = 0f) {
         yield return new WaitForSeconds(offsetTime);
         if (codeLine == null) yield break;
-        Debug.Log(codeLine.name);
+
         Slider _slider = codeLine.transform.Find("Slider").GetComponent<Slider>();
         Image _fillImage = codeLine.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
         _fillImage.color = _color;
@@ -165,9 +179,29 @@ public class CodeLineManager : MonoBehaviour {
     }
 
     public void newTargetResetCodeLines(string _titulo, List<string> codeLines, GameObject newTargetGameObject) {
-        //Para evitar que se interrumpa la visualizacion de codigo por targetear pelotas
+
+        //si el nuevo target es igual al anterior
         if (GameObject.ReferenceEquals(newTargetGameObject, currentTargetCodeDisplayed)) return;
-        currentTargetCodeDisplayed = newTargetGameObject;
+        //lo mismo pero para boton de grupo
+        // if (newTargetGameObject.GetComponent<GenericButton>() != null && newTargetGameObject.GetComponent<GenericButton>().wrappGroup != 0 )
+
+        //si el anterior y el nuevo son botones
+        if (currentTargetCodeDisplayed != null && newTargetGameObject.GetComponent<GenericButton>() != null && currentTargetCodeDisplayed.GetComponent<ButtonWrapper>() != null)
+            //si ambos son del mismo grupo de botones
+            if (newTargetGameObject.GetComponent<GenericButton>().wrappGroup == currentTargetCodeDisplayed.GetComponent<ButtonWrapper>().my_groupId)
+                //si no son del grupo default 0
+                // if (newTargetGameObject.GetComponent<GenericButton>().wrappGroup != 0) {
+                //no cambiar el codigo
+                // Debug.Log("Boton del mismo grupo");
+                return;
+
+
+        //si el nuevo es un boton que no pertenece al grupo default
+        if (newTargetGameObject.GetComponent<GenericButton>() != null && newTargetGameObject.GetComponent<GenericButton>().wrappGroup != 0)
+            currentTargetCodeDisplayed = newTargetGameObject.GetComponent<GenericButton>().onPressParameter;
+        else
+            //para cualquier otro objeto o boton
+            currentTargetCodeDisplayed = newTargetGameObject;
 
         titulo.text = _titulo;
         //Borrar lineas anteriores
@@ -206,7 +240,7 @@ public class CodeLineManager : MonoBehaviour {
     }
 
     public void clearCodeLines() {
-        // Debug.Log("limpiando");
+
         StopAllCoroutines();
         List<GameObject> Children = new List<GameObject>();
         foreach (Transform child in codeContainer.transform) {

@@ -20,9 +20,12 @@ public class GenericButton : MonoBehaviourPun {
 
     private string activatedButtonHUD = "Ejecutando";
     private string deactivatedButtonHUD = "Mantener <Espacio>";
+    public GameObject onPressParameter = null;
+    public int wrappGroup = 0;
 
     // public bool lockMovementOnPress = false;
     public Func<GameObject, IEnumerator> onPressEvent;
+
     void Start() {
         switchActivableState();
         actualSprite.sprite = noActivableSprite;
@@ -47,7 +50,17 @@ public class GenericButton : MonoBehaviourPun {
             actualSprite.sprite = noActivableSprite;
             HUDText.text = deactivatedButtonHUD;
         }
+    }
 
+    private void activateButtonGroup(bool activate) {
+        if (wrappGroup == 0) {
+            activateButton(activate);
+            return;
+        }
+        GameObject parent = gameObject.transform.parent.transform.parent.gameObject;
+        foreach (Transform child in parent.transform) {
+            child.transform.GetChild(0).GetComponent<GenericButton>().activateButton(activate);
+        }
     }
 
 
@@ -72,7 +85,6 @@ public class GenericButton : MonoBehaviourPun {
         StartCoroutine(rutinaPresionar(playerId));
     }
 
-
     private IEnumerator rutinaPresionar(int playerId) {
         if (!activable) yield break;
 
@@ -91,15 +103,19 @@ public class GenericButton : MonoBehaviourPun {
             if (teleportPlayer)
                 player.GetComponent<PlayerMovement>().playerTeleportTo(pressingPosition.position);
         }
-        activateButton(true);
+
+        activateButtonGroup(true);
 
         if (onPressEvent != null) {
             CodeLineManager._instance.resetCodeColor();
 
-            yield return onPressEvent(gameObject);
+            //para que todas los botones de un grupo ejecuten el mismo codigo en cada uno de los miembros del grupo
+            var parameter = onPressParameter == null ? gameObject : onPressParameter;
+            yield return onPressEvent(parameter);
         }
 
-        activateButton(false);
+
+        activateButtonGroup(false);
         if (freezePlayer)
             player.GetComponent<PlayerMovement>().controllEnabled = true;
 

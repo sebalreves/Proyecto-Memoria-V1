@@ -8,9 +8,11 @@ using Photon.Pun;
 public class CanvasManager : MonoBehaviourPun {
     //ingame buttons functions and references
     public Button exitButton, resetButton;
+    public Image UIMaskImage;
     // Start is called before the first frame update
     void Start() {
         PhotonNetwork.AutomaticallySyncScene = true;
+        Invoke("ActivateMask", 0.1f);
         exitButton.onClick.AddListener(
         // PlaygroundEvents.test
         () => {
@@ -19,6 +21,14 @@ public class CanvasManager : MonoBehaviourPun {
             );
 
         resetButton.onClick.AddListener(onResetLevel);
+    }
+
+    private void ActivateMask() {
+        if (UIMaskImage) {
+
+            UIMaskImage.enabled = false;
+            UIMaskImage.enabled = true;
+        }
     }
 
     public void onResetLevel() {

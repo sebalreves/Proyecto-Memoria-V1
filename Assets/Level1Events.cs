@@ -6,10 +6,8 @@ public class Level1Events : PlaygroundEvents {
 
 
     public override void subscribeMethods() {
-        ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
-        ButtonsList[CONST.B].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
-        ButtonsList[CONST.C].GetComponent<GenericButton>().onPressEvent += pressButtonSwitchDoors;
-        ButtonsList[CONST.D].GetComponent<GenericButton>().onPressEvent += pressButtonD;
+        ButtonGroupList[CONST.A].GetComponent<ButtonWrapper>().setFunc(pressButtonSwitchDoors);
+        ButtonsList[CONST.A].GetComponent<GenericButton>().onPressEvent += pressButtonD;
     }
 
     #region  SWITCH PUERTAS
@@ -38,6 +36,7 @@ public class Level1Events : PlaygroundEvents {
     }
 
     public IEnumerator pressButtonSwitchDoors(GameObject buttonObject) {
+
         if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, grey, fadeUp: false);
 

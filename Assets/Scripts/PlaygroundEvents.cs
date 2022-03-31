@@ -13,8 +13,9 @@ public class PlaygroundEvents : MonoBehaviourPun {
     protected List<GameObject> WindAreasList;
     protected List<GameObject> DoorsList;
     protected List<GameObject> PlatformsList;
+    protected List<GameObject> ButtonGroupList;
 
-    public Color grey, green, red;
+    protected Color grey, green, red;
 
     // public static PlaygroundEvents instance;
     // // public Coroutine currentRoutine = null;
@@ -37,6 +38,10 @@ public class PlaygroundEvents : MonoBehaviourPun {
         DoorsList = PlaygroundManager.instance.DoorsList;
         PlatformsList = PlaygroundManager.instance.PlatformsList;
         ButtonsList = PlaygroundManager.instance.ButtonsList;
+        ButtonGroupList = PlaygroundManager.instance.ButtonGroupList;
+        grey = PlaygroundManager.instance.grey1;
+        green = PlaygroundManager.instance.green;
+        red = PlaygroundManager.instance.red;
         subscribeMethods();
     }
 
