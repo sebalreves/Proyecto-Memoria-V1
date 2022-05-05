@@ -8,7 +8,9 @@ public class GenericPlatform : MonoBehaviour {
     public bool presionado = false;
     public bool activado = false;
     public Color ActivatedColor, DeactivatedColor;
-    public SpriteRenderer spriteReference;
+    private Animator animatorButton;
+    private Animator animatorEngine;
+    // public SpriteRenderer spriteReference;
 
 
     public Func<GameObject, IEnumerator> setStatePressed;
@@ -17,8 +19,24 @@ public class GenericPlatform : MonoBehaviour {
     public platformTrigger platformTriggerReference;
     public Coroutine loopingCodeRoutine = null;
 
+    public void ChangeAnimation(string action) {
+        if (action == "Press") {
+            animatorEngine.enabled = true; // or speed
+            animatorButton.Play("Boton_Down");
+
+        } else if (action == "Release") {
+            animatorEngine.enabled = false;
+            animatorButton.Play("Boton_Up");
+        }
+        // if (animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
+        // animator.Play(newAnimationName);
+    }
 
     private void Awake() {
+        animatorButton = gameObject.transform.Find("Base").Find("Button").GetComponent<Animator>();
+        animatorEngine = gameObject.transform.Find("Base").Find("Tuerca").GetComponent<Animator>();
+        animatorEngine.enabled = false;
+
         // ActivatePlatform();
     }
 
@@ -38,7 +56,8 @@ public class GenericPlatform : MonoBehaviour {
         // Debug.Log(platformTriggerReference.presionado + " " + platformTriggerReference.activado);
         if (platformTriggerReference.presionado && !presionado) {
             presionado = true;
-            spriteReference.color = ActivatedColor;
+            ChangeAnimation("Press");
+            // spriteReference.color = ActivatedColor;
             attractPointEffector.enabled = false;
             activado = platformTriggerReference.activado;
             if (setStatePressed != null) {
@@ -50,7 +69,8 @@ public class GenericPlatform : MonoBehaviour {
         } else if (!platformTriggerReference.presionado && presionado) {
             //si se libera la plataforma
             presionado = false;
-            spriteReference.color = DeactivatedColor;
+            ChangeAnimation("Release");
+            // spriteReference.color = DeactivatedColor;
             attractPointEffector.enabled = true;
             activado = false;
             if (setStateReleased != null) {

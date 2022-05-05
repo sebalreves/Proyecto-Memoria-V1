@@ -6,7 +6,8 @@ using Photon.Pun;
 using TMPro;
 
 public class GenericButton : MonoBehaviourPun {
-    public SpriteRenderer actualSprite;
+    public Animator animator;
+    // public SpriteRenderer actualSprite;
     public Sprite activableSprite, noActivableSprite;
     public bool activable;
     public bool ejecutando;
@@ -23,12 +24,19 @@ public class GenericButton : MonoBehaviourPun {
     public GameObject onPressParameter = null;
     public int wrappGroup = 0;
 
+    public void ChangeAnimation(string newAnimationName) {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
+        animator.Play(newAnimationName);
+    }
+
     // public bool lockMovementOnPress = false;
     public Func<GameObject, IEnumerator> onPressEvent;
 
     void Start() {
         switchActivableState();
-        actualSprite.sprite = noActivableSprite;
+        animator = GetComponent<Animator>();
+        ChangeAnimation("Button");
+        // actualSprite.sprite = noActivableSprite;
     }
 
     public void switchActivableState() {
@@ -39,7 +47,9 @@ public class GenericButton : MonoBehaviourPun {
     public void activateButton(bool activate) {
         //todo animate when executing
         if (activate) {
-            actualSprite.sprite = activableSprite;
+            ChangeAnimation("Button_Working");
+
+            // actualSprite.sprite = activableSprite;
             ejecutando = true;
             activable = false;
             HUDText.text = activatedButtonHUD;
@@ -47,7 +57,9 @@ public class GenericButton : MonoBehaviourPun {
         } else {
             ejecutando = false;
             activable = true;
-            actualSprite.sprite = noActivableSprite;
+            ChangeAnimation("Button");
+
+            // actualSprite.sprite = noActivableSprite;
             HUDText.text = deactivatedButtonHUD;
         }
     }

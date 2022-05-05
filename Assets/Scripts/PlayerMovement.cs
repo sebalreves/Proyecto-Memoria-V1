@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviourPun {
     public Vector2 movementInput;
     public Vector2 movementInputScript;
     public bool movingViaScript = false;
+    public Transform signalPosition;
 
     [SerializeField] float movementSpeed;
 
@@ -28,8 +29,8 @@ public class PlayerMovement : MonoBehaviourPun {
         // if (!controllEnabled) return;
         // Debug.Log("AAA");
         movementInput = _context.ReadValue<Vector2>();
-        if (movementInput.x != 0)
-            myAvatar.localScale = new Vector2(Mathf.Sign(movementInput.x), 1);
+        // if (movementInput.x != 0)
+        //     myAvatar.localScale = new Vector2(Mathf.Sign(movementInput.x), 1);
     }
 
 

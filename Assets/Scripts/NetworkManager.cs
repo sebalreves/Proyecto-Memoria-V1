@@ -5,12 +5,18 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using TMPro;
+using UnityEngine.InputSystem;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
 
+    Keyboard kb;
+    Mouse mouse;
+
     [Header("Login UI")]
+    public TextMeshProUGUI loginConnectingText;
     public GameObject LoginUIPanel;
-    public InputField PlayerNameInput;
+    // public InputField PlayerNameInput;
 
     [Header("Connecting Info Panel")]
     public GameObject ConnectingInfoUIPanel;
@@ -25,7 +31,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [Header("Create Room Panel")]
     public GameObject CreateRoomUIPanel;
     // public InputField RoomNameInputField;
-    public string GameMode;
+    public string GameMode = CONST.level_1;
 
     [Header("Inside Room Panel")]
     public GameObject InsideRoomUIPanel;
@@ -33,6 +39,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public GameObject PlayerListPrefab;
     public GameObject PlayerListContent;
     public GameObject StartGameButton;
+    public GameObject LevelSelectPanel;
+    public TextMeshProUGUI LevelSelectionText;
+
     // public Text GameModeText;
     // public Image PanelBackground;
     // public Sprite RacingBackground;
@@ -45,41 +54,63 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [Header("Join Random Room Panel")]
     public GameObject JoinRandomRoomUIPanel;
 
+    private List<string> levels;
+    private int actualLevel = 0;
+
 
     private Dictionary<int, GameObject> playerListGameObjects;
 
     #region UNITY Methods
-    // Start is called before the first frame update
-    void Start() {
+    private void Awake() {
+        kb = InputSystem.GetDevice<Keyboard>();
+        mouse = InputSystem.GetDevice<Mouse>();
         ActivatePanel(LoginUIPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
+        levels = new List<string>(){
+            CONST.level_1,
+            CONST.level_2,
+            "Playground"
+        };
+    }
 
+    IEnumerator Start() {
+        yield return new WaitForSeconds(2f);
+        if (!PhotonNetwork.IsConnected) {
+            PhotonNetwork.LocalPlayer.NickName = "Jugador #" + Random.Range(50, 200);
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
 
+    private void Update() {
+        if (kb.anyKey.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame) {
+            OnInteract_LoginButton();
+        }
     }
     #endregion
 
 
     #region UI Callback Methods
-    public void OnLoginButtonClicked() {
+    public void OnInteract_LoginButton() {
+        if (PhotonNetwork.IsConnectedAndReady && LoginUIPanel.activeInHierarchy) {
 
-        string playerName = PlayerNameInput.text;
+            ActivatePanel(GameOptionsUIPanel.name);
 
-        if (!string.IsNullOrEmpty(playerName)) {
-
-            ActivatePanel(ConnectingInfoUIPanel.name);
-
-            if (!PhotonNetwork.IsConnected) {
-                PhotonNetwork.LocalPlayer.NickName = playerName;
-                PhotonNetwork.ConnectUsingSettings();
-            }
-
-
-        } else {
-            Debug.Log("Player name is invalid");
         }
 
+    }
+    private void ChangeLevel(string newLevel) {
+        LevelSelectionText.text = newLevel;
+    }
+    public void OnSelectNextLevel() {
+        actualLevel = (actualLevel + 1) % levels.Count;
+        string newLevel = levels[actualLevel];
+        ChangeLevel(newLevel);
+    }
 
-
+    public void OnSelectPrevLevel() {
+        actualLevel = (actualLevel - 1) % levels.Count;
+        string newLevel = levels[actualLevel];
+        ChangeLevel(newLevel);
     }
 
     public void OnCancelButtonClicked() {
@@ -89,37 +120,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public void OnCreateRoomButtonClicked() {
         ActivatePanel(CreatingRoomInfoUIPanel.name);
-        if (GameMode != null) {
-            string roomName = "Sala de " + PhotonNetwork.LocalPlayer.NickName;
-            // if (string.IsNullOrEmpty(roomName)) {
-            //     roomName = "Room" + Random.Range(1000, 10000);
-            // }
-            RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 3;
-            roomOptions.CleanupCacheOnLeave = true;
-            roomOptions.EmptyRoomTtl = 0;
-            string[] roomPropsInLobby = { "gm" }; //gm = game mode
 
-            //two game modes
-            //1. racing = "rc"
-            //2. death race = "dr"
+        string roomName = "Sala de " + PhotonNetwork.LocalPlayer.NickName;
+        // if (string.IsNullOrEmpty(roomName)) {
+        //     roomName = "Room" + Random.Range(1000, 10000);
+        // }
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 2;
+        roomOptions.CleanupCacheOnLeave = true;
+        roomOptions.EmptyRoomTtl = 0;
 
-            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
+        string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
+        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+        {
+            { CONST.levelProp, GameMode }
+        };
 
-            roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
-            roomOptions.CustomRoomProperties = customRoomProperties;
+        roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
+        roomOptions.CustomRoomProperties = customRoomProperties;
 
-            PhotonNetwork.CreateRoom(roomName, roomOptions);
-        }
-
-
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
 
-    public void OnJoinRandomRoomButtonClicked(string _gameMode) {
-        GameMode = _gameMode;
+    public void OnJoinRandomRoomButtonClicked() {
+        // GameMode = _gameMode;
 
-        ExitGames.Client.Photon.Hashtable expectedCustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", _gameMode } };
+        ExitGames.Client.Photon.Hashtable expectedCustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, 0);
     }
 
@@ -135,7 +162,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public void OnStartGameButtonClicked() {
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
-            PhotonNetwork.LoadLevel("Level 1");
+            PhotonNetwork.LoadLevel(levels[actualLevel]);
 
             // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) {
             //     //Racing game mode
@@ -156,14 +183,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
 
     #region Photon Callbacks
-    public override void OnConnected() {
-        Debug.Log("We connected to internet");
-    }
+    // public override void OnConnected() {
+    //     Debug.Log("We connected to internet");
+    // }
 
     public override void OnConnectedToMaster() {
+        // Debug.Log(PhotonNetwork.LocalPlayer.NickName + " is connected to Photon.");
+        loginConnectingText.text = "Presione una tecla para continuar";
         ActivatePanel(GameOptionsUIPanel.name);
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " is connected to Photon.");
-
 
     }
 
@@ -174,6 +201,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name + "Player count:" + PhotonNetwork.CurrentRoom.PlayerCount);
+
+        LevelSelectPanel.SetActive(PhotonNetwork.IsMasterClient);
 
         ActivatePanel(InsideRoomUIPanel.name);
 
@@ -326,19 +355,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             }
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = 3;
-            string[] roomPropsInLobby = { "gm" }; //gm = game mode 
-
-            //two game modes
-            //1. racing = "rc"
-            //2. death race = "dr"
+            string[] roomPropsInLobby = { "lvl" }; //gm = game mode 
 
             ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
 
+            roomOptions.BroadcastPropsChangeToAll = true;
             roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
             roomOptions.CustomRoomProperties = customRoomProperties;
 
             PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
+
+    }
+
+    public override void OnDisconnected(DisconnectCause cause) {
+        Debug.LogWarning("Jugador desconectado");
     }
     #endregion
 

@@ -182,17 +182,11 @@ public class CodeLineManager : MonoBehaviour {
 
         //si el nuevo target es igual al anterior
         if (GameObject.ReferenceEquals(newTargetGameObject, currentTargetCodeDisplayed)) return;
-        //lo mismo pero para boton de grupo
-        // if (newTargetGameObject.GetComponent<GenericButton>() != null && newTargetGameObject.GetComponent<GenericButton>().wrappGroup != 0 )
 
-        //si el anterior y el nuevo son botones
+        //si el anterior es de un grupo de botones y el nuevo es boton
         if (currentTargetCodeDisplayed != null && newTargetGameObject.GetComponent<GenericButton>() != null && currentTargetCodeDisplayed.GetComponent<ButtonWrapper>() != null)
             //si ambos son del mismo grupo de botones
             if (newTargetGameObject.GetComponent<GenericButton>().wrappGroup == currentTargetCodeDisplayed.GetComponent<ButtonWrapper>().my_groupId)
-                //si no son del grupo default 0
-                // if (newTargetGameObject.GetComponent<GenericButton>().wrappGroup != 0) {
-                //no cambiar el codigo
-                // Debug.Log("Boton del mismo grupo");
                 return;
 
 
@@ -220,7 +214,7 @@ public class CodeLineManager : MonoBehaviour {
             newLine.GetComponent<LayoutElement>().preferredWidth -= CONST.codeTabSize * codeLines[i].Count(f => f == '#');
 
             var temp = codeLines[i].Replace("#", "");
-            newLine.transform.Find("Slider").transform.Find("Background").GetComponent<Image>().color = i % 2 == 0 ? amarillo_1 : amarillo_2;
+            newLine.transform.Find("Slider").transform.Find("Background").GetComponent<Image>().color = codeIndex % 2 == 0 ? amarillo_1 : amarillo_2;
             newLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (codeIndex++).ToString();
             newLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = temp;
         }

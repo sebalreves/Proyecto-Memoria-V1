@@ -14,6 +14,7 @@ public class PlaygroundEvents : MonoBehaviourPun {
     protected List<GameObject> DoorsList;
     protected List<GameObject> PlatformsList;
     protected List<GameObject> ButtonGroupList;
+    protected List<GameObject> ObjectAreasList;
 
     protected Color grey, green, red;
 
@@ -39,6 +40,7 @@ public class PlaygroundEvents : MonoBehaviourPun {
         PlatformsList = PlaygroundManager.instance.PlatformsList;
         ButtonsList = PlaygroundManager.instance.ButtonsList;
         ButtonGroupList = PlaygroundManager.instance.ButtonGroupList;
+        ObjectAreasList = PlaygroundManager.instance.ObjectAreasList;
         grey = PlaygroundManager.instance.grey1;
         green = PlaygroundManager.instance.green;
         red = PlaygroundManager.instance.red;
@@ -51,14 +53,14 @@ public class PlaygroundEvents : MonoBehaviourPun {
 
     #endregion
 
-    protected void executeLine(float _time = 0f, Action _action = null) {
-        StartCoroutine(executeLineRoutine(_time, _action));
-    }
-    private IEnumerator executeLineRoutine(float _time, Action _action) {
-        yield return new WaitForSeconds(_time);
-        if (_action != null)
-            _action();
-    }
+    // protected void executeLine(float _time = 0f, Action _action = null) {
+    //     StartCoroutine(executeLineRoutine(_time, _action));
+    // }
+    // private IEnumerator executeLineRoutine(float _time, Action _action) {
+    //     yield return new WaitForSeconds(_time);
+    //     if (_action != null)
+    //         _action();
+    // }
 
     // #region UICallbacks
     // public static void ExitLevel() {

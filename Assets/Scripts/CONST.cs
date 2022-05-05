@@ -75,6 +75,11 @@ public class CONST {
     public const float fillLoopOffsetTime = 0.5f; //[seconds]
     public const float codeTabSize = 0.7f;
 
+    //networking variables
+    public const string levelProp = "lvl";
+    public const string level_1 = "Level 1";
+    public const string level_2 = "Level 2";
+
 
 
 }

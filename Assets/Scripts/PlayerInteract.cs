@@ -13,6 +13,7 @@ public class PlayerInteract : MonoBehaviourPun {
     PlayerMovement playerMovementScript;
     Keyboard kb;
     GameObject signalPointerPrefab;
+    // public Transform SignalPosition;
 
     GameObject ActualButtonPressed = null;
     Slider ActualButtonSlider = null;
@@ -22,6 +23,7 @@ public class PlayerInteract : MonoBehaviourPun {
     public AnimationCurve ButtonSliderAnimation;
     Coroutine fadeOutAnimation = null;
     public Color originalColorCode;
+    bool signalSent = false;
 
     public Color red, green;
 
@@ -55,6 +57,23 @@ public class PlayerInteract : MonoBehaviourPun {
         }
     }
 
+    private void SendSignal(Vector3 _position) {
+        #region SIGNALS
+        signalSent = true;
+        //Signals que deja el jugador cada vez que hace una interaccion
+        // if (SignalPointer.signalCount < 4) {
+        if (PhotonNetwork.IsConnectedAndReady) {
+            // object[] customData = new object[] { _color };
+            PhotonNetwork.Instantiate(signalPointerPrefab.name, _position, Quaternion.identity);
+        } else {
+            Instantiate(signalPointerPrefab, _position, Quaternion.identity);
+        }
+        // SignalPointer.signalCount++;
+        // Instantiate(signalPointer, gameObject.transform.position, Quaternion.identity);
+
+        #endregion
+    }
+
     private void RestartSliderValue(Color color) {
         //restaura los valores y hace tilin con un color el slider
         if (ActualButtonSlider != null) {
@@ -83,6 +102,7 @@ public class PlayerInteract : MonoBehaviourPun {
 
 
     public void OnInteract(InputAction.CallbackContext _context) {
+        signalSent = false;
         // if (_context.phase == InputActionPhase.Canceled && _context.interaction is UnityEngine.InputSystem.Interactions.MultiTapInteraction) {
         //     Debug.Log("Tap");
         // }
@@ -120,6 +140,8 @@ public class PlayerInteract : MonoBehaviourPun {
                 if (buttonReady) {
                     focusedElement.GetComponent<GenericButton>().Presionar(gameObject);
                     RestartSliderValue(green);
+                    SendSignal(focusedElement.transform.position);
+
                 } else {
                     RestartSliderValue(red);
                 }
@@ -129,34 +151,29 @@ public class PlayerInteract : MonoBehaviourPun {
 
         } else if (_context.interaction is UnityEngine.InputSystem.Interactions.TapInteraction) {
             // Debug.Log("Hola");
-            #region SIGNALS
-            //Signals que deja el jugador cada vez que hace una interaccion
-            if (SignalPointer.signalCount < 5) {
-                if (PhotonNetwork.IsConnectedAndReady) {
-                    // object[] customData = new object[] { _color };
-                    GameObject spawnedObject = PhotonNetwork.Instantiate(signalPointerPrefab.name, transform.position, Quaternion.identity);
-                } else {
-                    GameObject spawnedObject = Instantiate(signalPointerPrefab, transform.position, Quaternion.identity);
-                }
-                // SignalPointer.signalCount++;
-                // Instantiate(signalPointer, gameObject.transform.position, Quaternion.identity);
-            }
-            #endregion
+
+
 
             #region GRAB INTERACTION ONRELEASE 
             if (playerGrabScrip.grabCdTimer <= 0f) {
                 if (playerGrabScrip.grabingBall) {
                     playerGrabScrip.TryReleaseAndThrow();
+                    SendSignal(transform.position);
 
                 } else {
                     var focusedElement = targetingScriptReference.getTargetedBall();
                     if (focusedElement != null) {
                         playerGrabScrip.grabCdTimer = CONST.playerGrabCD;
                         playerGrabScrip.TryGrab(focusedElement);
+                        SendSignal(focusedElement.transform.position);
+
                     }
                 }
             }
             #endregion
+
+            if (!signalSent)
+                SendSignal(transform.position);
         }
     }
 

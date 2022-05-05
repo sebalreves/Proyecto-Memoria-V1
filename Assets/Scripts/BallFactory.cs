@@ -133,7 +133,7 @@ public class BallFactory : MonoBehaviour {
         return spawnedObject;
     }
 
-    public IEnumerator deleteGroup(string _shape = null, string _color = null, Action onDeleted = null) {
+    public IEnumerator deleteGroup(string _shape = null, string _color = null, Action onDeleted = null, List<GameObject> customGroup = null) {
         if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) yield return null;
         List<GameObject> toDeleteList = new List<GameObject>();
         //BALLS
@@ -148,6 +148,7 @@ public class BallFactory : MonoBehaviour {
             toDeleteList = toDeleteList.Concat(GameObject.FindGameObjectsWithTag(CONST.Ball).ToList()).ToList();
         }
 
+
         //FILTER BY COLOR
         if (_color != null)
             for (int i = toDeleteList.Count - 1; i >= 0; i--) {
@@ -156,6 +157,7 @@ public class BallFactory : MonoBehaviour {
                 }
             }
 
+        if (customGroup != null) toDeleteList = customGroup;
         yield return StartCoroutine(iterativeDeleteRoutine(toDeleteList, onDeleted));
     }
 
@@ -169,7 +171,7 @@ public class BallFactory : MonoBehaviour {
         }
     }
 
-    public IEnumerator transformGroup(string _fromShape = null, string _fromColor = null, string _toShape = null, string _toColor = null, Action onTransformAction = null) {
+    public IEnumerator transformGroup(string _fromShape = null, string _fromColor = null, string _toShape = null, string _toColor = null, Action onTransformAction = null, List<GameObject> customGroup = null) {
         // if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.LocalPlayer.IsMasterClient) return;
         List<GameObject> toTransformList = new List<GameObject>();
         //BALLS
@@ -191,7 +193,7 @@ public class BallFactory : MonoBehaviour {
                     toTransformList.RemoveAt(i);
                 }
             }
-
+        if (customGroup != null) toTransformList = customGroup;
         yield return StartCoroutine(iterativeTransformRoutine(toTransformList, _toShape, _toColor, onTransformAction));
     }
 

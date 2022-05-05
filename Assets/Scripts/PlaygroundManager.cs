@@ -23,6 +23,7 @@ public class PlaygroundManager : MonoBehaviour {
     public GameObject WindAreas;
     public GameObject Doors;
     public GameObject Platforms;
+    public GameObject ObjectAreas;
 
     // [HideInInspector]
     public List<GameObject> ButtonsList;
@@ -33,6 +34,7 @@ public class PlaygroundManager : MonoBehaviour {
     public List<GameObject> DoorsList;
     // [HideInInspector]
     public List<GameObject> PlatformsList;
+    public List<GameObject> ObjectAreasList;
     #endregion
 
     private void Awake() {
@@ -53,6 +55,7 @@ public class PlaygroundManager : MonoBehaviour {
         WindAreasList = getChildren(WindAreas);
         PlatformsList = getChildren(Platforms);
         ButtonGroupList = getChildren(ButtonGroups);
+        ObjectAreasList = getChildren(ObjectAreas);
 
         #endregion
         // DontDestroyOnLoad(gameObject);

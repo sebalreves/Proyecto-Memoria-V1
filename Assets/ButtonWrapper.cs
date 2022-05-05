@@ -18,8 +18,6 @@ public class ButtonWrapper : MonoBehaviour {
         foreach (Transform button in gameObject.transform) {
             button.GetChild(0).GetComponent<GenericButton>().wrappGroup = buttonGroupId;
             button.GetChild(0).GetComponent<GenericButton>().onPressParameter = gameObject;
-            // button.GetChild(0).GetComponent<GenericButton>().onPressEvent += onPressEvent;
-
         }
     }
 
@@ -29,10 +27,4 @@ public class ButtonWrapper : MonoBehaviour {
 
         }
     }
-    // private IEnumerator pressAllButtons(GameObject wrapperGameObject) {
-    //     // foreach (Transform button in gameObject.transform) {
-
-    //     // }
-    //     yield break;
-    // }
 }

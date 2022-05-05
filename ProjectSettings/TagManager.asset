@@ -63,14 +63,20 @@ TagManager:
   - name: TileWalls
     uniqueID: 2965213529
     locked: 0
-  - name: Buttons
-    uniqueID: 429893221
-    locked: 0
   - name: Plataformas
     uniqueID: 1447650391
     locked: 0
+  - name: Ventilador
+    uniqueID: 1172784611
+    locked: 0
+  - name: Puerta
+    uniqueID: 3901139999
+    locked: 0
   - name: Player
     uniqueID: 3079483027
+    locked: 0
+  - name: Buttons
+    uniqueID: 429893221
     locked: 0
   - name: Carteles
     uniqueID: 1933476113
@@ -80,6 +86,9 @@ TagManager:
     locked: 0
   - name: CamZones
     uniqueID: 3939939953
+    locked: 0
+  - name: Nubes
+    uniqueID: 547893683
     locked: 0
   - name: InGameUI
     uniqueID: 97002069

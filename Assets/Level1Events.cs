@@ -44,7 +44,7 @@ public class Level1Events : PlaygroundEvents {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, 1, green, fadeUp: false);
             openDoors();
         }
-        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 4f, fadeUp: false, lineal: true);
+        yield return CodeLineManager._instance.trySetColorLine(buttonObject, 2, green, _time: 2f, fadeUp: false, lineal: true);
 
         if (DoorsList[CONST.A].GetComponent<GenericDoor>().opened) {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 3, 4, green, fadeUp: false);

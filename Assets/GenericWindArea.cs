@@ -13,6 +13,15 @@ public class GenericWindArea : MonoBehaviour {
     public RawImage spriteReference;
     public float spriteVelocity = 2f;
 
+    public Animator ventilador_1_animator, ventilador_2_animator;
+
+    public void ChangeAnimation(string newAnimationName) {
+        if (ventilador_1_animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
+        ventilador_1_animator.Play(newAnimationName);
+
+        if (ventilador_2_animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
+        ventilador_2_animator.Play(newAnimationName);
+    }
     public void Start() {
         effector = gameObject.transform.Find("Effectors").transform.gameObject;
         // effector2 = gameObject.transform.Find("Effectors").transform.GetChild(1).GetComponent<AreaEffector2D>();
@@ -24,9 +33,12 @@ public class GenericWindArea : MonoBehaviour {
 
     public void activar() {
         activated = true;
+        ChangeAnimation("Ventilador_activado");
     }
     public void desactivar() {
         activated = false;
+        ChangeAnimation("Ventilador_apagado");
+
     }
 
     private void Update() {

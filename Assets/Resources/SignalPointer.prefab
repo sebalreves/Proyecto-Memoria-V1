@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d58a829dff53f041b2b8c5c49f93b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questPointerReference: {fileID: 0}
 --- !u!114 &2461670851854162050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +74,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7652636045169622264}
     m_Modifications:
+    - target: {fileID: 8982966665154811979, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: SmallScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982966665154811979, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: SmallScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 8982966665154811988, guid: 96e3625f67959c046935410e6306b68e, type: 3}
       propertyPath: m_RootOrder
       value: 0

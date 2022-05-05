@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class QuestPointer : MonoBehaviour {
     // [SerializeField] private Camera uiCamera;
+
+    public Animator animator;
+    public GameObject SpriteGameObject;
+    public GameObject symbol;
+    public Vector3 SmallScale, BigScale;
+
     private RectTransform maskRect;
     [SerializeField] private Sprite arrowSprite;
     [SerializeField] private Sprite squareSprite;
-    public Vector3 targetPosition;
+    private Vector3 targetPosition;
     private Transform pointerTransform;
-    public SpriteRenderer pointerRenderer;
+    // public SpriteRenderer pointerRenderer;
     public Action onReachEvent;
     public float objectiveRadius = 10f;
     private float borderSize = 100f;
@@ -18,36 +24,37 @@ public class QuestPointer : MonoBehaviour {
     Vector3 playerPosition;
     public float pointerVelocity = 0f;
 
-    private float startTime;
+    // private float startTime;
     // public string type;
 
     // Start is called before the first frame update
     private void Awake() {
         // targetPosition = new Vector3(5f, 4f, 0f);
-        pointerTransform = transform.Find("Pointer").GetComponent<Transform>();
-        pointerRenderer = transform.Find("Pointer").GetComponent<SpriteRenderer>();
+        pointerTransform = transform.Find("Center").GetComponent<Transform>();
+        // pointerRenderer = transform.Find("Center").GetComponent<SpriteRenderer>();
     }
     IEnumerator Start() {
         while (PlayerFactory._instance.localPlayer == null) {
             yield return null;
         }
+        targetPosition = gameObject.transform.position;
         playerGameObjectReference = PlayerFactory._instance.localPlayer;
         maskRect = playerGameObjectReference.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).transform.Find("#Mask").GetComponent<RectTransform>();
 
         pointerTransform.position = playerGameObjectReference.transform.position;
     }
 
-    private void OnEnable() {
-        startTime = Time.time;
-    }
+    // private void OnEnable() {
+    //     startTime = Time.time;
+    // }
 
 
-    Vector3 rotarSprite() {
-        Vector3 dir = (targetPosition - playerPosition).normalized;
-        float angle = GetAngleFromVector(dir); //flecha apuntando a la derecha
-        pointerTransform.localEulerAngles = Vector3.Lerp(pointerTransform.localEulerAngles, new Vector3(0, 0, angle + 90), 07f);
-        return dir;
-    }
+    // Vector3 rotarSprite() {
+    //     Vector3 dir = (targetPosition - playerPosition).normalized;
+    //     float angle = GetAngleFromVector(dir); //flecha apuntando a la derecha
+    //     pointerTransform.localEulerAngles = Vector3.Lerp(pointerTransform.localEulerAngles, new Vector3(0, 0, angle + 90), 07f);
+    //     return dir;
+    // }
 
     // Update is called once per frame
     private void OnDisable() {
@@ -62,6 +69,15 @@ public class QuestPointer : MonoBehaviour {
         }
     }
 
+    public void Animate() {
+        animator.Play("PointerFlash");
+    }
+
+    public void AnimateSignal() {
+        animator.Play("PointerFlashSignal");
+
+    }
+
     void Update() {
         if (!playerGameObjectReference) return;
         playerPosition = playerGameObjectReference.transform.position;
@@ -74,16 +90,22 @@ public class QuestPointer : MonoBehaviour {
         bool offScreen = isOffGameScreen(targetPosition);
 
         if (offScreen) {
-            pointerRenderer.sprite = arrowSprite;
-            Vector3 dir = rotarSprite();
+            SpriteGameObject.transform.localScale = BigScale;
+            // pointerRenderer.sprite = arrowSprite;
+            symbol.SetActive(true);
+            Vector3 dir = (targetPosition - playerPosition).normalized;
             Vector3 cappedTargetPosition = targetPosition;
             Vector3 _center = maskRect.position;
-            cappedTargetPosition = _center + dir * maskRect.rect.width * 0.4f;
+            cappedTargetPosition = _center + dir * maskRect.rect.width * 0.45f;
             pointerTransform.position = Vector3.Lerp(pointerTransform.position, cappedTargetPosition, Mathf.Max(Time.deltaTime * 6f, pointerVelocity));
             pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         } else {
-            pointerRenderer.sprite = squareSprite;
-            pointerTransform.localEulerAngles = Vector3.zero;
+            SpriteGameObject.transform.localScale = SmallScale;
+            symbol.SetActive(false);
+            // SpriteGameObject.SetActive(false);
+
+            // pointerRenderer.sprite = squareSprite;
+            // pointerTransform.localEulerAngles = Vector3.zero;
             pointerTransform.position = Vector3.Lerp(pointerTransform.position, targetPosition, Mathf.Max(Time.deltaTime * 6f, pointerVelocity));
             pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x, pointerTransform.localPosition.y, 0f);
         }
