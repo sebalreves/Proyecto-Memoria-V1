@@ -7,6 +7,7 @@ using TMPro;
 public class PlayerSetup : MonoBehaviourPunCallbacks {
     public GameObject PlayerCamera;
     public TextMeshProUGUI PlayerNameText;
+    public GameObject bigoteSprite;
     // Start is called before the first frame update
 
     void Start() {
@@ -29,6 +30,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = true;
             PlayerFactory._instance.localPlayer = gameObject;
 
+            if (PhotonNetwork.IsMasterClient) {
+                bigoteSprite.SetActive(true);
+            }
+
         } else {
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerGrab>().enabled = false;
@@ -40,6 +45,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks {
             // gameObject.transform.Find("Camera").GetComponent<CameraManager>().enabled = false;
             Destroy(gameObject.transform.Find("Camera").gameObject);
             PlayerFactory._instance.noLocalPlayer = gameObject;
+
+            if (!PhotonNetwork.IsMasterClient) {
+                bigoteSprite.SetActive(true);
+            }
         }
         // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))
         // {

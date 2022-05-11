@@ -10,8 +10,23 @@ public class GenericDoor : MonoBehaviourPun {
     public SpriteRenderer spriteRenderer;
     public BoxCollider2D boxCollider;
     public bool interacting;
+    private GameObject signalPointerPrefab;
+
 
     public Action onInteractEvent;
+    private void Start() {
+        signalPointerPrefab = Resources.Load("SignalPointer") as GameObject;
+
+    }
+
+    private void signal() {
+        if (PhotonNetwork.IsConnectedAndReady) {
+            // object[] customData = new object[] { _color };
+            PhotonNetwork.Instantiate(signalPointerPrefab.name, gameObject.transform.position, Quaternion.identity);
+        } else {
+            Instantiate(signalPointerPrefab, gameObject.transform.position, Quaternion.identity);
+        }
+    }
 
     public void open() {
         if (PhotonNetwork.IsConnectedAndReady) {
@@ -42,6 +57,7 @@ public class GenericDoor : MonoBehaviourPun {
 
     [PunRPC]
     public void RPC_DoorInteract(bool newState) {
+        if (opened != newState) signal();
         opened = newState;
         spriteRenderer.color = newState ? openedColor : closedColor;
         boxCollider.enabled = !newState;

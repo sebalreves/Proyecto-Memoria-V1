@@ -32,6 +32,20 @@ public class PlayerFactory : MonoBehaviour {
         GameObject spawnedPlayer;
         if (PhotonNetwork.IsConnectedAndReady) {
             spawnedPlayer = PhotonNetwork.Instantiate(playerPrefab.name, _instantiatePosition, Quaternion.identity);
+            // if (PhotonNetwork.IsMasterClient) {
+            //     if (spawnedPlayer.GetComponent<PhotonView>().IsMine) {
+            //         spawnedPlayer.transform.Find("Sprites").Find("BodyAnimated").GetChild(0).gameObject.SetActive(true);
+            //     } else
+            //         spawnedPlayer.transform.Find("Sprites").Find("BodyAnimated").GetChild(1).gameObject.SetActive(true);
+
+            // } else {
+            //     if (spawnedPlayer.GetComponent<PhotonView>().IsMine) {
+            //         spawnedPlayer.transform.Find("Sprites").Find("BodyAnimated").GetChild(1).gameObject.SetActive(true);
+            //     } else
+            //         spawnedPlayer.transform.Find("Sprites").Find("BodyAnimated").GetChild(0).gameObject.SetActive(true);
+            // }
+
+
             instancedPlayers.Add(spawnedPlayer.GetComponent<PhotonView>().ViewID, spawnedPlayer);
         } else {
             spawnedPlayer = Instantiate(playerPrefab, _instantiatePosition, Quaternion.identity);

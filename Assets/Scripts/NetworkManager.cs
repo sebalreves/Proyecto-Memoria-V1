@@ -35,7 +35,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     [Header("Inside Room Panel")]
     public GameObject InsideRoomUIPanel;
-    public Text RoomInfoText;
+    public TextMeshProUGUI RoomInfoText;
     public GameObject PlayerListPrefab;
     public GameObject PlayerListContent;
     public GameObject StartGameButton;
@@ -62,6 +62,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     #region UNITY Methods
     private void Awake() {
+        Application.targetFrameRate = 60;
         kb = InputSystem.GetDevice<Keyboard>();
         mouse = InputSystem.GetDevice<Mouse>();
         ActivatePanel(LoginUIPanel.name);
@@ -69,7 +70,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         levels = new List<string>(){
             CONST.level_1,
             CONST.level_2,
-            "Playground"
+            "Playground",
+            "Level 4 Tutorial 1"
         };
     }
 
@@ -162,7 +164,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public void OnStartGameButtonClicked() {
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
-            PhotonNetwork.LoadLevel(levels[actualLevel]);
+            PhotonNetwork.LoadLevel("Level 4 Tutorial 1");
 
             // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) {
             //     //Racing game mode
@@ -202,7 +204,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public override void OnJoinedRoom() {
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name + "Player count:" + PhotonNetwork.CurrentRoom.PlayerCount);
 
-        LevelSelectPanel.SetActive(PhotonNetwork.IsMasterClient);
+        // LevelSelectPanel.SetActive(PhotonNetwork.IsMasterClient);
 
         ActivatePanel(InsideRoomUIPanel.name);
 
@@ -350,11 +352,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         if (GameMode != null) {
             string roomName = "Sala creada por error al encontrar";
             if (string.IsNullOrEmpty(roomName)) {
-                roomName = "Room" + Random.Range(1000, 10000);
+                roomName = "Sala" + Random.Range(1000, 10000);
 
             }
             RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 3;
+            roomOptions.MaxPlayers = 2;
             string[] roomPropsInLobby = { "lvl" }; //gm = game mode 
 
             ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
@@ -363,7 +365,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
             roomOptions.CustomRoomProperties = customRoomProperties;
 
-            PhotonNetwork.CreateRoom(roomName, roomOptions);
+            PhotonNetwork.CreateRoom("Sala" + Random.Range(1000, 10000), roomOptions);
         }
     }
 
@@ -402,6 +404,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         if (!PhotonNetwork.IsMasterClient) {
             return false;
         }
+        if (PhotonNetwork.PlayerList.Length != 2) return false;
         foreach (Player player in PhotonNetwork.PlayerList) {
 
             object isPlayerReady;

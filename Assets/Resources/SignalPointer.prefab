@@ -74,6 +74,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7652636045169622264}
     m_Modifications:
+    - target: {fileID: 3097159159095385297, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4523757657793267402, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982966665154811979, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: BigScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982966665154811979, guid: 96e3625f67959c046935410e6306b68e, type: 3}
+      propertyPath: BigScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8982966665154811979, guid: 96e3625f67959c046935410e6306b68e, type: 3}
       propertyPath: SmallScale.x
       value: 0.8

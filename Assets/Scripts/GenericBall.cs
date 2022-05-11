@@ -7,8 +7,8 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     public Color RedColor, BlueColor;
     public Sprite BallSprite, CubeSrite;
     public GameObject WindInteractionGameObject;
-    public SpriteRenderer innerSpriteRenderer;
-    public SpriteRenderer outlineSpriteRenderer;
+    // public SpriteRenderer innerSpriteRenderer;
+    public SpriteRenderer SpriteRenderer;
     public CircleCollider2D myCircleCollider;
     public BallGrabScript ballGrabScript;
     // public float mass;
@@ -64,11 +64,11 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
 
     private void initializeBall() {
         if (color == CONST.Red)
-            innerSpriteRenderer.color = RedColor;
+            SpriteRenderer.color = Color.white;
         else if (color == CONST.Blue)
-            innerSpriteRenderer.color = BlueColor;
+            SpriteRenderer.color = Color.white;
         else
-            innerSpriteRenderer.color = Color.grey;
+            SpriteRenderer.color = Color.white;
 
         if (shape == CONST.Cube) {
             codeDescription.titulo = "Cubo";
@@ -78,7 +78,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
             codeDescription.titulo = "Pelota";
             convertToBall();
         } else
-            innerSpriteRenderer.color = Color.grey;
+            SpriteRenderer.color = Color.white;
     }
 
     // private void OnValidate() {
@@ -95,7 +95,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
         WindInteractionGameObject.SetActive(true);
         // mass = CONST.ballMass;
         gameObject.tag = CONST.ballTag;
-        outlineSpriteRenderer.sprite = BallSprite;
+        SpriteRenderer.sprite = BallSprite;
         myRb.drag = CONST.ballLinearDrag;
 
         if (!ballGrabScript.beingCarried) {
@@ -108,7 +108,7 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     private void convertToCube() {
         WindInteractionGameObject.SetActive(false);
         gameObject.tag = CONST.cubeTag;
-        outlineSpriteRenderer.sprite = CubeSrite;
+        SpriteRenderer.sprite = CubeSrite;
         myRb.drag = CONST.cubeLinearDrag;
         // mass = CONST.cubeMass;
 
@@ -123,9 +123,9 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     public void onPortalTransform(string _newColor, string _newShape) {
         if (_newColor != color) {
             if (_newColor == CONST.Red)
-                innerSpriteRenderer.color = RedColor;
+                SpriteRenderer.color = Color.white;
             else
-                innerSpriteRenderer.color = BlueColor;
+                SpriteRenderer.color = Color.white;
 
             color = _newColor;
         }

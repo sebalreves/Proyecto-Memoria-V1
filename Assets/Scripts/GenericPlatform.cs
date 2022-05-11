@@ -10,6 +10,11 @@ public class GenericPlatform : MonoBehaviour {
     public Color ActivatedColor, DeactivatedColor;
     private Animator animatorButton;
     private Animator animatorEngine;
+    public CodeDescription codeDescription;
+    private float lagInicial = 1f;
+
+    public bool isNormalPlatform = true;
+
     // public SpriteRenderer spriteReference;
 
 
@@ -20,6 +25,7 @@ public class GenericPlatform : MonoBehaviour {
     public Coroutine loopingCodeRoutine = null;
 
     public void ChangeAnimation(string action) {
+        if (!isNormalPlatform) return;
         if (action == "Press") {
             animatorEngine.enabled = true; // or speed
             animatorButton.Play("Boton_Down");
@@ -33,9 +39,13 @@ public class GenericPlatform : MonoBehaviour {
     }
 
     private void Awake() {
-        animatorButton = gameObject.transform.Find("Base").Find("Button").GetComponent<Animator>();
-        animatorEngine = gameObject.transform.Find("Base").Find("Tuerca").GetComponent<Animator>();
-        animatorEngine.enabled = false;
+        if (isNormalPlatform) {
+            animatorButton = gameObject.transform.Find("Base").Find("Button").GetComponent<Animator>();
+            animatorEngine = gameObject.transform.Find("Base").Find("Tuerca").GetComponent<Animator>();
+            animatorEngine.enabled = false;
+            codeDescription.titulo = codeDescription.titulo + "<sprite=1>";
+        }
+
 
         // ActivatePlatform();
     }
@@ -93,6 +103,9 @@ public class GenericPlatform : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        ActivatePlatform();
+        if (lagInicial > 0f) {
+            lagInicial -= Time.fixedDeltaTime;
+        } else
+            ActivatePlatform();
     }
 }

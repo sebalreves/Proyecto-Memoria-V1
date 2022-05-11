@@ -13,6 +13,8 @@ public class GenericButton : MonoBehaviourPun {
     public bool ejecutando;
     public Transform pressingPosition;
     public TextMeshProUGUI HUDText;
+    public CodeDescription codeDescription;
+
     [HideInInspector]
     public bool spawner = false;
 
@@ -33,6 +35,7 @@ public class GenericButton : MonoBehaviourPun {
     public Func<GameObject, IEnumerator> onPressEvent;
 
     void Start() {
+        codeDescription.titulo =   codeDescription.titulo + "<sprite=0>";
         switchActivableState();
         animator = GetComponent<Animator>();
         ChangeAnimation("Button");

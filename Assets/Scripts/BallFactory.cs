@@ -39,6 +39,7 @@ public class BallFactory : MonoBehaviour {
     private Action<string, int> onCountChange;
     public bool ready = false;
     private TextMeshProUGUI ballCountTMP, cubeCountTMP;
+    private Animator ballCountAnimator, cubeCountAnimator;
 
 
     //TODO check network sync of dictionary
@@ -57,19 +58,27 @@ public class BallFactory : MonoBehaviour {
     }
 
     void onCountChangeCallback(string _type, int _newCount) {
-        if (_type == CONST.Ball)
-            ballCountTMP.text = _newCount.ToString();
+        if (_type == CONST.Ball) {
 
-        else if (_type == CONST.Cube)
+            ballCountTMP.text = _newCount.ToString();
+            ballCountAnimator.Play("OnContadorChange");
+        } else if (_type == CONST.Cube) {
+
             cubeCountTMP.text = _newCount.ToString();
+            cubeCountAnimator.Play("OnContadorChange");
+
+        }
 
     }
 
     IEnumerator Start() {
         while (PlayerFactory._instance.localPlayer == null) yield return null;
-        var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4);
-        ballCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Balls").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("LayerGroup").transform.Find("Cubes").transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(0).GetChild(0);
+        ballCountTMP = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        ballCountAnimator = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<Animator>();
+        cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        cubeCountAnimator = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<Animator>();
+
 
         instancedBalls = new Dictionary<int, GameObject>();
         BallCount = 0;

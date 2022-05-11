@@ -55,6 +55,7 @@ MonoBehaviour:
   - onResetLevelRPC
   - RPC_onResetLevel
   - RPC_DoorInteract
+  - RPC_onExitLevel
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -63,8 +63,14 @@ TagManager:
   - name: TileWalls
     uniqueID: 2965213529
     locked: 0
+  - name: Auras
+    uniqueID: 3070597323
+    locked: 0
   - name: Plataformas
     uniqueID: 1447650391
+    locked: 0
+  - name: Objects
+    uniqueID: 3744119139
     locked: 0
   - name: Ventilador
     uniqueID: 1172784611
