@@ -9,12 +9,14 @@ using System.Linq;
 
 public class CodeLineManager : MonoBehaviour {
     public GameObject codeContainer, aux, fixedLinesContainer;
+    private Animator codeAnimator;
     public TextMeshProUGUI titulo;
     public static CodeLineManager _instance;
     GameObject linePrefab, separatorPrefab;
     private static Color amarillo_1, amarillo_2, gris1, gris2;
     public AnimationCurve fillAnimationCurve, fillAnimationLine;
     public AnimationCurve fillAlphaAnimationCurve;
+
     // public string currentTitle = null;
 
     public GameObject currentTargetCodeDisplayed = null;
@@ -36,7 +38,7 @@ public class CodeLineManager : MonoBehaviour {
         codeContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Lines").gameObject;
         fixedLinesContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("LinesFixed").gameObject;
         titulo = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Header").transform.Find("Titulo").GetComponent<TextMeshProUGUI>();
-
+        codeAnimator = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").GetComponent<Animator>();
 
         if (_instance == null) {
             _instance = this;
@@ -201,6 +203,7 @@ public class CodeLineManager : MonoBehaviour {
         //Borrar lineas anteriores
         clearCodeLines();
         int codeIndex = 1;
+
         for (int i = 0; i < codeLines.Count; i++) {
             if (codeLines[i] == "#") {
                 //agregar separador
@@ -217,20 +220,24 @@ public class CodeLineManager : MonoBehaviour {
             newLine.transform.Find("Slider").transform.Find("Background").GetComponent<Image>().color = codeIndex % 2 == 0 ? amarillo_1 : amarillo_2;
             newLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (codeIndex++).ToString();
             newLine.transform.Find("codigo").GetComponent<TextMeshProUGUI>().text = temp;
+            StartCoroutine(callLineAnimations(newLine.transform.Find("Slider").GetComponent<Animator>(), (codeLines.Count - 1) * 0.08f - i * 0.08f));
+
         }
 
         for (int i = codeIndex; i <= 5; i++) {
             GameObject newLine = Instantiate(linePrefab, fixedLinesContainer.transform);
             newLine.transform.Find("Slider").transform.Find("Background").GetComponent<Image>().color = i % 2 == 0 ? gris1 : gris2;
             newLine.transform.Find("numero").GetComponent<TextMeshProUGUI>().text = (i).ToString();
+            // StartCoroutine(callLineAnimations(newLine.transform.Find("Slider").GetComponent<Animator>(), 0f));
         }
 
-        //reanudar animacion de plataformas activas
-        // GenericPlatform targetPlatformScript = newTargetGameObject.GetComponent<GenericPlatform>();
-        // if (targetPlatformScript) {
-        //     if (targetPlatformScript.currentAnimation != null)
-        //         targetPlatformScript.currentAnimation();
-        // }
+        //Animacion 
+        codeAnimator.Play("new_code");
+    }
+
+    IEnumerator callLineAnimations(Animator lineAnimator, float delay) {
+        yield return new WaitForSeconds(delay);
+        lineAnimator.Play("new_line_animation");
     }
 
     public void clearCodeLines() {

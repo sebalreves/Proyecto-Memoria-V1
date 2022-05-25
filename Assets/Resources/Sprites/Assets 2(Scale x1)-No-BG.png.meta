@@ -569,10 +569,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -611,6 +613,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -4504,9 +4507,192 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Assets 2(Scale x1)-No-BG_149: 6541412380736280175
+      Assets 2(Scale x1)-No-BG_26: 894011480722030045
+      Assets 2(Scale x1)-No-BG_165: -1041038020307342766
+      Assets 2(Scale x1)-No-BG_34: 3256984758003628719
+      Assets 2(Scale x1)-No-BG_158: 2161507778087034282
+      Assets 2(Scale x1)-No-BG_140: 5281960703109762981
+      Assets 2(Scale x1)-No-BG_25: -1405467802471023700
+      Assets 2(Scale x1)-No-BG_4: -8416959565823632548
+      Assets 2(Scale x1)-No-BG_14: -7708926577580785137
+      Assets 2(Scale x1)-No-BG_132: -1465502867843671737
+      Assets 2(Scale x1)-No-BG_176: 7381621451476671202
+      Assets 2(Scale x1)-No-BG_86: 10984383345770525
+      Assets 2(Scale x1)-No-BG_47: 6333859897512366096
+      Assets 2(Scale x1)-No-BG_58: -638656622373455844
+      Assets 2(Scale x1)-No-BG_89: -5623900191791240108
+      Assets 2(Scale x1)-No-BG_150: -2356213542501496635
+      Assets 2(Scale x1)-No-BG_70: 4592829363734761225
+      Assets 2(Scale x1)-No-BG_51: 3131192386816326172
+      Assets 2(Scale x1)-No-BG_93: -5231895677427549380
+      Assets 2(Scale x1)-No-BG_115: 1318303800912925245
+      Assets 2(Scale x1)-No-BG_123: 8585951056862853110
+      Assets 2(Scale x1)-No-BG_52: -7284914784172211152
+      Assets 2(Scale x1)-No-BG_120: 1673264618924645415
+      Assets 2(Scale x1)-No-BG_99: -3354924973617275707
+      Assets 2(Scale x1)-No-BG_105: 2045767491493823428
+      Assets 2(Scale x1)-No-BG_104: -5158190396680674478
+      Assets 2(Scale x1)-No-BG_166: -7441003521943512332
+      Assets 2(Scale x1)-No-BG_44: -252344988619190238
+      Assets 2(Scale x1)-No-BG_57: 2621562737217755235
+      Assets 2(Scale x1)-No-BG_78: -499780342108615174
+      Assets 2(Scale x1)-No-BG_126: 1167218233695000981
+      Assets 2(Scale x1)-No-BG_29: -4642434348188577033
+      Assets 2(Scale x1)-No-BG_175: 9169590765401670186
+      Assets 2(Scale x1)-No-BG_127: 9013376797400326108
+      Assets 2(Scale x1)-No-BG_118: -2517158078686123985
+      Assets 2(Scale x1)-No-BG_103: -7309826686140723028
+      Assets 2(Scale x1)-No-BG_35: -2188692311424085307
+      Assets 2(Scale x1)-No-BG_55: -8726467207649295334
+      Assets 2(Scale x1)-No-BG_15: 6491587651821466036
+      Assets 2(Scale x1)-No-BG_179: 5543415850911590692
+      Assets 2(Scale x1)-No-BG_19: 5180352140745100486
+      Assets 2(Scale x1)-No-BG_107: 4311829658625253685
+      Assets 2(Scale x1)-No-BG_56: 2234597288344179890
+      Assets 2(Scale x1)-No-BG_146: -4582241777026152471
+      Assets 2(Scale x1)-No-BG_169: 7271489087515559037
+      Assets 2(Scale x1)-No-BG_91: 4586309705278431339
+      Assets 2(Scale x1)-No-BG_10: -7129425728333611690
+      Assets 2(Scale x1)-No-BG_1: 8367507004375575098
+      Assets 2(Scale x1)-No-BG_80: 1154633635946837160
+      Assets 2(Scale x1)-No-BG_145: -8766431646146186488
+      Assets 2(Scale x1)-No-BG_125: 4354274217016967851
+      Assets 2(Scale x1)-No-BG_167: 1059181652274596291
+      Assets 2(Scale x1)-No-BG_77: 6280065769079198176
+      Assets 2(Scale x1)-No-BG_88: 4628102546649017158
+      Assets 2(Scale x1)-No-BG_172: -1166611462752977320
+      Assets 2(Scale x1)-No-BG_173: -8176420102705394876
+      Assets 2(Scale x1)-No-BG_159: -6484849905987066841
+      Assets 2(Scale x1)-No-BG_100: -3027602459035013196
+      Assets 2(Scale x1)-No-BG_94: 3041941943375928941
+      Assets 2(Scale x1)-No-BG_21: -4616712769496065556
+      Assets 2(Scale x1)-No-BG_124: -7782025621165615432
+      Assets 2(Scale x1)-No-BG_48: 8407355923191567961
+      Assets 2(Scale x1)-No-BG_109: 3656229833725213213
+      Assets 2(Scale x1)-No-BG_90: -8995942777199162528
+      Assets 2(Scale x1)-No-BG_136: 493363460810360888
+      Assets 2(Scale x1)-No-BG_28: -8484635726322313384
+      Assets 2(Scale x1)-No-BG_7: -7628912738524964843
+      Assets 2(Scale x1)-No-BG_147: 6205989808867608962
+      Assets 2(Scale x1)-No-BG_79: 8926922269037424432
+      Assets 2(Scale x1)-No-BG_160: -1182521250586801241
+      Assets 2(Scale x1)-No-BG_155: 7255206071770224240
+      Assets 2(Scale x1)-No-BG_65: 3413902932806237371
+      Assets 2(Scale x1)-No-BG_24: 6989190834528817539
+      Assets 2(Scale x1)-No-BG_174: 5878877435832960517
+      Assets 2(Scale x1)-No-BG_157: 1559530409002854256
+      Assets 2(Scale x1)-No-BG_2: -2035998634740466889
+      Assets 2(Scale x1)-No-BG_38: 1392063803431353541
+      Assets 2(Scale x1)-No-BG_12: -3076164043189054217
+      Assets 2(Scale x1)-No-BG_96: -170616992733447214
+      Assets 2(Scale x1)-No-BG_84: 7215979321467820687
+      Assets 2(Scale x1)-No-BG_135: -5413332218059310602
+      Assets 2(Scale x1)-No-BG_54: -2868574319841007059
+      Assets 2(Scale x1)-No-BG_11: 1960142819685480593
+      Assets 2(Scale x1)-No-BG_32: -8951426905185640303
+      Assets 2(Scale x1)-No-BG_50: -8726356998958436439
+      Assets 2(Scale x1)-No-BG_152: 803069081189167176
+      Assets 2(Scale x1)-No-BG_87: 5855838443072282587
+      Assets 2(Scale x1)-No-BG_110: 5412043979553372666
+      Assets 2(Scale x1)-No-BG_39: 6594887097302877461
+      Assets 2(Scale x1)-No-BG_85: 5329915789880090916
+      Assets 2(Scale x1)-No-BG_74: -3228547201980150156
+      Assets 2(Scale x1)-No-BG_81: -2624906668241507457
+      Assets 2(Scale x1)-No-BG_170: 3162790147552889395
+      Assets 2(Scale x1)-No-BG_154: -7502279939915918364
+      Assets 2(Scale x1)-No-BG_171: 5394868997494014726
+      Assets 2(Scale x1)-No-BG_156: 3088794020363887927
+      Assets 2(Scale x1)-No-BG_148: -1694482503439475400
+      Assets 2(Scale x1)-No-BG_95: 8927207414674844140
+      Assets 2(Scale x1)-No-BG_5: -3866876479440461335
+      Assets 2(Scale x1)-No-BG_22: 7575429790416223803
+      Assets 2(Scale x1)-No-BG_20: 7715380266763937375
+      Assets 2(Scale x1)-No-BG_163: -5979713305086081289
+      Assets 2(Scale x1)-No-BG_53: 3945884415221575925
+      Assets 2(Scale x1)-No-BG_108: 6168932110112640737
+      Assets 2(Scale x1)-No-BG_112: 1947782470658825803
+      Assets 2(Scale x1)-No-BG_182: -1907864953688200532
+      Assets 2(Scale x1)-No-BG_130: 5602545345022708237
+      Assets 2(Scale x1)-No-BG_141: 4590299794101966060
+      Assets 2(Scale x1)-No-BG_9: -2983206657914025605
+      Assets 2(Scale x1)-No-BG_102: -4678502562721522233
+      Assets 2(Scale x1)-No-BG_6: 2710530389023389351
+      Assets 2(Scale x1)-No-BG_72: -489483417097081123
+      Assets 2(Scale x1)-No-BG_178: 4485795264456489538
+      Assets 2(Scale x1)-No-BG_0: -1064787395120615489
+      Assets 2(Scale x1)-No-BG_46: -2701288408762505112
+      Assets 2(Scale x1)-No-BG_138: -6174885677420531469
+      Assets 2(Scale x1)-No-BG_33: -3527527070774184020
+      Assets 2(Scale x1)-No-BG_49: -1700322805807596142
+      Assets 2(Scale x1)-No-BG_71: -9199513601433158144
+      Assets 2(Scale x1)-No-BG_59: -7332019376659770606
+      Assets 2(Scale x1)-No-BG_75: 8070193040064395869
+      Assets 2(Scale x1)-No-BG_128: -4762836026442834356
+      Assets 2(Scale x1)-No-BG_162: -6178723670081554590
+      Assets 2(Scale x1)-No-BG_92: 8622752254498240290
+      Assets 2(Scale x1)-No-BG_30: 3348398853524795141
+      Assets 2(Scale x1)-No-BG_122: 4734461075720272207
+      Assets 2(Scale x1)-No-BG_16: 4642810933026907355
+      Assets 2(Scale x1)-No-BG_66: -3403285963231727096
+      Assets 2(Scale x1)-No-BG_111: -537908976117025848
+      Assets 2(Scale x1)-No-BG_40: -1300197211624566420
+      Assets 2(Scale x1)-No-BG_27: -934093603251042140
+      Assets 2(Scale x1)-No-BG_142: -1518333618155293693
+      Assets 2(Scale x1)-No-BG_143: -558211922114186785
+      Assets 2(Scale x1)-No-BG_41: 2622010447029236050
+      Assets 2(Scale x1)-No-BG_144: -5952446161771972763
+      Assets 2(Scale x1)-No-BG_18: -90547721969609175
+      Assets 2(Scale x1)-No-BG_133: -8486569157759597772
+      Assets 2(Scale x1)-No-BG_106: 6872682550387976051
+      Assets 2(Scale x1)-No-BG_42: 7428655010355521728
+      Assets 2(Scale x1)-No-BG_101: 6981373651858319255
+      Assets 2(Scale x1)-No-BG_62: -7820938786493523268
+      Assets 2(Scale x1)-No-BG_139: -8591318184365938048
+      Assets 2(Scale x1)-No-BG_60: -4599524091423871841
+      Assets 2(Scale x1)-No-BG_17: -4865989967477065785
+      Assets 2(Scale x1)-No-BG_73: 7001883797441962599
+      Assets 2(Scale x1)-No-BG_117: 5555458435026813926
+      Assets 2(Scale x1)-No-BG_181: -317528029744810804
+      Assets 2(Scale x1)-No-BG_83: -4830602585755731179
+      Assets 2(Scale x1)-No-BG_37: -8202993317305079092
+      Assets 2(Scale x1)-No-BG_177: 4087292747069483445
+      Assets 2(Scale x1)-No-BG_129: 2826255351960131062
+      Assets 2(Scale x1)-No-BG_68: 4207088273631180412
+      Assets 2(Scale x1)-No-BG_67: 8763998282298767996
+      Assets 2(Scale x1)-No-BG_82: -2520319848299637059
+      Assets 2(Scale x1)-No-BG_45: 3812071867151924897
+      Assets 2(Scale x1)-No-BG_8: -6447212871970635440
+      Assets 2(Scale x1)-No-BG_161: 232087024505469231
+      Assets 2(Scale x1)-No-BG_64: 3500400722068268037
+      Assets 2(Scale x1)-No-BG_119: -2954423268913600881
+      Assets 2(Scale x1)-No-BG_121: 3084000077458122356
+      Assets 2(Scale x1)-No-BG_153: -5096935140657657894
+      Assets 2(Scale x1)-No-BG_116: 7642469242035147418
+      Assets 2(Scale x1)-No-BG_61: 4940478206742085024
+      Assets 2(Scale x1)-No-BG_113: 3696746194817870822
+      Assets 2(Scale x1)-No-BG_36: -1335280873425254987
+      Assets 2(Scale x1)-No-BG_114: 9110606417525359329
+      Assets 2(Scale x1)-No-BG_97: 1632625221367488734
+      Assets 2(Scale x1)-No-BG_69: -5285989747529989179
+      Assets 2(Scale x1)-No-BG_168: -6525942869886599949
+      Assets 2(Scale x1)-No-BG_23: 5944343432720952215
+      Assets 2(Scale x1)-No-BG_76: -2659029644832260277
+      Assets 2(Scale x1)-No-BG_31: -8560154665629907999
+      Assets 2(Scale x1)-No-BG_131: -7377774401005054904
+      Assets 2(Scale x1)-No-BG_43: 7227375669906904489
+      Assets 2(Scale x1)-No-BG_98: 3922840778766531069
+      Assets 2(Scale x1)-No-BG_3: 5685289023013645417
+      Assets 2(Scale x1)-No-BG_134: 7552220473278030460
+      Assets 2(Scale x1)-No-BG_151: 8081540499402243603
+      Assets 2(Scale x1)-No-BG_63: -2674200377973842044
+      Assets 2(Scale x1)-No-BG_164: -4822196296171610535
+      Assets 2(Scale x1)-No-BG_180: 4836942579655168905
+      Assets 2(Scale x1)-No-BG_137: -5465205616751377116
+      Assets 2(Scale x1)-No-BG_13: 4134135149954569954
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

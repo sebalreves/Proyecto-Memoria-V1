@@ -25,6 +25,7 @@ public class GenericButton : MonoBehaviourPun {
     private string deactivatedButtonHUD = "Mantener <Espacio>";
     public GameObject onPressParameter = null;
     public int wrappGroup = 0;
+    public dottedSplineScript SplineScript;
 
     public void ChangeAnimation(string newAnimationName) {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
@@ -35,7 +36,7 @@ public class GenericButton : MonoBehaviourPun {
     public Func<GameObject, IEnumerator> onPressEvent;
 
     void Start() {
-        codeDescription.titulo =   codeDescription.titulo + "<sprite=0>";
+        codeDescription.titulo = codeDescription.titulo + "<sprite=0>";
         switchActivableState();
         animator = GetComponent<Animator>();
         ChangeAnimation("Button");
@@ -120,7 +121,7 @@ public class GenericButton : MonoBehaviourPun {
         }
 
         activateButtonGroup(true);
-
+        SplineScript.pulse();
         if (onPressEvent != null) {
             CodeLineManager._instance.resetCodeColor();
 

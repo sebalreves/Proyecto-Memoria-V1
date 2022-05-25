@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class PlayerInteract : MonoBehaviourPun {
@@ -16,6 +17,7 @@ public class PlayerInteract : MonoBehaviourPun {
     // public Transform SignalPosition;
 
     GameObject ActualButtonPressed = null;
+    TextMeshProUGUI ActualButtonText = null;
     Slider ActualButtonSlider = null;
     float sliderValue = 0f;
     bool buttonReady = false;
@@ -52,6 +54,7 @@ public class PlayerInteract : MonoBehaviourPun {
             sliderValue += Time.deltaTime;
             if (ActualButtonSlider.value == 1) {
                 buttonReady = true;
+                ActualButtonText.text = "¡Soltar!";
                 filling = false;
             }
         }
@@ -87,6 +90,7 @@ public class PlayerInteract : MonoBehaviourPun {
         sliderValue = 0f;
         filling = false;
         buttonReady = false;
+        ActualButtonText.text = "Mantener <sprite=0>";
 
     }
 
@@ -118,6 +122,7 @@ public class PlayerInteract : MonoBehaviourPun {
                 filling = true;
                 ActualButtonPressed = focusedElement;
                 ActualButtonSlider = focusedElement.transform.parent.Find("InGameUI").Find("2ndSpring").Find("Canvas").Find("Slider").GetComponent<Slider>();
+                ActualButtonText = focusedElement.transform.parent.Find("InGameUI").Find("2ndSpring").Find("Canvas").Find("Slider").Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
             }
         }
         #endregion
