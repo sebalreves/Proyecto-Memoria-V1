@@ -9,6 +9,7 @@ using System.Linq;
 
 public class CodeLineManager : MonoBehaviour {
     public GameObject codeContainer, aux, fixedLinesContainer;
+
     private Animator codeAnimator;
     public TextMeshProUGUI titulo;
     public static CodeLineManager _instance;
@@ -16,6 +17,8 @@ public class CodeLineManager : MonoBehaviour {
     private static Color amarillo_1, amarillo_2, gris1, gris2;
     public AnimationCurve fillAnimationCurve, fillAnimationLine;
     public AnimationCurve fillAlphaAnimationCurve;
+
+
 
     // public string currentTitle = null;
 
@@ -36,6 +39,8 @@ public class CodeLineManager : MonoBehaviour {
 
         aux = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.Find("Main Camera").transform.GetChild(0).gameObject;
         codeContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Lines").gameObject;
+
+
         fixedLinesContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("LinesFixed").gameObject;
         titulo = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Header").transform.Find("Titulo").GetComponent<TextMeshProUGUI>();
         codeAnimator = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").GetComponent<Animator>();
@@ -44,8 +49,9 @@ public class CodeLineManager : MonoBehaviour {
             _instance = this;
             // DontDestroyOnLoad(this.gameObject);
         }
-
     }
+
+
 
 
     int getIndexSeparatorOffset(int _lineIndex) {
@@ -124,9 +130,11 @@ public class CodeLineManager : MonoBehaviour {
         yield return new WaitForSeconds(offsetTime);
         if (codeLine == null) yield break;
 
+
         Slider _slider = codeLine.transform.Find("Slider").GetComponent<Slider>();
         Image _fillImage = codeLine.transform.Find("Slider").transform.Find("Fill Area").transform.Find("Fill").GetComponent<Image>();
         _fillImage.color = _color;
+        _slider.GetComponent<Animator>().Play("line_execution");
 
         float fillTime = fadeUp ? _time * 0.7f : _time;
         float alphaTime = _time * 0.3f;
@@ -152,6 +160,7 @@ public class CodeLineManager : MonoBehaviour {
             _fillImage.color = gris1;
             StartCoroutine(codeLineAlphaRoutine(_fillImage, 0.5f));
         }
+        // codeAnimator.Play("end_button_execution");
     }
 
     public IEnumerator codeLineAlphaRoutine(Image _fillImage, float _alphaTime) {

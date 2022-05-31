@@ -8,7 +8,7 @@ using TMPro;
 
 public class EndLevel : MonoBehaviourPunCallbacks {
     public int playerReadyCount = 0;
-    public GenericPlatform platform1;
+
     public TextMeshProUGUI playerCountText;
     public
     void Start() {
@@ -16,7 +16,7 @@ public class EndLevel : MonoBehaviourPunCallbacks {
         // // platform2.setStatePressed += playerEnter;
         // platform1.setStateReleased += playerExit;
         // platform2.setStateReleased += playerExit;
-        PhotonNetwork.AutomaticallySyncScene = true;
+        // PhotonNetwork.AutomaticallySyncScene = true;
 
     }
 
@@ -30,16 +30,16 @@ public class EndLevel : MonoBehaviourPunCallbacks {
         // if (platformGO == platform2.gameObject) {
         //     player2Ready = true;
         // }
-        if (playerReadyCount == 2) Invoke("onEndLevel", 1f);
+        if (playerReadyCount == 2) PlaygroundManager.instance.onEndLevel();
+        ;
         if (!PhotonNetwork.IsConnectedAndReady && playerReadyCount == 1)
-            Invoke("onEndLevel", 1f);
+            PlaygroundManager.instance.onEndLevel();
+
 
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if (other.tag != "Player") return;
-
-
         playerReadyCount--;
         playerCountText.text = playerReadyCount + playerCountText.text.Substring(1);
 
@@ -53,26 +53,27 @@ public class EndLevel : MonoBehaviourPunCallbacks {
 
 
 
-    void onEndLevel() {
-        if (PhotonNetwork.IsConnectedAndReady) {
-            if (PhotonNetwork.IsMasterClient && photonView.IsMine)
-                photonView.RPC("onEndLevelRPC", RpcTarget.AllViaServer);
-        } else {
-            onEndLevelRPC();
-        }
-    }
+    // void onEndLevel() {
+    //     PlaygroundManager.instance.onEndLevel();
+    //     // if (PhotonNetwork.IsConnectedAndReady) {
+    //     //     if (PhotonNetwork.IsMasterClient && photonView.IsMine)
+    //     //         photonView.RPC("onEndLevelRPC", RpcTarget.AllViaServer);
+    //     // } else {
+    //     //     onEndLevelRPC();
+    //     // }
+    // }
 
-    [PunRPC]
-    void onEndLevelRPC() {
-        if (PhotonNetwork.IsConnectedAndReady) {
-            PhotonNetwork.LeaveRoom();
-        } else {
-            SceneManager.LoadScene("LobbyScene");
-        }
+    // [PunRPC]
+    // void onEndLevelRPC() {
+    //     if (PhotonNetwork.IsConnectedAndReady) {
+    //         PhotonNetwork.LeaveRoom();
+    //     } else {
+    //         SceneManager.LoadScene("LobbyScene");
+    //     }
 
-    }
+    // }
 
-    public override void OnLeftRoom() {
-        SceneManager.LoadScene("LobbyScene");
-    }
+    // public override void OnLeftRoom() {
+    //     SceneManager.LoadScene("LobbyScene");
+    // }
 }

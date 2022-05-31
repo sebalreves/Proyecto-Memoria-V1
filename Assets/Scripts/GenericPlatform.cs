@@ -85,6 +85,8 @@ public class GenericPlatform : MonoBehaviour {
             activado = false;
             if (setStateReleased != null) {
                 if (loopingCodeRoutine != null) StopCoroutine(loopingCodeRoutine);
+                CodeLineManager._instance.resetCodeColor();
+
                 StartCoroutine(setStateReleased(gameObject));
             }
             return;

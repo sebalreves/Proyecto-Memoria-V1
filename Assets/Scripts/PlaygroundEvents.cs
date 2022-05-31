@@ -53,20 +53,7 @@ public class PlaygroundEvents : MonoBehaviourPun {
 
     #endregion
 
-    // protected void executeLine(float _time = 0f, Action _action = null) {
-    //     StartCoroutine(executeLineRoutine(_time, _action));
-    // }
-    // private IEnumerator executeLineRoutine(float _time, Action _action) {
-    //     yield return new WaitForSeconds(_time);
-    //     if (_action != null)
-    //         _action();
-    // }
 
-    // #region UICallbacks
-    // public static void ExitLevel() {
-    //     Debug.Log("AAAAA");
-    // }
-    // #endregion
 
 
 

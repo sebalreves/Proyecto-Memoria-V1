@@ -121,6 +121,8 @@ public class GenericButton : MonoBehaviourPun {
         }
 
         activateButtonGroup(true);
+
+        //activa la spline punteada si es que esta disponible
         SplineScript.pulse();
         if (onPressEvent != null) {
             CodeLineManager._instance.resetCodeColor();

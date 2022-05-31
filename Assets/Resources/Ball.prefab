@@ -712,7 +712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5909060111966597656, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
       propertyPath: m_text
-      value: 'Presionar <sprite=0> '
+      value: 'Pulsar <sprite=0> '
       objectReference: {fileID: 0}
     - target: {fileID: 9193362073428494708, guid: 45103b87b56c2a14aa3bc92eeb2523f9, type: 3}
       propertyPath: m_AnchorMax.y

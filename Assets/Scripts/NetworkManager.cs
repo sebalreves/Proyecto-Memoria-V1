@@ -60,6 +60,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     private Dictionary<int, GameObject> playerListGameObjects;
 
+    public Dictionary<string, RoomInfo> cachedRoomList;
+    public Dictionary<string, GameObject> roomListGameobject;
+    public GameObject roomListEntryPrefab;
+    public GameObject roomListEntryContainer;
+
+
     #region UNITY Methods
     private void Awake() {
         Application.targetFrameRate = 60;
@@ -67,6 +73,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         mouse = InputSystem.GetDevice<Mouse>();
         ActivatePanel(LoginUIPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
+        cachedRoomList = new Dictionary<string, RoomInfo>();
+        roomListGameobject = new Dictionary<string, GameObject>();
         levels = new List<string>(){
             CONST.level_1,
             CONST.level_2,
@@ -80,7 +88,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         if (!PhotonNetwork.IsConnected) {
             PhotonNetwork.LocalPlayer.NickName = "Jugador #" + Random.Range(50, 200);
             PhotonNetwork.ConnectUsingSettings();
+
         }
+    }
+
+    public override void OnEnable() {
+        base.OnEnable();
+    }
+    public override void OnDisable() {
+        base.OnDisable();
     }
 
     private void Update() {
@@ -193,7 +209,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         // Debug.Log(PhotonNetwork.LocalPlayer.NickName + " is connected to Photon.");
         loginConnectingText.text = "Presione una tecla para continuar";
         ActivatePanel(GameOptionsUIPanel.name);
-
+        TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
+        PhotonNetwork.JoinLobby(customLobby);
     }
 
     public override void OnCreatedRoom() {
@@ -362,6 +379,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
 
             roomOptions.BroadcastPropsChangeToAll = true;
+            roomOptions.IsVisible = true;
             roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
             roomOptions.CustomRoomProperties = customRoomProperties;
 
@@ -369,8 +387,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
+    // public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) {
 
+    // }
+
+
+
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList) {
+
+        foreach (RoomInfo room in roomList) {
+            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList) {
+                if (cachedRoomList.ContainsKey(room.Name)) {
+                    cachedRoomList.Remove(room.Name);
+                }
+            } else {
+                if (cachedRoomList.ContainsKey(room.Name)) {
+                    cachedRoomList[room.Name] = room;
+                } else {
+                    cachedRoomList.Add(room.Name, room);
+                }
+            }
+        }
+
+        // foreach (RoomInfo room in cachedRoomList.Values) {
+        //     GameObject roomListEntryGameobject = Instantiate();
+
+        // }
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
