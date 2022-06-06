@@ -41,10 +41,10 @@ public class CameraManager : MonoBehaviour {
         playerMovementScript = gameObject.transform.parent.GetComponent<PlayerMovement>();
         // Screen.SetResolution(1920, 1080, Screen.fullScreen);
 
-        leftMargin = inGameSquareRect.offsetMin.x;
-        rightMargin = inGameSquareRect.offsetMax.x;
-        topMargin = inGameSquareRect.offsetMax.y;
-        bottomMargin = inGameSquareRect.offsetMin.y;
+        leftMargin = inGameSquareRect.offsetMin.x * (11.5f / 9f);
+        rightMargin = inGameSquareRect.offsetMax.x * (11.5f / 9f);
+        topMargin = inGameSquareRect.offsetMax.y * (11.5f / 9f);
+        bottomMargin = inGameSquareRect.offsetMin.y * (11.5f / 9f);
         playerTransform = virtualCam1.Follow;
     }
 

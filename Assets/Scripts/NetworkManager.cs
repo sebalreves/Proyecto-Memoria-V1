@@ -61,7 +61,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     private Dictionary<int, GameObject> playerListGameObjects;
 
     public Dictionary<string, RoomInfo> cachedRoomList;
-    public Dictionary<string, GameObject> roomListGameobject;
+    public Dictionary<string, GameObject> roomListGameobjects;
     public GameObject roomListEntryPrefab;
     public GameObject roomListEntryContainer;
 
@@ -69,12 +69,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     #region UNITY Methods
     private void Awake() {
         Application.targetFrameRate = 60;
+        roomListEntryPrefab = Resources.Load("RoomList") as GameObject;
         kb = InputSystem.GetDevice<Keyboard>();
         mouse = InputSystem.GetDevice<Mouse>();
         ActivatePanel(LoginUIPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
         cachedRoomList = new Dictionary<string, RoomInfo>();
-        roomListGameobject = new Dictionary<string, GameObject>();
+        roomListGameobjects = new Dictionary<string, GameObject>();
         levels = new List<string>(){
             CONST.level_1,
             CONST.level_2,
@@ -108,6 +109,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
 
     #region UI Callback Methods
+
+    public void onClickCreateRoom() {
+        ActivatePanel(CreatingRoomInfoUIPanel.name);
+
+        string roomName = PhotonNetwork.LocalPlayer.NickName;
+        // if (string.IsNullOrEmpty(roomName)) {
+        //     roomName = "Room" + Random.Range(1000, 10000);
+        // }
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 2;
+        roomOptions.CleanupCacheOnLeave = true;
+        roomOptions.EmptyRoomTtl = 0;
+
+        string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
+        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+        {
+            { CONST.levelProp, GameMode }
+        };
+
+        roomOptions.IsVisible = true;
+        roomOptions.BroadcastPropsChangeToAll = true;
+
+        roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
+        roomOptions.CustomRoomProperties = customRoomProperties;
+
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+    }
     public void OnInteract_LoginButton() {
         if (PhotonNetwork.IsConnectedAndReady && LoginUIPanel.activeInHierarchy) {
 
@@ -136,29 +164,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     }
 
 
-    public void OnCreateRoomButtonClicked() {
-        ActivatePanel(CreatingRoomInfoUIPanel.name);
+    // public void OnCreateRoomButtonClicked() {
+    //     ActivatePanel(CreatingRoomInfoUIPanel.name);
 
-        string roomName = "Sala de " + PhotonNetwork.LocalPlayer.NickName;
-        // if (string.IsNullOrEmpty(roomName)) {
-        //     roomName = "Room" + Random.Range(1000, 10000);
-        // }
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2;
-        roomOptions.CleanupCacheOnLeave = true;
-        roomOptions.EmptyRoomTtl = 0;
+    //     string roomName = "Sala de " + PhotonNetwork.LocalPlayer.NickName;
+    //     // if (string.IsNullOrEmpty(roomName)) {
+    //     //     roomName = "Room" + Random.Range(1000, 10000);
+    //     // }
+    //     RoomOptions roomOptions = new RoomOptions();
+    //     roomOptions.MaxPlayers = 2;
+    //     roomOptions.CleanupCacheOnLeave = true;
+    //     roomOptions.EmptyRoomTtl = 0;
 
-        string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
-        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
-        {
-            { CONST.levelProp, GameMode }
-        };
+    //     string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
+    //     ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+    //     {
+    //         { CONST.levelProp, GameMode }
+    //     };
 
-        roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
-        roomOptions.CustomRoomProperties = customRoomProperties;
+    //     roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
+    //     roomOptions.CustomRoomProperties = customRoomProperties;
 
-        PhotonNetwork.CreateRoom(roomName, roomOptions);
-    }
+    //     PhotonNetwork.CreateRoom(roomName, roomOptions);
+    // }
 
 
     public void OnJoinRandomRoomButtonClicked() {
@@ -225,72 +253,72 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
         ActivatePanel(InsideRoomUIPanel.name);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
+        // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
 
-            RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
-                " Players/Max.Players: " +
-                PhotonNetwork.CurrentRoom.PlayerCount + " / " +
-                PhotonNetwork.CurrentRoom.MaxPlayers;
-
-
-
-            // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) {
-            // } 
-            //Unique Game Mode
-            // GameModeText.text = "LET'S RACE!";
-            // PanelBackground.sprite = RacingBackground;
-
-
-            // for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
-            //     PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = RacingPlayers[i].playerName;
-            //     PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = RacingPlayers[i].playerSprite;
-            //     PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = "";
-            // }
-
-
-            // else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr")) {
-            //     //Death race game mode
-            //     GameModeText.text = "DEATH RACE!";
-            //     PanelBackground.sprite = DeathRaceBackground;
-
-            //     for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
-            //         PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = DeathRacePlayers[i].playerName;
-            //         PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = DeathRacePlayers[i].playerSprite;
-            //         PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = DeathRacePlayers[i].weaponName +
-            //             ": " + "Damage: " + DeathRacePlayers[i].damage + " FireRate: " + DeathRacePlayers[i].fireRate;
-
-            //     }
+        RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
+            " Players/Max.Players: " +
+            PhotonNetwork.CurrentRoom.PlayerCount + " / " +
+            PhotonNetwork.CurrentRoom.MaxPlayers;
 
 
 
-            // }
+        // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) {
+        // } 
+        //Unique Game Mode
+        // GameModeText.text = "LET'S RACE!";
+        // PanelBackground.sprite = RacingBackground;
 
 
-            if (playerListGameObjects == null) {
-                playerListGameObjects = new Dictionary<int, GameObject>();
-
-            }
-
-
-            //cargar datos de los jugadores conectados
-            foreach (Player player in PhotonNetwork.PlayerList) {
-                GameObject playerListGameObject = Instantiate(PlayerListPrefab);
-                playerListGameObject.transform.SetParent(PlayerListContent.transform);
-                playerListGameObject.transform.localScale = Vector3.one;
-                playerListGameObject.GetComponent<PlayerListEntryInitializer>().Initialize(player.ActorNumber, player.NickName);
+        // for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
+        //     PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = RacingPlayers[i].playerName;
+        //     PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = RacingPlayers[i].playerSprite;
+        //     PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = "";
+        // }
 
 
-                object isPlayerReady;
-                if (player.CustomProperties.TryGetValue(CONST.PLAYER_READY, out isPlayerReady)) {
-                    playerListGameObject.GetComponent<PlayerListEntryInitializer>().SetPlayerReady((bool)isPlayerReady);
-                }
-                playerListGameObjects.Add(player.ActorNumber, playerListGameObject);
+        // else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr")) {
+        //     //Death race game mode
+        //     GameModeText.text = "DEATH RACE!";
+        //     PanelBackground.sprite = DeathRaceBackground;
+
+        //     for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
+        //         PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = DeathRacePlayers[i].playerName;
+        //         PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = DeathRacePlayers[i].playerSprite;
+        //         PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = DeathRacePlayers[i].weaponName +
+        //             ": " + "Damage: " + DeathRacePlayers[i].damage + " FireRate: " + DeathRacePlayers[i].fireRate;
+
+        //     }
 
 
 
-            }
+        // }
+
+
+        if (playerListGameObjects == null) {
+            playerListGameObjects = new Dictionary<int, GameObject>();
 
         }
+
+
+        //cargar datos de los jugadores conectados
+        foreach (Player player in PhotonNetwork.PlayerList) {
+            GameObject playerListGameObject = Instantiate(PlayerListPrefab);
+            playerListGameObject.transform.SetParent(PlayerListContent.transform);
+            playerListGameObject.transform.localScale = Vector3.one;
+            playerListGameObject.GetComponent<PlayerListEntryInitializer>().Initialize(player.ActorNumber, player.NickName);
+
+
+            object isPlayerReady;
+            if (player.CustomProperties.TryGetValue(CONST.PLAYER_READY, out isPlayerReady)) {
+                playerListGameObject.GetComponent<PlayerListEntryInitializer>().SetPlayerReady((bool)isPlayerReady);
+            }
+            playerListGameObjects.Add(player.ActorNumber, playerListGameObject);
+
+
+
+        }
+
+
 
         StartGameButton.SetActive(false);
     }
@@ -325,8 +353,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer) {
 
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        if (otherPlayer.ActorNumber == 1) {
+            PhotonNetwork.LeaveRoom();
+        }
         RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
                 " Players/Max.Players: " +
                 PhotonNetwork.CurrentRoom.PlayerCount + " / " +
@@ -338,6 +369,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         StartGameButton.SetActive(CheckPlayersReady());
 
     }
+
+
 
     public override void OnLeftRoom() {
         ActivatePanel(GameOptionsUIPanel.name);
@@ -364,7 +397,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
 
     public override void OnJoinRandomFailed(short returnCode, string message) {
-        Debug.Log(message);
+        Debug.LogWarning("Join Random");
         //if there is no room, create one
         if (GameMode != null) {
             string roomName = "Sala creada por error al encontrar";
@@ -396,6 +429,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
 
+        foreach (GameObject oldEntry in roomListGameobjects.Values) {
+            Destroy(oldEntry);
+        }
+        roomListGameobjects.Clear();
         foreach (RoomInfo room in roomList) {
             if (!room.IsOpen || !room.IsVisible || room.RemovedFromList) {
                 if (cachedRoomList.ContainsKey(room.Name)) {
@@ -410,15 +447,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             }
         }
 
-        // foreach (RoomInfo room in cachedRoomList.Values) {
-        //     GameObject roomListEntryGameobject = Instantiate();
+        foreach (RoomInfo room in cachedRoomList.Values) {
+            GameObject newEntry = Instantiate(roomListEntryPrefab, roomListEntryContainer.transform);
+            // newEntry.transform.SetParent(roomListEntryContainer.transform);
+            // newEntry.transform.localScale = Vector3.one;
 
-        // }
+            newEntry.transform.Find("Owner").GetComponent<TextMeshProUGUI>().text = "Sala del jugador " + room.Name;
+            newEntry.transform.Find("Players").GetComponent<TextMeshProUGUI>().text = room.PlayerCount + " / " + room.MaxPlayers;
+            newEntry.transform.Find("Unirse").GetComponent<Button>().onClick.AddListener(() => {
+                OnJoinRoomButtonClick(room.Name);
+            });
+
+            roomListGameobjects.Add(room.Name, newEntry);
+        }
+    }
+
+    public void spawnPrefab() {
+        GameObject newEntry = Instantiate(roomListEntryPrefab, roomListEntryContainer.transform);
+        // newEntry.transform.SetParent(roomListEntryContainer.transform);  
+        // newEntry.transform.localScale = Vector3.one;
+
+        newEntry.transform.Find("Owner").GetComponent<TextMeshProUGUI>().text = "Sala del jugador ";
+        newEntry.transform.Find("Players").GetComponent<TextMeshProUGUI>().text = " / ";
+        // newEntry.transform.Find("Unirse").GetComponent<Button>().onClick.AddListener(() => {
+        //     OnJoinRoomButtonClick(room.Name);
+        // });
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
         Debug.LogWarning("Jugador desconectado");
+
     }
+
+
     #endregion
 
 
@@ -431,6 +492,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         GameOptionsUIPanel.SetActive(GameOptionsUIPanel.name.Equals(panelNameToBeActivated));
         JoinRandomRoomUIPanel.SetActive(JoinRandomRoomUIPanel.name.Equals(panelNameToBeActivated));
         InsideRoomUIPanel.SetActive(InsideRoomUIPanel.name.Equals(panelNameToBeActivated));
+
+        if (GameOptionsUIPanel.name.Equals(panelNameToBeActivated)) {
+            onMainMenu();
+        }
     }
 
     public void SetGameMode(string _gameMode) {
@@ -442,6 +507,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
 
     #region Private Methods
+
+
+
+    private void onMainMenu() {
+        Debug.Log("on mainmenu");
+        foreach (GameObject oldEntry in roomListGameobjects.Values) {
+            Destroy(oldEntry);
+        }
+        roomListGameobjects.Clear();
+        cachedRoomList.Clear();
+    }
+    private void OnJoinRoomButtonClick(string _roomName) {
+        if (PhotonNetwork.InLobby) {
+            PhotonNetwork.LeaveLobby();
+        }
+        PhotonNetwork.JoinRoom(_roomName);
+
+    }
+
     private bool CheckPlayersReady() {
 
         if (!PhotonNetwork.IsMasterClient) {
