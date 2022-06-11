@@ -49,6 +49,7 @@ MonoBehaviour:
   red: {r: 0.9882353, g: 0.39215687, b: 0.08627451, a: 1}
   green: {r: 0.9882353, g: 0.39215687, b: 0.08627451, a: 1}
   activeSpline: 0
+  repeatPulse: 0
 --- !u!1 &2037543946026329882
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ MonoBehaviour:
   - {fileID: 4281235635775571263}
   - {fileID: 650362792082584712}
   - {fileID: 5896520129063700947}
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: -124194
 --- !u!1001 &863141473222428580
 PrefabInstance:
