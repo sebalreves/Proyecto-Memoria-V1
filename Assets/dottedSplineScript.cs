@@ -9,25 +9,43 @@ public class dottedSplineScript : MonoBehaviour {
     private List<SpriteRenderer> dotsList;
     public Color red, green;
     public bool activeSpline = false;
-    public bool repeatPulse = false;
+    public bool repeatPulse = true;
 
-    float pulseTime = 0.3f / 7;
-    float remainColorTime = 0.2f;
-    float repeatPulseTime = 0.5f;
+    float pulseTime;
+    float remainColorTime;
+    float repeatPulseTime;
 
     private void OnValidate() {
         dotsContainer.SetActive(activeSpline);
     }
 
+    private void Awake() {
+
+    }
+
     private void Start() {
+        // if (gameObject.transform.GetChild(0).childCount > 0)
+        //     pulseTime = 0.3f / gameObject.transform.GetChild(0).childCount;
+        pulseTime = 0.01f;
+        remainColorTime = 0.1f;
+        repeatPulseTime = 0.7f;
         dotsList = new List<SpriteRenderer>();
         foreach (Transform child in dotsContainer.transform) {
             dotsList.Add(child.Find("Center").GetComponent<SpriteRenderer>());
         }
     }
     public void pulse(string color = "red") {
-        if (activeSpline)
+        if (activeSpline) {
+            StopAllCoroutines();
             StartCoroutine(pulseRoutine(color));
+        }
+    }
+
+    public void stopPulse() {
+        StopAllCoroutines();
+        foreach (SpriteRenderer spriteRenderer in dotsList) {
+            spriteRenderer.color = Color.clear;
+        }
     }
 
     IEnumerator pulseRoutine(string color) {
@@ -47,3 +65,4 @@ public class dottedSplineScript : MonoBehaviour {
 
     }
 }
+

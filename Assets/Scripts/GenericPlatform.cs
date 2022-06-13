@@ -12,6 +12,8 @@ public class GenericPlatform : MonoBehaviour {
     private Animator animatorEngine;
     public CodeDescription codeDescription;
     private float lagInicial = 1f;
+    public dottedSplineScript SplineScript1, SplineScript2;
+
 
     public bool isNormalPlatform = true;
 
@@ -29,10 +31,16 @@ public class GenericPlatform : MonoBehaviour {
         if (action == "Press") {
             animatorEngine.enabled = true; // or speed
             animatorButton.Play("Boton_Down");
+            SplineScript1.pulse();
+            SplineScript2.pulse();
+
 
         } else if (action == "Release") {
             animatorEngine.enabled = false;
             animatorButton.Play("Boton_Up");
+            SplineScript1.stopPulse();
+            SplineScript2.stopPulse();
+
         }
         // if (animator.GetCurrentAnimatorStateInfo(0).IsName(newAnimationName)) return;
         // animator.Play(newAnimationName);

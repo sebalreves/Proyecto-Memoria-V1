@@ -1614,7 +1614,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 15.9
+  spritePixelsToUnits: 15.7
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1658,6 +1658,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -12658,7 +12670,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      roguelikeDungeon_transparent_399: -6759026254248448
+      roguelikeDungeon_transparent_335: 7234107140673446894
       roguelikeDungeon_transparent_309: 8335863461893863663
       roguelikeDungeon_transparent_518: 3336736720549660671
       roguelikeDungeon_transparent_494: 1203148498235810800
@@ -12731,8 +12743,8 @@ TextureImporter:
       roguelikeDungeon_transparent_351: -7995357071580829059
       roguelikeDungeon_transparent_454: -3361515256793738942
       roguelikeDungeon_transparent_38: -2936338243187484864
-      roguelikeDungeon_transparent_153: 5220690315222253205
       roguelikeDungeon_transparent_299: 3784030360291194049
+      roguelikeDungeon_transparent_153: 5220690315222253205
       roguelikeDungeon_transparent_377: 8676413407027067878
       roguelikeDungeon_transparent_119: 9025100604540384901
       roguelikeDungeon_transparent_84: 3423656003631594247
@@ -12799,18 +12811,18 @@ TextureImporter:
       roguelikeDungeon_transparent_401: 6905001410833144620
       roguelikeDungeon_transparent_447: -8988366851027727954
       roguelikeDungeon_transparent_200: -2788345836359679848
-      roguelikeDungeon_transparent_29: 8972141682373622046
       roguelikeDungeon_transparent_283: 3705323511203376171
-      roguelikeDungeon_transparent_150: 1923820459721974147
+      roguelikeDungeon_transparent_29: 8972141682373622046
       roguelikeDungeon_transparent_293: -7198954679121550698
+      roguelikeDungeon_transparent_150: 1923820459721974147
       roguelikeDungeon_transparent_389: 8090956232932237961
       roguelikeDungeon_transparent_496: -3377801413682003202
       roguelikeDungeon_transparent_68: 3537860896965224377
       roguelikeDungeon_transparent_23: 996936070058471317
-      roguelikeDungeon_transparent_103: -3292047398293908343
+      roguelikeDungeon_transparent_129: 1682537107037333520
       roguelikeDungeon_transparent_93: -7772455121658584067
       roguelikeDungeon_transparent_436: 455239481888191128
-      roguelikeDungeon_transparent_129: 1682537107037333520
+      roguelikeDungeon_transparent_103: -3292047398293908343
       roguelikeDungeon_transparent_65: 8343581493411087946
       roguelikeDungeon_transparent_94: 8825183632242262941
       roguelikeDungeon_transparent_128: 3231375722447888996
@@ -12927,20 +12939,20 @@ TextureImporter:
       roguelikeDungeon_transparent_75: -5460644490871670732
       roguelikeDungeon_transparent_69: -2060205701972810849
       roguelikeDungeon_transparent_191: -6459145572706205075
-      roguelikeDungeon_transparent_421: -6844398654088687843
+      roguelikeDungeon_transparent_484: -7100895252569842233
       roguelikeDungeon_transparent_142: 8100540911108381866
       roguelikeDungeon_transparent_78: -4472036002286625436
       roguelikeDungeon_transparent_519: -729858260143596003
       roguelikeDungeon_transparent_220: -1083390947026322759
       roguelikeDungeon_transparent_296: -4623075773462226296
+      roguelikeDungeon_transparent_368: -5116970540199560940
       roguelikeDungeon_transparent_43: -3092128638764847830
+      roguelikeDungeon_transparent_421: -6844398654088687843
       roguelikeDungeon_transparent_479: 7986531587606259270
       roguelikeDungeon_transparent_171: -9095375329265335393
-      roguelikeDungeon_transparent_470: 5980934943409052105
       roguelikeDungeon_transparent_480: 4372788393840532177
-      roguelikeDungeon_transparent_368: -5116970540199560940
+      roguelikeDungeon_transparent_470: 5980934943409052105
       roguelikeDungeon_transparent_28: -7757782391967500434
-      roguelikeDungeon_transparent_484: -7100895252569842233
       roguelikeDungeon_transparent_252: -1451813193099511697
       roguelikeDungeon_transparent_13: -1965111051408973970
       roguelikeDungeon_transparent_141: 419338820046970520
@@ -12964,10 +12976,10 @@ TextureImporter:
       roguelikeDungeon_transparent_431: 140354908846412917
       roguelikeDungeon_transparent_118: 4965521207562135156
       roguelikeDungeon_transparent_214: -7888179250969975617
-      roguelikeDungeon_transparent_311: -5817821932309295168
+      roguelikeDungeon_transparent_384: -3175753312710754378
       roguelikeDungeon_transparent_218: -7286939630387023710
       roguelikeDungeon_transparent_161: 6422908744559935291
-      roguelikeDungeon_transparent_384: -3175753312710754378
+      roguelikeDungeon_transparent_311: -5817821932309295168
       roguelikeDungeon_transparent_189: 2092800634065664174
       roguelikeDungeon_transparent_207: 6097329851654839895
       roguelikeDungeon_transparent_502: 3751817508684378297
@@ -12981,10 +12993,10 @@ TextureImporter:
       roguelikeDungeon_transparent_4: 9142234866806149189
       roguelikeDungeon_transparent_90: 7933941418105332535
       roguelikeDungeon_transparent_160: 6975486845851883045
-      roguelikeDungeon_transparent_312: -7652822134853310638
+      roguelikeDungeon_transparent_463: -265608163762873082
       roguelikeDungeon_transparent_360: -1947602341256272939
       roguelikeDungeon_transparent_157: -7634114828651549834
-      roguelikeDungeon_transparent_463: -265608163762873082
+      roguelikeDungeon_transparent_312: -7652822134853310638
       roguelikeDungeon_transparent_430: -6962975752186852715
       roguelikeDungeon_transparent_274: -1294373649968143277
       roguelikeDungeon_transparent_234: -3967848903747397902
@@ -13177,8 +13189,8 @@ TextureImporter:
       roguelikeDungeon_transparent_193: 7059738684836049398
       roguelikeDungeon_transparent_172: 8071703708130086391
       roguelikeDungeon_transparent_12: 5538863219609026270
+      roguelikeDungeon_transparent_399: -6759026254248448
       roguelikeDungeon_transparent_247: -8730878351838486788
-      roguelikeDungeon_transparent_335: 7234107140673446894
       roguelikeDungeon_transparent_513: 4226751866010327236
   spritePackingTag: 
   pSDRemoveMatte: 0

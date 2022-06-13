@@ -138,6 +138,7 @@ public class GenericButton : MonoBehaviourPun {
             player.GetComponent<PlayerMovement>().controllEnabled = true;
 
         yield return new WaitForSeconds(1f);
+        SplineScript.stopPulse();
         CodeLineManager._instance.fadeOutCodeColor();
 
         // if (spawner) {

@@ -164,7 +164,10 @@ public class TargetingScript : MonoBehaviourPun {
         // if (actualFocus.CompareTag(CONST.ballTag) || actualFocus.CompareTag(CONST.cubeTag)) return;
         CodeDescription descriptionManager = actualFocus.transform.Find("TargetZone").GetComponent<CodeDescription>();
         // descriptionManager.targeted = true;
+
+
         CodeLineManager._instance.newTargetResetCodeLines(descriptionManager.titulo, descriptionManager.codeLines, actualFocus);
+
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GenericWindArea : MonoBehaviour {
     // Start is called before the first frame update
     public bool activated;
+    public int loopActive = 0;
+    public int loopDesactivated = 0;
     private float alfa;
     public GameObject effector;
     public ParticleSystem particles;
@@ -28,6 +30,12 @@ public class GenericWindArea : MonoBehaviour {
         // particles = gameObject.transform.Find("Particles").GetComponent<ParticleSystem>();
         // spriteReference = gameObject.transform.Find("Canvas").transform.Find("GameObject").GetComponent<RawImage>();
         alfa = spriteReference.color.a;
+        if (loopActive != 0 && loopDesactivated != 0) {
+            startLoop(loopActive, loopDesactivated);
+            return;
+        }
+        if (activated)
+            activar();
         // startLoop(5f, 3f);
     }
 
