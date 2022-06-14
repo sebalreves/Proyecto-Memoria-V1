@@ -22,7 +22,7 @@ public class GenericButton : MonoBehaviourPun {
     public bool freezePlayer = true;
 
     private string activatedButtonHUD = "Ejecutando";
-    private string deactivatedButtonHUD = "Mantener <Espacio>";
+    private string deactivatedButtonHUD = "Mantener <sprite=0>";
     public GameObject onPressParameter = null;
     public int wrappGroup = 0;
     public dottedSplineScript SplineScript;

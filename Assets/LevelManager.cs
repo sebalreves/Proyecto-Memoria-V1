@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         niveles.Add(new LevelData(4, 1, "Nivel 3", 5));
         niveles.Add(new LevelData(5, 1, "Nivel 4", -1));
         currentLevel = getcurrentLevel();
+
     }
 
     public LevelData getcurrentLevel() {

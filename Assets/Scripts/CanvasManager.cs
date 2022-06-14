@@ -2,8 +2,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
+using System.Collections;
 
-public class CanvasManager : MonoBehaviourPun {
+
+public class CanvasManager : MonoBehaviour {
     //ingame buttons functions and references
     public Button exitButton, resetButton, exitButtonConfirm, exitButtonCanell, resetButtonConfirm, resetButtonCancell, playerDisconnectedHomeButton, endLevelNextButton;
 
@@ -14,8 +17,19 @@ public class CanvasManager : MonoBehaviourPun {
 
 
 
-
+    public TextMeshProUGUI levelTitle;
     public Image UIMaskImage;
+
+    IEnumerator Start() {
+
+        while (LevelManager.instance.currentLevel == null)
+            yield return null;
+        levelTitle.text = LevelManager.instance.currentLevel.nombre;
+        // Debug.Log(LevelManager.instance.currentLevel.nombre);
+
+    }
+
+
     // Start is called before the first frame update
     // void Start() {
     //     PhotonNetwork.AutomaticallySyncScene = true;

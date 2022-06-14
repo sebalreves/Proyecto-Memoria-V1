@@ -39,7 +39,8 @@ public class BallFactory : MonoBehaviour {
     private Action<string, int> onCountChange;
     public bool ready = false;
     private TextMeshProUGUI ballCountTMP, cubeCountTMP;
-    private Animator ballCountAnimator, cubeCountAnimator;
+    private Animator ballCountAnimator, cubeCountAnimator, variablesBGAnimator;
+
 
 
     //TODO check network sync of dictionary
@@ -58,6 +59,7 @@ public class BallFactory : MonoBehaviour {
     }
 
     void onCountChangeCallback(string _type, int _newCount) {
+        shineVariables(false);
         if (_type == CONST.Ball) {
 
             ballCountTMP.text = _newCount.ToString();
@@ -71,6 +73,13 @@ public class BallFactory : MonoBehaviour {
 
     }
 
+    public void shineVariables(bool shineRed = true) {
+        if (shineRed)
+            variablesBGAnimator.Play("red_shine");
+        else
+            variablesBGAnimator.Play("white_shine");
+    }
+
     IEnumerator Start() {
         while (PlayerFactory._instance.localPlayer == null) yield return null;
         var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(0).GetChild(0);
@@ -78,6 +87,7 @@ public class BallFactory : MonoBehaviour {
         ballCountAnimator = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<Animator>();
         cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         cubeCountAnimator = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<Animator>();
+        variablesBGAnimator = canvas.transform.Find("#Variables").transform.Find("Background").GetComponent<Animator>();
 
 
         instancedBalls = new Dictionary<int, GameObject>();
