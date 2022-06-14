@@ -82,6 +82,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             "Playground",
             "Level 4 Tutorial 1"
         };
+
+
+
+
+        // LevelManager.instance.initializeButtons();
     }
 
     IEnumerator Start() {
@@ -252,6 +257,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         // LevelSelectPanel.SetActive(PhotonNetwork.IsMasterClient);
 
         ActivatePanel(InsideRoomUIPanel.name);
+        LevelManager.instance.initializeButtons();
 
         // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
 

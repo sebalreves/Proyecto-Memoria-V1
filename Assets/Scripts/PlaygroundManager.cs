@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
+using TMPro;
 
 
 public class PlaygroundManager : MonoBehaviourPunCallbacks {
@@ -58,6 +59,8 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
 
 
     public Image UIMaskImage;
+
+    public bool exitingRoom = false;
 
     #endregion
 
@@ -138,7 +141,13 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         resetButtonCancell.onClick.AddListener(onRestartLevelCancell);
         resetButtonConfirm.onClick.AddListener(onRestartLevelConfirm);
         endLevelNextButton.onClick.AddListener(onNextLevel);
-        playerDisconnectedHomeButton.onClick.AddListener(onExitLevelConfirm);
+        playerDisconnectedHomeButton.onClick.AddListener(onPlayerDisconnectedConfirm);
+
+        endLevelNextButton.interactable = PhotonNetwork.IsConnectedAndReady ? PhotonNetwork.LocalPlayer.IsMasterClient : true;
+        endLevelNextButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PhotonNetwork.IsConnectedAndReady ?
+        (PhotonNetwork.LocalPlayer.IsMasterClient ? "Siguiente nivel" : "Esperando...")
+         : "Siguiente nivel";
+
 
         UIMaskImage = localPlayer.GetComponent<CanvasManager>().UIMaskImage;
         if (PhotonNetwork.IsConnectedAndReady) {
@@ -150,6 +159,18 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         isReady = true;
     }
 
+    private List<GameObject> getChildren(GameObject go, string types = "") {
+        List<GameObject> children = new List<GameObject>();
+        for (int i = 0; i < go.transform.childCount; i++) {
+            if (types == "buttons") {
+                children.Add(go.transform.GetChild(i).transform.Find("Button").gameObject);
+            } else
+                children.Add(go.transform.GetChild(i).gameObject);
+        }
+        // Debug.Log(children.Count);
+        return children;
+    }
+
     private void ActivateMask() {
         if (UIMaskImage) {
             UIMaskImage.enabled = false;
@@ -157,12 +178,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    [PunRPC]
-    public void RPC_onExitLevel() {
-        if (PhotonNetwork.IsMasterClient) {
-            PhotonNetwork.LoadLevel("LobbyScene");
-        }
-    }
+
 
     [PunRPC]
     public void RPC_onResetLevel(string sceneName) {
@@ -194,17 +210,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
 
     }
 
-    private List<GameObject> getChildren(GameObject go, string types = "") {
-        List<GameObject> children = new List<GameObject>();
-        for (int i = 0; i < go.transform.childCount; i++) {
-            if (types == "buttons") {
-                children.Add(go.transform.GetChild(i).transform.Find("Button").gameObject);
-            } else
-                children.Add(go.transform.GetChild(i).gameObject);
-        }
-        // Debug.Log(children.Count);
-        return children;
-    }
+
 
     public void onEndLevel() {
         //llamado desde el script Endlevel.cs
@@ -221,7 +227,9 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
 
         //solo accesible para el host
         //esperando al host para continuar
-        onRestartLevelConfirm();
+        // onRestartLevelConfirm();
+        LevelManager.instance.nextLevel();
+        endLevelNextButton.interactable = false;
 
     }
 
@@ -241,7 +249,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
             photonView.RPC("RPC_onResetLevel", RpcTarget.AllViaServer, scene.name);
 
         } else {
-            SceneManager.LoadScene(scene.name);
+            SceneManager.LoadScene(scene.buildIndex);
         }
     }
 
@@ -252,6 +260,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         //habilitar controles
     }
 
+    #region EXIT 
     public void onExitLevel() {
         //desabilitar controles de quien se quiere ir
         exitButton.interactable = false;
@@ -262,7 +271,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
     public void onExitLevelConfirm() {
         if (PhotonNetwork.IsConnectedAndReady) {
             // if (PhotonNetwork.IsMasterClient) {
-            photonView.RPC("RPC_onExitLevel", RpcTarget.AllViaServer);
+            photonView.RPC("RPC_onExitLevel", RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer.ActorNumber);
 
         } else {
             SceneManager.LoadScene("LobbyScene");
@@ -277,17 +286,54 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         //habilitar controles
 
     }
+    [PunRPC]
+    public void RPC_onExitLevel(int actorNumber) {
+        if (PhotonNetwork.LocalPlayer.ActorNumber == actorNumber) {
+            exitingRoom = true;
+            PhotonNetwork.LeaveRoom();
 
+        } else
+            //tu compañero se ha desconectado, volveras al menu
+            LeftgamePopUp.GetComponent<Animator>().Play("open_pop_up");
+    }
+    #endregion
+
+    #region DISCONNECT
     public void onPlayerDisconnected() {
         //visible para el jugador que se quedo solo en la room, popup notificando con boton para volver a la sala/inicio
         //si el jugador local se desconecta, popupconexion perdida
+        LeftgamePopUp.GetComponent<Animator>().Play("open_pop_up");
+
         exitButton.interactable = false;
         resetButton.interactable = false;
 
     }
 
 
+
     public override void OnLeftRoom() {
-        SceneManager.LoadScene("LobbyScene");
+        if (exitingRoom || LevelManager.instance.returningMenu)
+            SceneManager.LoadScene("LobbyScene");
+        else {
+            //desconexion accidental
+            onPlayerDisconnected();
+        }
+
+        // onPlayerDisconnected();
+        // SceneManager.LoadScene("LobbyScene");
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        if (exitingRoom) return;
+        onPlayerDisconnected();
+    }
+
+    public void onPlayerDisconnectedConfirm() {
+        exitingRoom = true;
+        PhotonNetwork.LeaveRoom();
+
+    }
+
+
+    #endregion
 }

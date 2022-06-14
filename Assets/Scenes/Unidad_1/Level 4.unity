@@ -1727,6 +1727,22 @@ PrefabInstance:
       value: 73
       objectReference: {fileID: 0}
     - target: {fileID: 2480555250622402352, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480555250622402352, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480555250622402352, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480555250622402352, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480555250622402352, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
       propertyPath: m_Tiles.Array.size
       value: 198
       objectReference: {fileID: 0}
@@ -8732,11 +8748,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865415517347181040, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -33.48
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 8865415517347181040, guid: 21298321dca7e91419cf90875a3fbce9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25.66
+      value: 5.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
