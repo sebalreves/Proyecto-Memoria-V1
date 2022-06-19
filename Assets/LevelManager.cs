@@ -68,10 +68,8 @@ public class LevelManager : MonoBehaviourPunCallbacks {
     }
 
     void initializeButton(Button button, LevelData levelData) {
-        Debug.Log(button);
-        Debug.Log(levelData.locked);
-        Debug.Log(button.interactable);
-        button.interactable = !levelData.locked;
+
+        // button.interactable = !levelData.locked;
         button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = levelData.nombre.Substring(levelData.nombre.Length - 1);
         button.onClick.AddListener(() => {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2) {

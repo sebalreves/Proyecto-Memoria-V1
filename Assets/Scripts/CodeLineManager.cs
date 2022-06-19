@@ -10,7 +10,7 @@ using System.Linq;
 public class CodeLineManager : MonoBehaviour {
     public GameObject codeContainer, aux, fixedLinesContainer;
 
-    private Animator codeAnimator;
+    private Animator codeAnimator, codeShineAnimator;
     public TextMeshProUGUI titulo;
     public static CodeLineManager _instance;
     GameObject linePrefab, separatorPrefab;
@@ -44,6 +44,7 @@ public class CodeLineManager : MonoBehaviour {
         fixedLinesContainer = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("LinesFixed").gameObject;
         titulo = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").transform.Find("Header").transform.Find("Titulo").GetComponent<TextMeshProUGUI>();
         codeAnimator = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("#Codigo").GetComponent<Animator>();
+        codeShineAnimator = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(4).transform.Find("CodeShine").GetComponent<Animator>();
 
         if (_instance == null) {
             _instance = this;
@@ -65,6 +66,11 @@ public class CodeLineManager : MonoBehaviour {
             if (linesPassed == _lineIndex) return returnValue;
         }
         return 0;
+    }
+
+    public void ShineAnimation() {
+        Debug.Log("A");
+        codeShineAnimator.Play("code_shine");
     }
 
     public IEnumerator trySetColorLine(GameObject animationTarget, int _fromLineIndex, int _toLineIndex, Color _color, float _time = 1f, bool fadeUp = true, bool lineal = false) {

@@ -10,8 +10,8 @@ public class CONST {
     public const float waitTimeEnterCamZone = 0.4f;
 
     //PLAYER PROPERTIES
-    public const float playerMaxSpeed = 9.5f;
-    public const float playerAcc = 120f;
+    public const float playerMaxSpeed = 10f;
+    public const float playerAcc = 140f;
 
     //raise events
     public const byte GrabBallEventCode = 1;

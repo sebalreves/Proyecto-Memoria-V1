@@ -49,10 +49,13 @@ public class GenericBall : MonoBehaviourPun, IPunInstantiateMagicCallback {
     // }
 
     [PunRPC]
-    public void ReleaseBallBlackHole(bool beingCarried, int playerId = 0) {
+    public void ReleaseBallBlackHole(bool beingCarried, int playerId = 0, bool isCube = false) {
         if (beingCarried) {
             PlayerFactory._instance.findPlayer(playerId).GetComponent<PlayerGrab>().TryRelease();
         }
+        if (isCube) BallFactory._instance.CubeCount--;
+        else BallFactory._instance.BallCount--;
+
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info) {

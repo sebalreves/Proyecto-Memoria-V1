@@ -42,9 +42,10 @@ public class TargetingScript : MonoBehaviourPun {
         return null;
     }
 
+
+
     private void FixedUpdate() {
-        //TODO actualizar interfaz dependiendo de la accion disponible
-        //TODO se puede activar un boton teniendo un objeto cargado?
+
         if (PhotonNetwork.IsConnectedAndReady && !photonView.IsMine) return;
         UpdateTargetedObject();
     }
@@ -81,6 +82,13 @@ public class TargetingScript : MonoBehaviourPun {
     void enableTargeted(GameObject targetObject, bool newState) {
         // Debug.Log(targetObject.tag);
         targetObject.transform.Find("TargetZone").transform.Find("FocusedSprite").gameObject.SetActive(newState);
+        if (newState && (targetObject.GetComponent<GenericButton>() != null || targetObject.GetComponent<GenericPlatform>() != null)) {
+            //acercarse a boton o plataforma
+            CodeLineManager._instance.ShineAnimation();
+            // targetObject.transform.Find("TargetZone").Find("Canvas").gameObject.SetActive(true);
+        }
+
+
 
         var ingameUI = targetObject.transform.parent.Find("InGameUI");
         if (!ingameUI) return;
@@ -95,6 +103,10 @@ public class TargetingScript : MonoBehaviourPun {
 
     public void UpdateTargetedObject() {
         // Debug.Log(nearObjects.Count);
+
+        for (int i = nearObjects.Count - 1; i >= 0; i--) {
+            if (nearObjects[i] == null) nearObjects.Remove(nearObjects[i]);
+        }
         if (nearObjects.Count == 0) {
             actualBallFocus = null;
             actualFocus = null;
@@ -102,6 +114,7 @@ public class TargetingScript : MonoBehaviourPun {
         }
 
         // if (!playerGrabReference.grabingBall || true) {
+
         var temp = nearObjects.OrderBy(grabable => Vector2.SqrMagnitude(grabable.transform.position - gameObject.transform.position)).ToList();
         var nearBalls = temp.Where(x => x.CompareTag("Ball") || x.CompareTag("Cube")).ToList();
         var nearActives = temp.Where(x => !(x.CompareTag("Ball") || x.CompareTag("Cube"))).ToList();

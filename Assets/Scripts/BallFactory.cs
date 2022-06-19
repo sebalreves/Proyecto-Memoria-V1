@@ -7,7 +7,7 @@ using System;
 using TMPro;
 
 
-public class BallFactory : MonoBehaviour {
+public class BallFactory : MonoBehaviourPun {
     public static BallFactory _instance;
     public int ballCount, cubeCount;
     public int BallCount {
@@ -82,6 +82,9 @@ public class BallFactory : MonoBehaviour {
 
     IEnumerator Start() {
         while (PlayerFactory._instance.localPlayer == null) yield return null;
+        if (PhotonNetwork.IsConnectedAndReady)
+            while (PlayerFactory._instance.noLocalPlayer == null) yield return null;
+        // yield return new WaitForSeconds(1f);
         var canvas = PlayerFactory._instance.localPlayer.transform.Find("Camera").transform.GetChild(0).GetChild(0);
         ballCountTMP = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         ballCountAnimator = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<Animator>();
@@ -101,9 +104,13 @@ public class BallFactory : MonoBehaviour {
             if (PhotonNetwork.IsConnectedAndReady) {
                 object[] customData = new object[] { ball.GetComponent<GenericBall>().color };
                 Vector3 position = ball.transform.position;
-                Destroy(ball);
-                if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.Instantiate(ballPrefab.name, position, Quaternion.identity, 0, customData);
+                // Destroy(ball);
+                if (PhotonNetwork.IsMasterClient) {
+                    PhotonNetwork.Destroy(ball.GetComponent<PhotonView>());
+                    GameObject instantiated = PhotonNetwork.Instantiate(ballPrefab.name, position, Quaternion.identity, 0, customData);
+                    instancedBalls.Add(instantiated.transform.GetChild(0).GetComponent<PhotonView>().ViewID, instantiated.transform.GetChild(0).gameObject);
+
+                }
                 // instancedBalls.Add(syncBall.GetComponent<PhotonView>().ViewID, syncBall);
             } else
                 instancedBalls.Add(ball.GetInstanceID(), ball);
@@ -113,9 +120,13 @@ public class BallFactory : MonoBehaviour {
             if (PhotonNetwork.IsConnectedAndReady) {
                 object[] customData = new object[] { cube.GetComponent<GenericBall>().color };
                 Vector3 position = cube.transform.position;
-                Destroy(cube);
-                if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.Instantiate(cubePrefab.name, position, Quaternion.identity, 0, customData);
+                // Destroy(cube);
+                if (PhotonNetwork.IsMasterClient) {
+                    PhotonNetwork.Destroy(cube.GetComponent<PhotonView>());
+                    GameObject instantiated = PhotonNetwork.Instantiate(cubePrefab.name, position, Quaternion.identity, 0, customData);
+                    instancedBalls.Add(instantiated.transform.GetChild(0).GetComponent<PhotonView>().ViewID, instantiated.transform.GetChild(0).gameObject);
+
+                }
                 // instancedBalls.Add(syncCube.GetComponent<PhotonView>().ViewID, syncCube);
             } else
                 instancedBalls.Add(cube.GetInstanceID(), cube);
@@ -258,20 +269,30 @@ public class BallFactory : MonoBehaviour {
 
     public void DestroyBall(GameObject _ball) {
         if (_ball == null) return;
-        if (_ball.GetComponent<GenericBall>().shape == CONST.Cube) CubeCount--;
-        else BallCount--;
+        // if (_ball.GetComponent<GenericBall>().shape == CONST.Cube) CubeCount--;
+        // else BallCount--;
         GameObject ballParent = _ball.transform.parent.gameObject;
+        bool isCube = _ball.GetComponent<GenericBall>().shape == CONST.Cube;
         if (PhotonNetwork.IsConnectedAndReady) {
-            if (PhotonNetwork.IsMasterClient) {
-                _ball.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+            if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+                // _ball.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.AllBuffered, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId, isCube);
+                PlayerFactory._instance.localPlayer.GetComponent<PhotonView>().RPC("ReleaseBallBlackHole", RpcTarget.All, _ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+                PlayerFactory._instance.localPlayer.GetComponent<PhotonView>().RPC("SyncCount", RpcTarget.All, isCube);
                 PhotonNetwork.Destroy(_ball.GetComponent<PhotonView>());
             }
         } else {
-            _ball.GetComponent<GenericBall>().ReleaseBallBlackHole(_ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+            PlayerFactory._instance.localPlayer.GetComponent<PlayerInteract>().ReleaseBallBlackHole(_ball.GetComponent<BallGrabScript>().beingCarried, _ball.GetComponent<BallGrabScript>().ActualPlayerWhoGrabId);
+            PlayerFactory._instance.localPlayer.GetComponent<PlayerInteract>().SyncCount(isCube);
             Destroy(_ball);
         }
         Destroy(ballParent);
     }
+
+    // [PunRPC]
+    // public void syncCount(bool isCube) {
+    //     if (isCube) CubeCount--;
+    //     else BallCount--;
+    // }
 
 
 }

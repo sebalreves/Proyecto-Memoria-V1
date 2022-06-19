@@ -60,6 +60,21 @@ public class PlayerInteract : MonoBehaviourPun {
         }
     }
 
+    [PunRPC]
+    public void ReleaseBallBlackHole(bool beingCarried, int playerId = 0) {
+        if (beingCarried) {
+            PlayerFactory._instance.findPlayer(playerId).GetComponent<PlayerGrab>().TryRelease();
+        }
+
+
+    }
+
+    [PunRPC]
+    public void SyncCount(bool isCube) {
+        if (isCube) BallFactory._instance.CubeCount--;
+        else BallFactory._instance.BallCount--;
+    }
+
     private void SendSignal(Vector3 _position) {
         #region SIGNALS
         signalSent = true;
