@@ -36,12 +36,15 @@ public class LevelManager : MonoBehaviourPunCallbacks {
     // public LevelData level_4 = new LevelData(5, 1, "Nivel 4", -1);
 
     public Button level_1_button, level_2_button, level_3_button, level_4_button;
+
+    public Button[] buttons;
     public bool returningMenu;
     private void Awake() {
         if (_instance == null) {
             _instance = this;
             DontDestroyOnLoad(_instance.gameObject);
         }
+        buttons = new Button[] { level_1_button, level_2_button, level_3_button, level_4_button };
         niveles = new List<LevelData>();
         niveles.Add(new LevelData(2, 1, "Nivel 1", 3, false));
         niveles.Add(new LevelData(3, 1, "Nivel 2", 4));
@@ -49,6 +52,12 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         niveles.Add(new LevelData(5, 1, "Nivel 4", -1));
         currentLevel = getcurrentLevel();
 
+    }
+
+    private void disableButtons() {
+        foreach (Button button in buttons) {
+            button.interactable = false;
+        }
     }
 
     public LevelData getcurrentLevel() {
@@ -71,19 +80,20 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
         // button.interactable = !levelData.locked;
         button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = levelData.nombre.Substring(levelData.nombre.Length - 1);
+        // if (button.onClick.GetPersistentEventCount() == 0)
         button.onClick.AddListener(() => {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2) {
-                currentLevel = levelData;
-                PhotonNetwork.CurrentRoom.IsVisible = false;
-                PhotonNetwork.LoadLevel(levelData.buildIndex);
-                button.interactable = false;
-            }
+            currentLevel = levelData;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            disableButtons();
+            PhotonNetwork.LoadLevel(levelData.buildIndex);
+            // button.interactable = false;
+
 
             // SceneManager.LoadScene(levelData.buildIndex);
         });
 
-        if (!PhotonNetwork.IsMasterClient)
-            button.gameObject.SetActive(false);
+        // if (!PhotonNetwork.IsMasterClient)
+        //     button.gameObject.SetActive(false);
     }
 
     public void LevelCompleted() {

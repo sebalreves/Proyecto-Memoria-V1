@@ -3,44 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerListEntryInitializer : MonoBehaviour {
 
     [Header("UI References")]
-    public Text PlayerNameText;
+    public TextMeshProUGUI PlayerNameText;
     public Button PlayerReadyButton;
     public Image PlayerReadyImage;
 
     private bool isPlayerReady = false;
 
-    public void Initialize(int playerID, string playerName) {
+    public void Initialize(bool player_1) {
+
+        // if (PhotonNetwork.LocalPlayer.ActorNumber == playerID) {
+        Debug.Log(player_1 + "inicializando");
+        PlayerNameText.text = player_1 ? "Player 1" : "Player 2";
+
+        // PlayerNameText.text = PhotonNetwork;
+        return;
+
+        // if (PhotonNetwork.LocalPlayer.ActorNumber != player_1) {
+        //     PlayerReadyButton.gameObject.SetActive(false);
+        // } else {
+        //     //I am the local player
+
+        //     ExitGames.Client.Photon.Hashtable initialProps = new ExitGames.Client.Photon.Hashtable() { { CONST.PLAYER_READY, isPlayerReady } };
+        //     PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
+
+        //     PlayerReadyButton.onClick.AddListener(() => {
+
+        //         isPlayerReady = !isPlayerReady;
+        //         SetPlayerReady(isPlayerReady);
+
+        //         ExitGames.Client.Photon.Hashtable newProps = new ExitGames.Client.Photon.Hashtable() { { CONST.PLAYER_READY, isPlayerReady } };
+        //         PhotonNetwork.LocalPlayer.SetCustomProperties(newProps);
 
 
-        PlayerNameText.text = playerName;
 
 
-        if (PhotonNetwork.LocalPlayer.ActorNumber != playerID) {
-            PlayerReadyButton.gameObject.SetActive(false);
-        } else {
-            //I am the local player
+        //     });
 
-            ExitGames.Client.Photon.Hashtable initialProps = new ExitGames.Client.Photon.Hashtable() { { CONST.PLAYER_READY, isPlayerReady } };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
-
-            PlayerReadyButton.onClick.AddListener(() => {
-
-                isPlayerReady = !isPlayerReady;
-                SetPlayerReady(isPlayerReady);
-
-                ExitGames.Client.Photon.Hashtable newProps = new ExitGames.Client.Photon.Hashtable() { { CONST.PLAYER_READY, isPlayerReady } };
-                PhotonNetwork.LocalPlayer.SetCustomProperties(newProps);
-
-
-
-
-            });
-
-        }
+        // }
     }
 
 
