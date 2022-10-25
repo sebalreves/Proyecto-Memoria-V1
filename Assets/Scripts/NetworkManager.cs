@@ -16,6 +16,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [Header("Login UI")]
     public TextMeshProUGUI loginConnectingText;
     public GameObject LoginUIPanel;
+    public GameObject fantasmitaInicio;
+    public GameObject playButton;
     // public InputField PlayerNameInput;
 
     [Header("Connecting Info Panel")]
@@ -45,6 +47,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public GameObject LevelSelectPanel;
     public TextMeshProUGUI esperandoJugador;
     public GameObject LoadingObject;
+
+    public Button[] buttons;
     // public TextMeshProUGUI LevelSelectionText;
 
     // public Text GameModeText;
@@ -102,7 +106,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
         }
         roomNameInput.characterLimit = 16;
-        LevelManager.instance.initializeButtons();
+
 
     }
 
@@ -114,9 +118,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     }
 
     private void Update() {
-        if (kb.anyKey.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame) {
-            OnInteract_LoginButton();
-        }
+        // if (kb.anyKey.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame) {
+        //     OnInteract_LoginButton();
+        // }
 
         if (kb.enterKey.wasPressedThisFrame) {
             if (newRoomNameInputPanel.activeInHierarchy) {
@@ -129,10 +133,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     #region UI Callback Methods
 
+    public void onClickSelectLevel(string levelName) {
+        LevelManager.instance.LevelButtonOnClick(levelName);
+    }
     public void onClickCreateRoomConfirm() {
 
         string roomName = roomNameInput.text;
-        // Debug.Log(roomNameInput.text);
+        Debug.Log("creatinggg");
         // if (string.IsNullOrEmpty(roomName)) {
         //     roomName = "Room" + Random.Range(1000, 10000);
         // }
@@ -141,26 +148,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             newRoomNameInputPanel.GetComponent<Animator>().Play("input_room_name_error");
             return;
         }
-        ActivatePanel(CreatingRoomInfoUIPanel.name);
+        StartCoroutine(LevelManager.instance.FadeAnimation(() => {
 
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2;
-        roomOptions.CleanupCacheOnLeave = true;
-        roomOptions.EmptyRoomTtl = 0;
+            ActivatePanel(CreatingRoomInfoUIPanel.name);
 
-        string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
-        ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
-        {
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 2;
+            roomOptions.CleanupCacheOnLeave = true;
+            roomOptions.EmptyRoomTtl = 0;
+            roomOptions.PlayerTtl = 10000;
+
+            string[] roomPropsInLobby = { CONST.levelProp }; //gm = game mode
+            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+            {
             { CONST.levelProp, GameMode }
         };
 
-        roomOptions.IsVisible = true;
-        roomOptions.BroadcastPropsChangeToAll = true;
+            roomOptions.IsVisible = true;
+            roomOptions.BroadcastPropsChangeToAll = true;
 
-        roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
-        roomOptions.CustomRoomProperties = customRoomProperties;
+            roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
+            roomOptions.CustomRoomProperties = customRoomProperties;
 
-        PhotonNetwork.CreateRoom(roomName, roomOptions);
+            PhotonNetwork.CreateRoom(roomName, roomOptions);
+
+        }));
     }
 
     public void onClickCreateRoom() {
@@ -244,6 +256,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
     }
 
+    public void OnPlayButtonClick() {
+        //click del primer boton
+        StartCoroutine(LevelManager.instance.FadeAnimation(() => {
+            ActivatePanel(GameOptionsUIPanel.name);
+            TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
+            PhotonNetwork.JoinLobby(customLobby);
+        }, true));
+    }
+
 
     #endregion
 
@@ -256,10 +277,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnConnectedToMaster() {
         // Debug.Log(PhotonNetwork.LocalPlayer.NickName + " is connected to Photon.");
-        loginConnectingText.text = "Presione una tecla para continuar";
-        ActivatePanel(GameOptionsUIPanel.name);
-        TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
-        PhotonNetwork.JoinLobby(customLobby);
+        // loginConnectingText.text = "Presione una tecla para continuar";
+        loginConnectingText.gameObject.SetActive(false);
+        fantasmitaInicio.SetActive(false);
+        playButton.SetActive(true);
+
+        // ActivatePanel(GameOptionsUIPanel.name);
+        // TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
+        // PhotonNetwork.JoinLobby(customLobby);
     }
 
     public override void OnCreatedRoom() {
@@ -269,6 +294,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name + "Player count:" + PhotonNetwork.CurrentRoom.PlayerCount);
+        StartCoroutine(LevelManager.instance.FadeAnimation(() => { }));
 
         // LevelSelectPanel.SetActive(PhotonNetwork.IsMasterClient);
 
@@ -489,7 +515,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             newEntry.transform.Find("Owner").GetComponent<TextMeshProUGUI>().text = "Sala del jugador " + room.Name;
             newEntry.transform.Find("Players").GetComponent<TextMeshProUGUI>().text = room.PlayerCount + " / " + room.MaxPlayers;
             newEntry.transform.Find("Unirse").GetComponent<Button>().onClick.AddListener(() => {
-                OnJoinRoomButtonClick(room.Name);
+                StartCoroutine(LevelManager.instance.FadeAnimation(() => {
+                    OnJoinRoomButtonClick(room.Name);
+                }));
             });
 
             roomListGameobjects.Add(room.Name, newEntry);

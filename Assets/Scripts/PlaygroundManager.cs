@@ -8,10 +8,15 @@ using Photon.Realtime;
 using TMPro;
 
 
-public class PlaygroundManager : MonoBehaviourPunCallbacks {
+public class PlaygroundManager : MonoBehaviourPunCallbacks, IConnectionCallbacks {
 
     //instancia los objetos de la escena (jugadores y objetos)
     //Asigna funcionalidades a cada boton e interruptor
+    private LoadBalancingClient loadBalancingClient;
+    private AppSettings appSettings;
+    public bool shouldReconnect = true;
+    bool reconecting = false;
+
     [HideInInspector]
     public bool isReady = false;
     public GameObject playerPrefab;
@@ -110,11 +115,20 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
             Vector3 instantiatePosition = spawnPositions[actorNumber - 1].position;
             localPlayer = PlayerFactory._instance.instantiatePlayer(instantiatePosition);
 
+
+            loadBalancingClient = PhotonNetwork.NetworkingClient;
+            appSettings = PhotonNetwork.PhotonServerSettings.AppSettings;
+            loadBalancingClient.AddCallbackTarget(this);
+
+
         } else {
             localPlayer = PlayerFactory._instance.instantiatePlayer(spawnPositions[0].position);
 
         }
         #endregion
+
+
+
 
         #region UI BUTTON ASSIGN
 
@@ -157,6 +171,12 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
 
         Invoke("ActivateMask", 0.15f);
         isReady = true;
+    }
+
+
+    private void OnDestroy() {
+        if (loadBalancingClient == null) return;
+        this.loadBalancingClient.RemoveCallbackTarget(this);
     }
 
     private List<GameObject> getChildren(GameObject go, string types = "") {
@@ -312,6 +332,7 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
 
 
     public override void OnLeftRoom() {
+        Debug.Log("PLAYER LEFT");
         if (exitingRoom || LevelManager.instance.returningMenu)
             SceneManager.LoadScene("LobbyScene");
         else {
@@ -333,6 +354,41 @@ public class PlaygroundManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.LeaveRoom();
 
     }
+
+    void IConnectionCallbacks.OnDisconnected(DisconnectCause cause) {
+        if (canRecover(cause)) {
+            this.Recover();
+        }
+    }
+
+
+    private void Recover() {
+        if (!loadBalancingClient.ReconnectAndRejoin()) {
+            Debug.LogError("ReconnectAndRejoin failed, trying Reconnect");
+            if (!loadBalancingClient.ReconnectToMaster()) {
+                Debug.LogError("Reconnect failed, trying ConnectUsingSettings");
+                if (!loadBalancingClient.ConnectUsingSettings(appSettings)) {
+                    Debug.LogError("ConnectUsingSettings failed");
+                }
+            }
+        }
+    }
+
+
+    bool canRecover(DisconnectCause cause) {
+        switch (cause) {
+
+            case DisconnectCause.Exception:
+            case DisconnectCause.ServerTimeout:
+            case DisconnectCause.ClientTimeout:
+            case DisconnectCause.DisconnectByServerLogic:
+            case DisconnectCause.DisconnectByServerReasonUnknown:
+                return true;
+
+        }
+        return false;
+    }
+
 
 
     #endregion

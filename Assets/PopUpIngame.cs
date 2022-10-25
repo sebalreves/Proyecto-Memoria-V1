@@ -5,8 +5,10 @@ using UnityEngine;
 public class PopUpIngame : MonoBehaviour {
     public GameObject messageContainer;
     public Animator messageContainerAnimator;
+    public int actualPlayers = 0;
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
+            actualPlayers++;
             if (!messageContainer.activeInHierarchy) {
                 messageContainerAnimator.Play("open_message");
             }
@@ -15,7 +17,9 @@ public class PopUpIngame : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other) {
         if (other.tag == "Player") {
-            messageContainerAnimator.Play("close_message");
+            actualPlayers--;
+            if (actualPlayers == 0)
+                messageContainerAnimator.Play("close_message");
         }
     }
 }

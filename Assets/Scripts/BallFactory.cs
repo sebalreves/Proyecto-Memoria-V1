@@ -40,6 +40,7 @@ public class BallFactory : MonoBehaviourPun {
     public bool ready = false;
     private TextMeshProUGUI ballCountTMP, cubeCountTMP;
     private Animator ballCountAnimator, cubeCountAnimator, variablesBGAnimator;
+    private GameObject VariablesAnimationsContainer;
 
 
 
@@ -59,7 +60,7 @@ public class BallFactory : MonoBehaviourPun {
     }
 
     void onCountChangeCallback(string _type, int _newCount) {
-        shineVariables(false);
+        // shineVariables(false);
         if (_type == CONST.Ball) {
 
             ballCountTMP.text = _newCount.ToString();
@@ -68,16 +69,28 @@ public class BallFactory : MonoBehaviourPun {
 
             cubeCountTMP.text = _newCount.ToString();
             cubeCountAnimator.Play("OnContadorChange");
-
         }
+        shineVariables();
 
     }
 
-    public void shineVariables(bool shineRed = true) {
-        if (shineRed)
-            variablesBGAnimator.Play("red_shine");
-        else
-            variablesBGAnimator.Play("white_shine");
+    IEnumerator onChangeCountAnimation() {
+        int[] arr = Enumerable.Range(0, VariablesAnimationsContainer.transform.childCount).ToArray();
+        System.Random random = new System.Random();
+        arr = arr.OrderBy(x => random.Next()).ToArray();
+        for (int i = 0; i < arr.Length; i++) {
+            VariablesAnimationsContainer.transform.GetChild(i).GetComponent<Animator>().Play("code_shine");
+            yield return new WaitForSeconds(0.03f);
+        }
+    }
+
+    public void shineVariables() {
+        StartCoroutine(onChangeCountAnimation());
+
+        // if (shineRed)
+        //     variablesBGAnimator.Play("red_shine");
+        // else
+        //     variablesBGAnimator.Play("white_shine");
     }
 
     IEnumerator Start() {
@@ -90,7 +103,9 @@ public class BallFactory : MonoBehaviourPun {
         ballCountAnimator = canvas.transform.Find("#Variables").transform.Find("Balls").transform.GetChild(1).GetComponent<Animator>();
         cubeCountTMP = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         cubeCountAnimator = canvas.transform.Find("#Variables").transform.Find("Cubes").transform.GetChild(1).GetComponent<Animator>();
-        variablesBGAnimator = canvas.transform.Find("#Variables").transform.Find("Background").GetComponent<Animator>();
+        // variablesBGAnimator = canvas.transform.Find("#Variables").transform.Find("Background").GetComponent<Animator>();
+        VariablesAnimationsContainer = canvas.transform.Find("#Variables").transform.Find("Background").gameObject;
+
 
 
         instancedBalls = new Dictionary<int, GameObject>();

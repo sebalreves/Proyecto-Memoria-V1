@@ -9,7 +9,7 @@ public class Unidad_1_4Events : PlaygroundEvents {
     }
 
     IEnumerator pressButton(GameObject buttonObject) {
-        if (BallFactory._instance.ballCount == 0) {
+        if (BallFactory._instance.ballCount == 1) {
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 0, green, _time: 1f);
             yield return CodeLineManager._instance.trySetColorLine(buttonObject, 1, green, _time: 3f);
             DoorsList[CONST.A].GetComponent<GenericDoor>().open();

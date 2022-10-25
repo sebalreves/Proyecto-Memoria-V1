@@ -24,7 +24,8 @@ public class Unidad_1_2Events : PlaygroundEvents {
             while (true)
                 yield return CodeLineManager._instance.trySetColorLine(platformObject, 1, green, _time: CONST.codeLoopVelocity);
         } else {
-            yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, red);
+            while (true)
+                yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, red, _time: CONST.codeLoopVelocity);
         }
 
         // yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, green);
@@ -38,11 +39,15 @@ public class Unidad_1_2Events : PlaygroundEvents {
         yield break;
     }
     IEnumerator pressPlatformB(GameObject platformObject) {
-        yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, green);
-        DoorsList[CONST.A].GetComponent<GenericDoor>().open();
-        while (true)
-            yield return CodeLineManager._instance.trySetColorLine(platformObject, 1, green, _time: CONST.codeLoopVelocity);
-
+        if (platformObject.GetComponent<GenericPlatform>().activado) {
+            yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, green);
+            DoorsList[CONST.A].GetComponent<GenericDoor>().open();
+            while (true)
+                yield return CodeLineManager._instance.trySetColorLine(platformObject, 1, green, _time: CONST.codeLoopVelocity);
+        } else {
+            while (true)
+                yield return CodeLineManager._instance.trySetColorLine(platformObject, 0, red, _time: CONST.codeLoopVelocity);
+        }
     }
     IEnumerator releasePlatformB(GameObject platformObject) {
         DoorsList[CONST.A].GetComponent<GenericDoor>().close();

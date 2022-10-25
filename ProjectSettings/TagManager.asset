@@ -20,6 +20,7 @@ TagManager:
   - Platform
   - Coin
   - UIIngame
+  - CameraAttractor
   layers:
   - Default
   - TransparentFX
@@ -45,7 +46,7 @@ TagManager:
   - PopUpCamera
   - UICamera
   - PostProcess
-  - 
+  - CameraAnchor
   - 
   - 
   - 

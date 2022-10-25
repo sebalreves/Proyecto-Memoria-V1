@@ -69,7 +69,6 @@ public class CodeLineManager : MonoBehaviour {
     }
 
     public void ShineAnimation() {
-        Debug.Log("A");
         codeShineAnimator.Play("code_shine");
     }
 
