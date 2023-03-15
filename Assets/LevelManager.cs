@@ -10,7 +10,8 @@ using System;
 using System.Linq;
 
 
-public class LevelManager : MonoBehaviourPunCallbacks {
+public class LevelManager : MonoBehaviourPunCallbacks
+{
     // Start is called before the first frame update
 
     static LevelManager _instance;
@@ -21,9 +22,12 @@ public class LevelManager : MonoBehaviourPunCallbacks {
     public bool fadedBool = false;
 
     public bool changingScene = false;
-    public static LevelManager instance {
-        get {
-            if (_instance == null) {
+    public static LevelManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 // * El ShopCameraControl se crea dinámicamente. No existe en la escena previamente *
 
                 UnityEngine.Object obj = Resources.Load("LevelManager");
@@ -48,12 +52,16 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
     // public Button[] buttons;
     public bool returningMenu;
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
             DontDestroyOnLoad(_instance.gameObject);
-        } else {
-            Destroy(this);
+        }
+        else
+        {
+            Destroy(this.gameObject);
         }
         // buttons = new Button[] { level_1_button, level_2_button, level_3_button, level_4_button };
         niveles = new List<LevelData>();
@@ -65,15 +73,19 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
     }
 
-    private void Update() {
+    private void Update()
+    {
         // Debug.Log();
-        if (PhotonNetwork.IsConnectedAndReady) {
-            if (PhotonNetwork.LevelLoadingProgress > 0f && changingScene == false) {
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            if (PhotonNetwork.LevelLoadingProgress > 0f && changingScene == false)
+            {
                 changingScene = true;
                 StartCoroutine(FadeAnimation(() => { }, false, true));
 
             }
-            if (PhotonNetwork.LevelLoadingProgress == 0 && changingScene == true) {
+            if (PhotonNetwork.LevelLoadingProgress == 0 && changingScene == true)
+            {
                 changingScene = false;
                 StartCoroutine(FadeAnimation(() => { }, false, true));
             }
@@ -82,9 +94,12 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
 
 
-    public LevelData getcurrentLevel() {
-        foreach (LevelData data in niveles) {
-            if (data.buildIndex == SceneManager.GetActiveScene().buildIndex) {
+    public LevelData getcurrentLevel()
+    {
+        foreach (LevelData data in niveles)
+        {
+            if (data.buildIndex == SceneManager.GetActiveScene().buildIndex)
+            {
                 return data;
             }
         }
@@ -98,16 +113,19 @@ public class LevelManager : MonoBehaviourPunCallbacks {
     //     // initializeButton(level_4_button, niveles[3]);
     // }
 
-    public void LevelButtonOnClick(string levelName) {
+    public void LevelButtonOnClick(string levelName)
+    {
 
         Debug.Log("SELECCIONADO");
         // button.interactable = !levelData.locked;
 
         LevelData levelData = null;
-        foreach (var nivel in niveles) {
+        foreach (var nivel in niveles)
+        {
             if (nivel.nombre == levelName) levelData = nivel;
         }
-        if (levelData == null) {
+        if (levelData == null)
+        {
             Debug.Log("Nivel no encontrado");
             return;
         }
@@ -118,7 +136,8 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         currentLevel = levelData;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         GameObject buttonContainer = GameObject.Find("Level Buttons");
-        foreach (Transform button in buttonContainer.transform) {
+        foreach (Transform button in buttonContainer.transform)
+        {
             button.GetComponent<Button>().interactable = false;
         }
         PhotonNetwork.LoadLevel(levelData.buildIndex);
@@ -132,11 +151,13 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         //     button.gameObject.SetActive(false);
     }
 
-    public void LevelCompleted() {
+    public void LevelCompleted()
+    {
 
     }
 
-    public void nextLevel() {
+    public void nextLevel()
+    {
         //lobby al llegar al ultimo de la unidad
         int nextLevel = 0;
 
@@ -144,25 +165,31 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         niveles[niveles.IndexOf(currentLevel)].locked = false;
 
         //si no es el ultimo de la unidad
-        if (currentLevel.nextLevel != -1) {
+        if (currentLevel.nextLevel != -1)
+        {
             currentLevel = niveles[niveles.IndexOf(currentLevel) + 1];
             nextLevel = currentLevel.buildIndex;
         }
-        if (PhotonNetwork.IsConnectedAndReady) {
-            if (nextLevel == 0) {
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            if (nextLevel == 0)
+            {
                 returningMenu = true;
                 PhotonNetwork.LeaveRoom();
                 return;
             }
             PhotonNetwork.LoadLevel(nextLevel);
 
-        } else {
+        }
+        else
+        {
 
             LoadSceneAnimation(nextLevel);
         }
     }
 
-    public IEnumerator LoadSceneAnimation(int nexLevelIndex) {
+    public IEnumerator LoadSceneAnimation(int nexLevelIndex)
+    {
         //fasein
         transitionAnimator.Play("fade_in_1");
         //wait
@@ -177,18 +204,23 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
     }
 
-    bool AnimatorIsPlaying() {
+    bool AnimatorIsPlaying()
+    {
         return (transitionAnimator.GetCurrentAnimatorStateInfo(0).length >
                transitionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime) ||
                (sceneTransitionAnimator.GetCurrentAnimatorStateInfo(0).length >
                sceneTransitionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
-    public IEnumerator FadeAnimation(Action _callback, bool fullLoop = false, bool secondaryTransition = false) {
+    public IEnumerator FadeAnimation(Action _callback, bool fullLoop = false, bool secondaryTransition = false)
+    {
         //fasein
-        if (fadedBool) {
+        if (fadedBool)
+        {
             while (AnimatorIsPlaying()) yield return null;
             if (secondaryTransition) sceneTransitionAnimator.Play("fase_in_transicion"); else transitionAnimator.Play("fade_out_1");
-        } else {
+        }
+        else
+        {
             ChangeTransitionColor();
             if (secondaryTransition) sceneTransitionAnimator.Play("fade_out_transicion"); else transitionAnimator.Play("fade_in_1");
 
@@ -203,10 +235,14 @@ public class LevelManager : MonoBehaviourPunCallbacks {
         // while (!sceneLoading.isDone) yield return null;
 
 
-        if (fullLoop) {
-            if (fadedBool) {
+        if (fullLoop)
+        {
+            if (fadedBool)
+            {
                 if (secondaryTransition) sceneTransitionAnimator.Play("fase_in_transicion"); else transitionAnimator.Play("fade_out_1");
-            } else {
+            }
+            else
+            {
                 if (secondaryTransition) sceneTransitionAnimator.Play("fade_out_transicion"); else transitionAnimator.Play("fade_in_1");
 
             }
@@ -217,32 +253,43 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 
     }
 
-    private void ChangeTransitionColor() {
-        try {
+    private void ChangeTransitionColor()
+    {
+        try
+        {
 
 
             float random = UnityEngine.Random.Range(0f, 1f);
             Debug.Log(random);
-            if (random < 0.3f) {
+            if (random < 0.3f)
+            {
                 transitionImage.color = rojo;
 
-            } else if (random < 0.7f) {
+            }
+            else if (random < 0.7f)
+            {
                 transitionImage.color = morado;
 
-            } else {
+            }
+            else
+            {
                 transitionImage.color = amarillo;
 
             }
-        } catch (System.Exception e) {
+        }
+        catch (System.Exception e)
+        {
 
         }
     }
 
-    public void selectLevel() {
+    public void selectLevel()
+    {
 
     }
 
-    public void activar_botones_seleccion_nivel() {
+    public void activar_botones_seleccion_nivel()
+    {
 
     }
 }
@@ -255,13 +302,15 @@ public class LevelManager : MonoBehaviourPunCallbacks {
 //     }
 // }
 
-public class LevelData {
+public class LevelData
+{
     public int buildIndex;
     public int unidad;
     public string nombre;
     public int nextLevel;
     public bool locked;
-    public LevelData(int _buildIndex, int _unidad, string _nombre, int _nextLevel, bool _locked = true) {
+    public LevelData(int _buildIndex, int _unidad, string _nombre, int _nextLevel, bool _locked = true)
+    {
         buildIndex = _buildIndex;
         unidad = _unidad;
         nombre = _nombre;
